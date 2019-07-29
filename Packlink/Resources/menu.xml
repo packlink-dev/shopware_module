@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/5.2/engine/Shopware/Components/Plugin/schema/menu.xsd"
+>
+    <entries>
+        <entry>
+            <name>Packlink</name>
+            <label>Packlink PRO</label>
+            <controller>Packlink</controller>
+            <action>index</action>
+            <class>packlink-icon</class>
+            <parent identifiedBy="controller">ConfigurationMenu</parent>
+            <onclick>Shopware.ModuleManager.createSimplifiedModule("PacklinkMain", { "title": "Packlink PRO", maximized: true })</onclick>
+        </entry>
+    </entries>
+</menu>

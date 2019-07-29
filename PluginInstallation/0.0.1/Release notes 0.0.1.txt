@@ -1,0 +1,4 @@
+Plugin version 0.0.1
+
+Changes:
+ - Initial plugin skeleton without functionalities
