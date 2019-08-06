@@ -1,6 +1,10 @@
-# shopware_module
+![Packlink logo](https://pro.packlink.es/public-assets/common/images/icons/packlink.svg)
 
-### Run unit tests
+# Packlink Shopware plugin
+
+# Development info
+
+## Run unit tests
 Configuration for phpunit is in the `.Packlink/phpunit.xml` file.
 
 To be able to run unit tests, development installation of Shopware is required. To install development Shopware instance
@@ -8,7 +12,7 @@ follow instructions provided [here](https://github.com/shopware/shopware)
 
 Once development Shopware instance is running, go and install Packlink plugin using backend interface.
  
-To ensure that testcases are present copy complete ./Packlink folder to Shopware installation
+To ensure that test cases are present copy complete ./Packlink folder to Shopware installation
 custom/plugins/Packlink folder.
 
 If you haven't already done so, you can setup unit tests in PHPStorm.

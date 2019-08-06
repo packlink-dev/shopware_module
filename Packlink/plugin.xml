@@ -5,14 +5,14 @@
     <label lang="de">Packlink</label>
     <label lang="en">Packlink</label>
 
-    <version>1.0.0</version>
+    <version>0.0.1</version>
     <copyright>(c) by Packlink Shipping S.L.</copyright>
     <license>proprietary</license>
     <link>https://www.packlink.com/</link>
     <author>Packlink Shipping S.L.</author>
     <compatibility minVersion="5.2.0" />
 
-    <changelog version="1.0.0">
+    <changelog version="0.0.1">
         <changes lang="de">Erstveröffentlichung</changes>
         <changes lang="en">First release</changes>
     </changelog>

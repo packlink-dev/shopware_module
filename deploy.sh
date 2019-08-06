@@ -39,8 +39,8 @@ rm -rf deploy/Packlink/vendor/packlink/integration-core/.git
 rm -rf deploy/Packlink/vendor/packlink/integration-core/.gitignore
 rm -rf deploy/Packlink/vendor/packlink/integration-core/.idea
 rm -rf deploy/Packlink/vendor/packlink/integration-core/tests
-rm -rf deploy/Packlink/vendor/packlink/integration-core/generic_tests
 rm -rf deploy/Packlink/vendor/packlink/integration-core/README.md
+rm -rf deploy/Packlink/vendor/setasign/fpdf/doc/
 rm -rf deploy/Packlink/vendor/setasign/fpdf/tutorial/
 
 # get plugin version
@@ -59,7 +59,7 @@ fi
 
 # Create plugin archive
 echo -e "\e[32mSTEP 5:\e[0m Creating new archive..."
-php bin/sw.phar plugin:zip:dir $PWD/deploy/Packlink/
+php bin/sw.phar plugin:zip:dir $PWD/deploy/Packlink/ -q
 
 if [ "$version" != "" ]; then
     if [ ! -d ./PluginInstallation/ ]; then

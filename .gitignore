@@ -1,5 +1,10 @@
-.idea/
-vendor/
+.idea/*
+!.idea/encodings.xml
+!.idea/codeStyles
+!.idea/inspectionProfiles
+
+# Custom content
+vendor
 *.log
 *.zip
 !PluginInstallation/**/*.zip
