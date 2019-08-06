@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
+
+    <label lang="de">Packlink</label>
+    <label lang="en">Packlink</label>
+
+    <version>0.0.1</version>
+    <copyright>(c) by Packlink Shipping S.L.</copyright>
+    <license>proprietary</license>
+    <link>https://www.packlink.com/</link>
+    <author>Packlink Shipping S.L.</author>
+    <compatibility minVersion="5.2.0" />
+
+    <changelog version="0.0.1">
+        <changes lang="de">Erstveröffentlichung</changes>
+        <changes lang="en">First release</changes>
+    </changelog>
+
+</plugin>
