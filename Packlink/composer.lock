@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7efb13d3d0d21fbc94bc7aeb4c522953",
+    "content-hash": "35b804dbbe61218165cdd30bd40ff993",
     "packages": [
         {
             "name": "iio/libmergepdf",
@@ -236,7 +236,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3",
+        "php": ">=5.6",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-zip": "*",
@@ -244,6 +244,6 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "5.3.29"
+        "php": "5.6.39"
     }
 }

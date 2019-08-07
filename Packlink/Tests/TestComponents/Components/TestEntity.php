@@ -1,14 +1,15 @@
 <?php
 
-namespace Packlink\Models;
+namespace Packlink\Tests\TestComponents\Components;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
+use Doctrine\ORM\Mapping as ORM;
+use Packlink\Models\BaseEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="packlink_entity",
+ *     name="test_packlink_entity",
  *     indexes={
  *              @Index(name="index_1", columns={"index_1"}),
  *              @Index(name="index_2", columns={"index_2"}),
@@ -20,6 +21,6 @@ use Doctrine\ORM\Mapping\Index;
  *          }
  *      )
  */
-class PacklinkEntity extends BaseEntity
+class TestEntity extends BaseEntity
 {
 }

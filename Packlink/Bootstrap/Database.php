@@ -11,11 +11,11 @@ class Database
     /**
      * @var EntityManager
      */
-    private $entityManager;
+    protected $entityManager;
     /**
      * @var \Doctrine\ORM\Tools\SchemaTool
      */
-    private $schemaTool;
+    protected $schemaTool;
 
     /**
      * @param EntityManager $entityManager
@@ -50,7 +50,7 @@ class Database
     /**
      * @return array
      */
-    private function getClassesMetaData()
+    protected function getClassesMetaData()
     {
         return [
             $this->entityManager->getClassMetadata(PacklinkEntity::class)

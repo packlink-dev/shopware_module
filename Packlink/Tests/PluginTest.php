@@ -3,7 +3,7 @@
 namespace Packlink;
 
 use Packlink\Packlink as Plugin;
-use Shopware\Tests\Functional\Components\Plugin\TestCase;
+use Shopware\Components\Test\Plugin\TestCase;
 
 class PluginTest extends TestCase
 {
