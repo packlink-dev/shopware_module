@@ -18,7 +18,8 @@
     "ext-curl": "*",
     "ext-zip": "*",
     "ext-fileinfo": "*",
-    "iio/libmergepdf": "3.0.0"
+    "iio/libmergepdf": "3.0.0",
+    "ext-simplexml": "*"
   },
   "autoload-dev": {
     "psr-4": {

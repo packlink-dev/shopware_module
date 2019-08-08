@@ -5,6 +5,13 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <!-- Packlink Logger -->
+        <service id="packlink.logger" class="Shopware\Components\Logger">
+            <argument>packlink</argument>
+            <call method="pushHandler">
+                <argument type="service" id="monolog.handler.rotating_file.plugin" />
+            </call>
+        </service>
         <!-- Register ControllerPath subscriber -->
         <service id="packlink.subscribers.controller_path" class="Packlink\Subscribers\ControllerPath">
             <argument>%packlink.plugin_dir%</argument>

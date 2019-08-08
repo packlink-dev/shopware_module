@@ -31,10 +31,7 @@ class Database
      */
     public function install()
     {
-        $this->schemaTool->updateSchema(
-            $this->getClassesMetaData(),
-            true // make sure to use the save mode
-        );
+        $this->schemaTool->updateSchema($this->getClassesMetaData(), true);
     }
 
     /**
@@ -42,12 +39,12 @@ class Database
      */
     public function uninstall()
     {
-        $this->schemaTool->dropSchema(
-            $this->getClassesMetaData()
-        );
+        $this->schemaTool->dropSchema($this->getClassesMetaData());
     }
 
     /**
+     * Retrieves metadata for entities.
+     *
      * @return array
      */
     protected function getClassesMetaData()

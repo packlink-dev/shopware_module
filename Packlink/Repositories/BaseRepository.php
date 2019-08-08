@@ -385,15 +385,16 @@ class BaseRepository implements RepositoryInterface
         $where = '';
 
         foreach ($queryParts as $index => $part) {
-            $subWhere = $part[0];
+            $subWhere = '';
 
             if ($index > 0) {
-                $subWhere = ' OR ' . $subWhere;
+                $subWhere .= ' OR ';
             }
 
+            $subWhere .= $part[0];
             $count = count($part);
             for ($i = 1; $i < $count; $i++) {
-                $subWhere .= ' AND ' . $part;
+                $subWhere .= ' AND ' . $part[$i];
             }
 
             $where .= $subWhere;

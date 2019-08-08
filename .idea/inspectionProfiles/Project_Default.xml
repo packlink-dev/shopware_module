@@ -73,7 +73,7 @@
     <inspection_tool class="PhpUndefinedClassInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="DONT_REPORT_MULTI_RESOLVE" value="true" />
     </inspection_tool>
-    <inspection_tool class="PhpUnused" enabled="true" level="WEAK WARNING" enabled_by_default="true" field_visibility="protected" method_visibility="protected" const_visibility="protected" />
+    <inspection_tool class="PhpUnused" enabled="false" level="WEAK WARNING" enabled_by_default="false" field_visibility="protected" method_visibility="protected" const_visibility="protected" />
     <inspection_tool class="SecurityAdvisoriesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="optionConfiguration">
         <list>
