@@ -98,6 +98,24 @@ class BaseRepositoryWrapperTest extends TestCase
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
+    public function testQueryWithOr()
+    {
+        $this->baseTest->testQueryWithOr();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithAndAndOr()
+    {
+        $this->baseTest->testQueryWithAndAndOr();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
     public function testQueryWithFiltersAndSort()
     {
         $this->baseTest->testQueryWithFiltersAndSort();
