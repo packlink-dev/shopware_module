@@ -11,6 +11,9 @@ class PluginTest extends TestCase
         'Packlink' => []
     ];
 
+    /**
+     * @throws \Exception
+     */
     public function testCanCreateInstance()
     {
         /** @var Plugin $plugin */

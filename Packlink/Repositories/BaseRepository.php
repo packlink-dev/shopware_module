@@ -18,6 +18,13 @@ use function count;
 
 class BaseRepository implements RepositoryInterface
 {
+    /**
+     * Fully qualified name of this class.
+     */
+    const THIS_CLASS_NAME = __CLASS__;
+    /**
+     * @var string
+     */
     protected static $doctrineModel = PacklinkEntity::class;
     /**
      * @var string
@@ -45,7 +52,7 @@ class BaseRepository implements RepositoryInterface
      */
     public static function getClassName()
     {
-        return __CLASS__;
+        return static::THIS_CLASS_NAME;
     }
 
     /**
@@ -287,14 +294,12 @@ class BaseRepository implements RepositoryInterface
             return "$alias.id=" . $condition->getValue();
         }
 
-        $columnName = "$alias.index_" . $indexMap[$column];
-        if (in_array($condition->getOperator(), array(Operators::NULL, Operators::NOT_NULL), true)) {
-            $conditionValue = '';
-        } else {
-            $conditionValue = IndexHelper::castFieldValue($condition->getValue(), $condition->getValueType());
+        $part = "$alias.index_" . $indexMap[$column] . ' ' . $condition->getOperator();
+        if (!in_array($condition->getOperator(), array(Operators::NULL, Operators::NOT_NULL), true)) {
+            $part .= " '" . IndexHelper::castFieldValue($condition->getValue(), $condition->getValueType()) . "'";
         }
 
-        return $columnName . ' ' . $condition->getOperator() . " '" . $conditionValue . "'";
+        return $part;
     }
 
     /**
