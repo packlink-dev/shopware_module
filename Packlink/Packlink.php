@@ -9,16 +9,17 @@ use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Bootstrap\Database;
 use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UninstallContext;
+use Shopware\Models\Order\Status;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 require_once __DIR__ . '/CSRFWhitelistAware.php';
 
 class Packlink extends Plugin
 {
-    const INITIAL_VERSION = '0.0.1';
     /**
      * @var Configuration
      */
@@ -37,19 +38,20 @@ class Packlink extends Plugin
      * Performs plugin installation.
      *
      * @param InstallContext $context
+     *
+     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     public function install(InstallContext $context)
     {
         Bootstrap::init();
 
-        if ($context->getCurrentVersion() === self::INITIAL_VERSION) {
-            /** @var EntityManager $entityManager */
-            $entityManager = $this->container->get('models');
-            $db = new Database($entityManager);
-            $db->install();
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->container->get('models');
+        $db = new Database($entityManager);
+        $db->install();
+        Logger::logInfo("Database for version [{$context->getCurrentVersion()}] created...", 'Integration');
 
-            Logger::logInfo("Database for version [{$context->getCurrentVersion()}] created...", 'Integration');
-        }
+        $this->setDefaultConfig();
 
         Logger::logInfo('Installation completed...', 'Integration');
     }
@@ -61,13 +63,44 @@ class Packlink extends Plugin
      */
     public function uninstall(UninstallContext $context)
     {
-        Bootstrap::init();;
+        Bootstrap::init();
 
         if (!$context->keepUserData()) {
             /** @var EntityManager $entityManager */
             $entityManager = $this->container->get('models');
             $db = new Database($entityManager);
             $db->uninstall();
+        }
+    }
+
+    /**
+     * Sets default configuration.
+     *
+     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     */
+    protected function setDefaultConfig()
+    {
+        $this->setDefaultStatusMapping();
+        $this->getConfigService()->setTaskRunnerStatus('', null);
+    }
+
+    /**
+     * Sets default order status mapping.
+     */
+    protected function setDefaultStatusMapping()
+    {
+        $mappings = $this->getConfigService()->getOrderStatusMappings();
+
+        if (empty($mappings)) {
+            $this->getConfigService()->setOrderStatusMappings(
+                [
+                    ShipmentStatus::STATUS_PENDING => '',
+                    ShipmentStatus::STATUS_ACCEPTED => Status::ORDER_STATE_READY_FOR_DELIVERY,
+                    ShipmentStatus::STATUS_READY => Status::ORDER_STATE_READY_FOR_DELIVERY,
+                    ShipmentStatus::STATUS_IN_TRANSIT => Status::ORDER_STATE_READY_FOR_DELIVERY,
+                    ShipmentStatus::STATUS_DELIVERED => Status::ORDER_STATE_COMPLETELY_DELIVERED,
+                ]
+            );
         }
     }
 

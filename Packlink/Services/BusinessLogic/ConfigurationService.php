@@ -6,6 +6,7 @@ use Packlink\BusinessLogic\Configuration;
 use Packlink\Utilities\Plugin;
 use Packlink\Utilities\Url;
 use Shopware;
+use Shopware\Models\Shop\Shop;
 
 class ConfigurationService extends Configuration
 {
@@ -13,6 +14,10 @@ class ConfigurationService extends Configuration
     const DEFAULT_VERSION = '1.0.0';
     const ECOMMERCE_NAME = 'Shopware';
     const DRAFT_SOURCE = 'module_shopware';
+    /**
+     * @var string
+     */
+    protected $systemId;
 
     /**
      * Retrieves integration name.
@@ -31,7 +36,13 @@ class ConfigurationService extends Configuration
      */
     public function getCurrentSystemId()
     {
-        return '1';
+        if ($this->systemId === null) {
+            /** @var \Shopware\Models\Shop\Repository $repository */
+            $repository = Shopware()->Models()->getRepository(Shop::class);
+            $this->systemId = (string)$repository->getDefault()->getId();
+        }
+
+        return $this->systemId;
     }
 
     /**
