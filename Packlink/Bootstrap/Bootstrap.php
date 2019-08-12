@@ -13,6 +13,7 @@ use Logeecom\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\BootstrapComponent;
 use Packlink\BusinessLogic\Order\Interfaces\OrderRepository as OrderRepositoryInterface;
 use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
+use Packlink\Entities\ShippingMethodMap;
 use Packlink\Repositories\BaseRepository;
 use Packlink\Repositories\OrderRepository;
 use Packlink\Repositories\QueueItemRepository;
@@ -69,5 +70,6 @@ class Bootstrap extends BootstrapComponent
         RepositoryRegistry::registerRepository(ConfigEntity::getClassName(), BaseRepository::getClassName());
         RepositoryRegistry::registerRepository(OrderShipmentDetails::getClassName(), BaseRepository::getClassName());
         RepositoryRegistry::registerRepository(QueueItem::getClassName(), QueueItemRepository::getClassName());
+        RepositoryRegistry::registerRepository(ShippingMethodMap::getClassName(), BaseRepository::getClassName());
     }
 }
