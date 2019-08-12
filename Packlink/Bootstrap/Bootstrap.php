@@ -4,11 +4,18 @@ namespace Packlink\Bootstrap;
 
 use Logeecom\Infrastructure\Configuration\ConfigEntity;
 use Logeecom\Infrastructure\Configuration\Configuration;
+use Logeecom\Infrastructure\Http\CurlHttpClient;
+use Logeecom\Infrastructure\Http\HttpClient;
 use Logeecom\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
+use Logeecom\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\BootstrapComponent;
+use Packlink\BusinessLogic\Order\Interfaces\OrderRepository as OrderRepositoryInterface;
+use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
 use Packlink\Repositories\BaseRepository;
+use Packlink\Repositories\OrderRepository;
+use Packlink\Repositories\QueueItemRepository;
 use Packlink\Services\BusinessLogic\ConfigurationService;
 use Packlink\Services\Infrastructure\LoggerService;
 
@@ -34,6 +41,20 @@ class Bootstrap extends BootstrapComponent
                 return ConfigurationService::getInstance();
             }
         );
+
+        ServiceRegister::registerService(
+            HttpClient::CLASS_NAME,
+            function () {
+                return new CurlHttpClient();
+            }
+        );
+
+        ServiceRegister::registerService(
+            OrderRepositoryInterface::CLASS_NAME,
+            function () {
+                new OrderRepository();
+            }
+        );
     }
 
     /**
@@ -45,6 +66,8 @@ class Bootstrap extends BootstrapComponent
     {
         parent::initRepositories();
 
-        RepositoryRegistry::registerRepository(ConfigEntity::CLASS_NAME, BaseRepository::getClassName());
+        RepositoryRegistry::registerRepository(ConfigEntity::getClassName(), BaseRepository::getClassName());
+        RepositoryRegistry::registerRepository(OrderShipmentDetails::getClassName(), BaseRepository::getClassName());
+        RepositoryRegistry::registerRepository(QueueItem::getClassName(), QueueItemRepository::getClassName());
     }
 }
