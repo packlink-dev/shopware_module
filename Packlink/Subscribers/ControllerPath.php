@@ -3,6 +3,7 @@
 namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
+use Packlink\Bootstrap\Bootstrap;
 
 class ControllerPath implements SubscriberInterface
 {
@@ -24,6 +25,9 @@ class ControllerPath implements SubscriberInterface
     {
         return [
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkMain' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkLogin' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkConfiguration' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkAsyncProcess' => 'onGetControllerPromotion',
         ];
     }
 
@@ -35,6 +39,8 @@ class ControllerPath implements SubscriberInterface
      */
     public function onGetControllerPromotion(\Enlight_Event_EventArgs $arguments)
     {
+        Bootstrap::init();
+
         $eventName = $arguments->getName();
 
         $moduleAndController = str_replace('Enlight_Controller_Dispatcher_ControllerPath_', '', $eventName);

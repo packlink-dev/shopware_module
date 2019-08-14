@@ -25,8 +25,13 @@
     "psr-4": {
       "Packlink\\TestComponents\\": "TestComponents",
       "Packlink\\Tests\\": "Tests",
-      "Logeecom\\Tests\\": "vendor/packlink/integration-core/tests"
+      "Logeecom\\Tests\\": "vendor/packlink/integration-core/tests",
+      "Packlink\\Lib\\": "Lib"
     }
+  },
+  "scripts": {
+    "post-update-cmd": "Packlink\\Lib\\Composer::postUpdate",
+    "post-install-cmd": "Packlink\\Lib\\Composer::postUpdate"
   },
   "config": {
     "platform": {

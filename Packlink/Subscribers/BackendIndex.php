@@ -21,9 +21,9 @@ class BackendIndex implements SubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             'Enlight_Controller_Action_PostDispatch_Backend_Index' => 'onPostDispatchBackendIndex'
-        );
+        ];
     }
 
     /**

@@ -10,6 +10,6 @@
                      alt="{s name="main/title"}Packlink PRO Shipping{/s}">
             </div>
         </div>
-        <a href="{url controller=PacklinkMain action="index" __csrf_token=$csrfToken}">Test link generation!</a>
+        <a href="{url controller=PacklinkMain action="test" __csrf_token=$csrfToken}">Test link generation!</a>
     </div>
 {/block}

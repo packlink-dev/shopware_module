@@ -4,14 +4,65 @@
  * @copyright  2019 Packlink
  */
 
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-ExtrabldWeb.woff") format("woff");
+    font-weight: 800;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-BoldWeb.woff") format("woff");
+    font-weight: 700;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-SemiboldWeb.woff") format("woff");
+    font-weight: 600;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-MediumWeb.woff") format("woff");
+    font-weight: 500;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-RegularWeb.woff") format("woff");
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-LightWeb.woff") format("woff");
+    font-weight: 200;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-ThinWeb.woff") format("woff");
+    font-weight: 100;
+    font-style: normal
+}
+
+body {
+    font-family: proxima-nova, sans-serif;
+}
+
 .pl-main-wrapper {
     position: relative;
     clear: both;
     padding: 0 !important;
     margin: -20px 0 0;
-    min-height: 500px;
-    border: 1px solid #dfdfdf;
-    height: 500px;
+    height: 100%;
 }
 
 .pl-header-wrapper {
