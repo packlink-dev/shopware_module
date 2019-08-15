@@ -2,6 +2,8 @@
 
 namespace Packlink\Lib;
 
+use RuntimeException;
+
 class Composer
 {
     public static function postUpdate()
@@ -46,7 +48,7 @@ class Composer
     private static function mkdir($destination)
     {
         if (!file_exists($destination) && !mkdir($destination) && !is_dir($destination)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $destination));
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $destination));
         }
     }
 }

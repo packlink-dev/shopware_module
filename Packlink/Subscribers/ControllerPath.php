@@ -3,10 +3,15 @@
 namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
+use Logeecom\Infrastructure\ServiceRegister;
+use Logeecom\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup;
 use Packlink\Bootstrap\Bootstrap;
 
 class ControllerPath implements SubscriberInterface
 {
+    /** @var \Logeecom\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup */
+    protected $wakeupService;
+
     /**
      * @var string
      */
@@ -41,11 +46,27 @@ class ControllerPath implements SubscriberInterface
     {
         Bootstrap::init();
 
+        $this->getWakeupService()->wakeup();
+
         $eventName = $arguments->getName();
 
         $moduleAndController = str_replace('Enlight_Controller_Dispatcher_ControllerPath_', '', $eventName);
         list($module, $controller) = explode('_', $moduleAndController);
 
         return "{$this->pluginDirectory}/Controllers/{$module}/{$controller}.php";
+    }
+
+    /**
+     * Retrieves wakeup service;
+     *
+     * @return \Logeecom\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup|object
+     */
+    protected function getWakeupService()
+    {
+        if ($this->wakeupService === null) {
+            $this->wakeupService = ServiceRegister::getService(TaskRunnerWakeup::CLASS_NAME);
+        }
+
+        return $this->wakeupService;
     }
 }

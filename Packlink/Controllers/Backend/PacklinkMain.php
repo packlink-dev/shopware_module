@@ -1,13 +1,11 @@
 <?php
 
-use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Configuration;
+use Packlink\Controllers\Common\CanInstantiateServices;
 use Shopware\Components\CSRFWhitelistAware;
 
 class Shopware_Controllers_Backend_PacklinkMain extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
-    /** @var \Packlink\Services\BusinessLogic\ConfigurationService */
-    protected $configService;
+    use CanInstantiateServices;
 
     /**
      * @inheritDoc
@@ -54,22 +52,8 @@ class Shopware_Controllers_Backend_PacklinkMain extends Enlight_Controller_Actio
             [
                 'module' => 'backend',
                 'controller' => "Packlink{$action}",
-                'action' => 'index'
+                'action' => 'index',
             ]
         );
-    }
-
-    /**
-     * Retrieves configuration service.
-     *
-     * @return \Packlink\Services\BusinessLogic\ConfigurationService
-     */
-    protected function getConfigService()
-    {
-        if ($this->configService === null) {
-            $this->configService = ServiceRegister::getService(Configuration::CLASS_NAME);
-        }
-
-        return $this->configService;
     }
 }

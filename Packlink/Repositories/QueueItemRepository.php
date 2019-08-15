@@ -171,8 +171,8 @@ class QueueItemRepository extends BaseRepository implements BaseQueueItemReposit
         $result = [];
         foreach ($rawItems as $rawItem) {
             $item = new QueueItem();
-            $item->setId((int)$rawItem['id']);
             $item->inflate(json_decode($rawItem['data'], true));
+            $item->setId((int)$rawItem['id']);
             $result[] = $item;
         }
 

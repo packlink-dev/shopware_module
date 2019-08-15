@@ -20,16 +20,6 @@ class Shopware_Controllers_Frontend_PacklinkAsyncProcess extends Enlight_Control
     }
 
     /**
-     * @inheritDoc
-     */
-    public function preDispatch()
-    {
-        parent::preDispatch();
-
-        Bootstrap::init();
-    }
-
-    /**
      * Starts async process.
      */
     public function runAction()
