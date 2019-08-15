@@ -4,6 +4,8 @@ namespace Packlink\Controllers\Common;
 
 use Logeecom\Infrastructure\Configuration\Configuration;
 use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Http\Proxy;
+use Packlink\BusinessLogic\Location\LocationService;
 use Packlink\BusinessLogic\User\UserAccountService;
 
 trait CanInstantiateServices
@@ -12,6 +14,10 @@ trait CanInstantiateServices
     protected $configService;
     /** @var \Packlink\BusinessLogic\User\UserAccountService */
     protected $userAccountService;
+    /** @var \Packlink\BusinessLogic\Location\LocationService */
+    protected $locationService;
+    /** @var \Packlink\BusinessLogic\Http\Proxy */
+    protected $proxy;
 
     /**
      * Retrieves configuration service.
@@ -39,5 +45,33 @@ trait CanInstantiateServices
         }
 
         return $this->userAccountService;
+    }
+
+    /**
+     * Retrieves location service.
+     *
+     * @return \Packlink\BusinessLogic\Location\LocationService
+     */
+    protected function getLocationService()
+    {
+        if ($this->locationService === null) {
+            $this->locationService = ServiceRegister::getService(LocationService::CLASS_NAME);
+        }
+
+        return $this->locationService;
+    }
+
+    /**
+     * Retrieves proxy.
+     *
+     * @return \Packlink\BusinessLogic\Http\Proxy
+     */
+    protected function getProxy()
+    {
+        if ($this->proxy === null) {
+            $this->proxy = ServiceRegister::getService(Proxy::CLASS_NAME);
+        }
+
+        return $this->proxy;
     }
 }
