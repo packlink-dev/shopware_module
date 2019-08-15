@@ -55,6 +55,7 @@
 
 body {
     font-family: proxima-nova, sans-serif;
+    height: calc(100% - 35px)!important;
 }
 
 .pl-main-wrapper {
@@ -62,7 +63,7 @@ body {
     clear: both;
     padding: 0 !important;
     margin: -20px 0 0;
-    height: 100%;
+    height: calc(100% - 20px);
 }
 
 .pl-header-wrapper {
@@ -83,7 +84,8 @@ body {
 }
 
 .pl-dashboard-logo {
-    width: 100%;
+    position: absolute;
+    width: 250px;
 }
 
 .pl-page-wrapper {
@@ -704,13 +706,12 @@ body {
 
 .pl-text-input-label {
     height: 16px;
-    line-height: 7px;
+    line-height: 16px;
     position: absolute;
-    top: 22px;
-    left: 0;
+    top: 17px;
     margin-left: 15px;
     text-transform: uppercase;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: bold;
     color: #9b9b9b;
     pointer-events: none;
@@ -759,20 +760,23 @@ body {
 .pl-form-section-input {
     position: relative;
     border: none;
+    padding: 0;
+    margin: 0;
 }
 
 .pl-form-section-input input {
     height: 50px !important;
+    box-sizing: border-box;
     background-color: white !important;
     border-radius: 0 !important;
     border: 1px solid #dcdcdc;
     padding: 20px 0 0 15px !important;
     font-size: 14px;
     color: #5d5d5d !important;
+    outline: none;
     width: 100%;
-    margin: 0;
-    box-shadow: unset;
 }
+
 
 .pl-form-section-input input:focus {
     border: 1px solid #2095F2 !important;
@@ -1107,20 +1111,26 @@ body {
 }
 
 .pl-login-form-header {
-    margin: 0 0 40px 11px;
+    margin: 0 0 40px 0;
     color: #545454;
 }
 
 .pl-login-form-title-wrapper {
     margin-bottom: 25px;
     padding: 0;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     line-height: 30px;
+    text-align: center;
+}
+
+.pl-login-form-text-wrapper {
+    text-align: center;
+    margin-bottom: 60px;
+    font-size: 12px;
 }
 
 .pl-login-form-label-wrapper {
-    margin-left: 11px;
     margin-bottom: 15px;
     padding: 0;
     font-size: 13px;
@@ -1651,7 +1661,6 @@ body {
 }
 
 #pl-main-page-holder .button.button-login {
-    margin-left: 12px;
 }
 
 #pl-main-page-holder .button.button-login::before {
