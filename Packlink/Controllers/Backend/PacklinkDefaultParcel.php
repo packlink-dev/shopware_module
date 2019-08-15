@@ -11,7 +11,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultParcel extends Enlight_Control
 {
     use CanInstantiateServices;
     /** @var array */
-    protected $fields = [
+    protected static $fields = [
         'weight',
         'width',
         'height',
@@ -61,13 +61,11 @@ class Shopware_Controllers_Backend_PacklinkDefaultParcel extends Enlight_Control
     {
         $result = [];
 
-        foreach ($this->fields as $field) {
+        foreach (self::$fields as $field) {
             if (empty($data[$field])) {
                 $result[$field] = Translation::get('error/required');
-            } else {
-                if (!is_numeric($data[$field]) || $data[$field] <= 0) {
-                    $result[$field] = Translation::get('error/number');
-                }
+            } else if (!is_numeric($data[$field]) || $data[$field] <= 0) {
+                $result[$field] = Translation::get('error/number');
             }
         }
 
