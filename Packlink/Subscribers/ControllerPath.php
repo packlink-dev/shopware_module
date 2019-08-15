@@ -3,6 +3,7 @@
 namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
+use Enlight_Event_EventArgs;
 use Logeecom\Infrastructure\ServiceRegister;
 use Logeecom\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup;
 use Packlink\Bootstrap\Bootstrap;
@@ -11,7 +12,6 @@ class ControllerPath implements SubscriberInterface
 {
     /** @var \Logeecom\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup */
     protected $wakeupService;
-
     /**
      * @var string
      */
@@ -25,13 +25,13 @@ class ControllerPath implements SubscriberInterface
         $this->pluginDirectory = $pluginDirectory;
     }
 
-
     public static function getSubscribedEvents()
     {
         return [
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkMain' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkLogin' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkConfiguration' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDefaultParcel' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkAsyncProcess' => 'onGetControllerPromotion',
         ];
     }
@@ -40,9 +40,10 @@ class ControllerPath implements SubscriberInterface
      * Controller path handler, generates controller path based on a event name
      *
      * @param \Enlight_Event_EventArgs $arguments
+     *
      * @return string Controller path
      */
-    public function onGetControllerPromotion(\Enlight_Event_EventArgs $arguments)
+    public function onGetControllerPromotion(Enlight_Event_EventArgs $arguments)
     {
         Bootstrap::init();
 
