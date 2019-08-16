@@ -3,4 +3,5 @@
 
 {block name="content/main"}
     <h1>Hello from Config VIEW.</h1>
+    <img src="{$img}" alt="">
 {/block}

@@ -17,4 +17,21 @@ class Response
 
         die(json_encode($data));
     }
+
+    /**
+     * Returns image response.
+     *
+     * @param $path
+     *
+     * @param string $type
+     */
+    public static function image($path, $type = 'png')
+    {
+        header("Content-Type: image/$type");
+        $contents = file_get_contents($path);
+
+        echo $contents;
+
+        exit();
+    }
 }

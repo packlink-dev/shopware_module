@@ -16,6 +16,8 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
 
     public function indexAction()
     {
+        $img = \Packlink\Utilities\Url::getFrontUrl('PacklinkImage', 'index') . '?image=' . urlencode('/de/dpd.png');
 
+        $this->View()->assign(['img' => $img]);
     }
 }

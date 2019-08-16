@@ -6,12 +6,23 @@ use RuntimeException;
 
 class Composer
 {
+    protected static $formBase = __DIR__ . '/../vendor/packlink/integration-core/src/BusinessLogic/Resources/';
+    protected static $toBase = __DIR__ . '/../Resources/views/backend/_resources/';
+
+
     public static function postUpdate()
     {
-        $from = __DIR__ . '/../vendor/packlink/integration-core/src/BusinessLogic/Resources/js';
-        $to = __DIR__ . '/../Resources/views/backend/_resources/js';
+        $map = [
+            static::$formBase . 'js' => static::$toBase . 'js',
+            static::$formBase . 'img/carriers/de' => static::$toBase . 'images/carriers/de',
+            static::$formBase . 'img/carriers/fr' => static::$toBase . 'images/carriers/fr',
+            static::$formBase . 'img/carriers/it' => static::$toBase . 'images/carriers/it',
+            static::$formBase . 'img/carriers/es' => static::$toBase . 'images/carriers/es',
+        ];
 
-        self::copyDirectory($from, $to);
+        foreach ($map as $from => $to) {
+            self::copyDirectory($from, $to);
+        }
     }
 
     /**
