@@ -33,6 +33,8 @@ class ControllerPath implements SubscriberInterface
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkConfiguration' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDefaultParcel' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDefaultWarehouse' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkTax' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkShippingMethod' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkAsyncProcess' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkImage' => 'onGetControllerPromotion',
         ];
