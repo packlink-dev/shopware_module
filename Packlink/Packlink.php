@@ -1,18 +1,22 @@
 <?php
+
 namespace Packlink;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Doctrine\ORM\EntityManager;
 use Logeecom\Infrastructure\Logger\Logger;
+use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Bootstrap\Database;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
+use Packlink\Entities\ShippingMethodMap;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UninstallContext;
+use Shopware\Models\Dispatch\Dispatch;
 use Shopware\Models\Order\Status;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -60,12 +64,17 @@ class Packlink extends Plugin
      * Performs plugin uninstall.
      *
      * @param \Shopware\Components\Plugin\Context\UninstallContext $context
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function uninstall(UninstallContext $context)
     {
         Bootstrap::init();
 
         if (!$context->keepUserData()) {
+            $this->removeCreatedShippingMethods();
+
             /** @var EntityManager $entityManager */
             $entityManager = $this->container->get('models');
             $db = new Database($entityManager);
@@ -116,5 +125,29 @@ class Packlink extends Plugin
         }
 
         return $this->configService;
+    }
+
+    /**
+     * Removes creates shipping methods during install.
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    protected function removeCreatedShippingMethods()
+    {
+        $dispatchRepository = Shopware()->Models()->getRepository(Dispatch::class);
+
+        $mapRepository = RepositoryRegistry::getRepository(ShippingMethodMap::getClassName());
+        $maps = $mapRepository->select();
+
+        /** @var ShippingMethodMap $map */
+        foreach ($maps as $map) {
+            $dispatch = $dispatchRepository->find($map->shopwareCarrierId);
+            if ($dispatch) {
+                Shopware()->Models()->remove($dispatch);
+            }
+        }
+
+        Shopware()->Models()->flush();
     }
 }

@@ -265,9 +265,6 @@ class ShopShippingMethodService implements BaseService
      * @param \Packlink\Entities\ShippingMethodMap $map
      *
      * @return \Shopware\Models\Dispatch\Dispatch | null
-     *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShopwareCarrier(ShippingMethodMap $map)
     {
