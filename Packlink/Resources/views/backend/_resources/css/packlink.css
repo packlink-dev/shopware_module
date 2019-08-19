@@ -63,7 +63,7 @@ body {
     clear: both;
     padding: 0 !important;
     margin: -20px 0 0;
-    height: calc(100% - 20px);
+    height: calc(100% - 5px);
 }
 
 .pl-header-wrapper {
@@ -86,6 +86,10 @@ body {
 .pl-dashboard-logo {
     position: absolute;
     width: 250px;
+}
+
+.pl-configuration-dashboard-logo {
+    width: 100%;
 }
 
 .pl-page-wrapper {
@@ -491,7 +495,7 @@ body {
     border-radius: 5px;
     position: relative;
     margin: 0 auto;
-    height: 100%;
+    height: 95%;
 }
 
 .pl-disable-methods-modal {
@@ -1800,6 +1804,14 @@ body {
 .pl-configure-shipping-method-wrapper {
     padding: 0 !important;
     box-sizing: content-box;
+}
+
+.pl-managed-by {
+    margin: 0;
+}
+
+.pl-tax-spacer {
+    margin-top: 5px !important;
 }
 
 @media screen and (max-width: 950px) {

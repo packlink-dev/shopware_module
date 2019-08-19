@@ -28,6 +28,7 @@ class Response
     public static function image($path, $type = 'png')
     {
         header("Content-Type: image/$type");
+        header('Cache-Control: max-age=86400');
         $contents = file_get_contents($path);
 
         echo $contents;

@@ -20,9 +20,6 @@
     (function(window) {
         window.events.subscribe('initialized-api', function(obj) {
             // Do something now that the event has occurred
-            console.log(obj);
-            console.log(postMessageApi);
-            console.log(postMessageApi === obj);
         });
     }(window));
 </script>

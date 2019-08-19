@@ -159,7 +159,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
      */
     protected function getShippingMethodLogoUrl($country, $name)
     {
-        $image = '/' . $country . '/' . strtolower(str_replace(' ', '-', $name));
+        $image = '/' . $country . '/' . strtolower(str_replace(' ', '-', $name)) . '.png';
 
         return Url::getFrontUrl('PacklinkImage', 'index') . '?image=' . $image;
     }
@@ -173,6 +173,6 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
     {
         $userAccount = $this->getConfigService()->getUserInfo();
 
-        return $userAccount ? $userAccount->country : 'de';
+        return strtolower($userAccount ? $userAccount->country : 'de');
     }
 }

@@ -39,9 +39,13 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
     public function indexAction()
     {
         $warehouse = $this->getConfigService()->getDefaultWarehouse();
-        $data = $warehouse ? $warehouse->toArray() : [];
+        if (!$warehouse) {
+            $userInfo = $this->configService->getUserInfo();
+            /** @noinspection NullPointerExceptionInspection */
+            $warehouse = Warehouse::fromArray(array('country' => $userInfo->country));
+        }
 
-        Response::json($data);
+        Response::json($warehouse->toArray());
     }
 
     /**
