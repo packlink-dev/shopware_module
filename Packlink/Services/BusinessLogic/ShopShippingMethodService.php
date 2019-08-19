@@ -32,6 +32,7 @@ class ShopShippingMethodService implements BaseService
      * @return bool TRUE if activation succeeded; otherwise, FALSE.
      *
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function add(ShippingMethod $shippingMethod)
     {
@@ -49,6 +50,8 @@ class ShopShippingMethodService implements BaseService
 
         // TODO set carrier tracking url
 
+        $carrier->setDescription('');
+        $carrier->setComment('');
         $carrier->setPosition(0);
         $carrier->setActive(true);
         $carrier->setMultiShopId(null);
@@ -56,13 +59,16 @@ class ShopShippingMethodService implements BaseService
         $carrier->setShippingFree(null);
         $carrier->setType(self::STANDARD_SHIPPING);
         $carrier->setSurchargeCalculation(self::ALLWAYS_CHARGE);
+        $carrier->setCalculation(0);
+        $carrier->setTaxCalculation(0);
+        $carrier->setBindLastStock(0);
 
         $this->setVariableCarrierParameters($carrier, $shippingMethod);
 
         $map = new ShippingMethodMap();
         $map->shopwareCarrierId = $carrier->getId();
         $map->shippingMethodId = $shippingMethod->getId();
-        $this->baseRepository->save($map);
+        $this->getBaseRepository()->save($map);
 
         return true;
     }
@@ -78,8 +84,9 @@ class ShopShippingMethodService implements BaseService
      */
     public function update(ShippingMethod $shippingMethod)
     {
-        $carrier = $this->getShopwareCarrier($shippingMethod);
-        if ($carrier) {
+        $map = $this->getShippingMethodMap($shippingMethod);
+
+        if ($map && $carrier = $this->getShopwareCarrier($map)) {
             $this->getDispatchRepository()->getPurgeShippingCostsMatrixQuery($carrier)->execute();
             $this->setVariableCarrierParameters($carrier, $shippingMethod);
         }
@@ -97,15 +104,17 @@ class ShopShippingMethodService implements BaseService
      */
     public function delete(ShippingMethod $shippingMethod)
     {
-        $carrier = $this->getShopwareCarrier($shippingMethod);
+        $map = $this->getShippingMethodMap($shippingMethod);
 
-        if ($carrier !== null) {
+        if ($map && $carrier = $this->getShopwareCarrier($map)) {
             try {
                 $this->deleteShopwareEntity($carrier);
             } catch (OptimisticLockException $e) {
                 return false;
             }
         }
+
+        $this->getBaseRepository()->delete($map);
 
         return true;
     }
@@ -253,20 +262,15 @@ class ShopShippingMethodService implements BaseService
     /**
      * Retrieves shopware carrier by shipping method.
      *
-     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param \Packlink\Entities\ShippingMethodMap $map
      *
      * @return \Shopware\Models\Dispatch\Dispatch | null
      *
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
-    protected function getShopwareCarrier(ShippingMethod $shippingMethod)
+    protected function getShopwareCarrier(ShippingMethodMap $map)
     {
-        $map = $this->getShippingMethodMap($shippingMethod);
-        if ($map === null) {
-            return null;
-        }
-
         /** @var Dispatch | null $entity */
         $entity = $this->getDispatchRepository()->find($map->shopwareCarrierId);
 

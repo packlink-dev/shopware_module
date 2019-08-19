@@ -69,9 +69,9 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
         $data = Request::getPostData();
 
         if ($this->activateShippingMethod(array_key_exists('id', $data) ? $data['id'] : 0)) {
-            Response::json(['message' => Translation::get('error/shippingmethodactivate')], 400);
-        } else {
             Response::json(['message' => Translation::get('success/shippingmethodactivate')]);
+        } else {
+            Response::json(['message' => Translation::get('error/shippingmethodactivate')], 400);
         }
     }
 
@@ -83,9 +83,9 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
         $data = Request::getPostData();
 
         if ($this->deactivateShippingMethod(array_key_exists('id', $data) ? $data['id'] : 0)) {
-            Response::json(['message' => Translation::get('error/shippingmethoddeactivate')], 400);
-        } else {
             Response::json(['message' => Translation::get('success/shippingmethoddeactivate')]);
+        } else {
+            Response::json(['message' => Translation::get('error/shippingmethoddeactivate')], 400);
         }
     }
 
@@ -101,11 +101,10 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
             Response::json(['message' => Translation::get('error/shippingmethodsave')], 400);
         }
 
-        if (!$this->activateShippingMethod($model->id)) {
-            Response::json(['message' => Translation::get('error/shippingmethodactivate')], 400);
+        if (!$model->selected) {
+            $model->selected = $this->controller->activate($model->id);
         }
 
-        $model->selected = true;
         $model->logoUrl = $this->getShippingMethodLogoUrl($this->getUserCountry(), $model->carrierName);
 
         Response::json($this->formatResponse($model));
