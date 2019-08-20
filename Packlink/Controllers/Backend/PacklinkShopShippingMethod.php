@@ -1,5 +1,7 @@
 <?php
 
+use Logeecom\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Entities\ShippingMethodMap;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
 use Shopware\Components\CSRFWhitelistAware;
@@ -22,12 +24,19 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
      *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function countAction()
     {
-        $count = (int)$this->getDispatchRepository()->createQueryBuilder('d')
+        $query = $this->getDispatchRepository()->createQueryBuilder('d')
             ->select('count(d.id)')
-            ->where('d.active=1')->getQuery()->getSingleScalarResult();
+            ->where('d.active=1');
+
+        if ($packlinkShippingMethods = $this->getPacklinkShippingMethods()) {
+            $query->andWhere('d.id not in (' . implode(',' , $packlinkShippingMethods) . ')');
+        }
+
+        $count = (int) $query->getQuery()->getSingleScalarResult();
 
         Response::json(['count' => $count]);
     }
@@ -36,12 +45,19 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
      * Deactivates shop shipping methods.
      *
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function deactivateAction()
     {
-        $active = $this->getDispatchRepository()->createQueryBuilder('d')
+        $query = $this->getDispatchRepository()->createQueryBuilder('d')
             ->select('d')
-            ->where('d.active=1')->getQuery()->getResult();
+            ->where('d.active=1');
+
+        if ($packlinkShippingMethods = $this->getPacklinkShippingMethods()) {
+            $query->andWhere('d.id not in (' . implode(',' , $packlinkShippingMethods) . ')');
+        }
+
+        $active = $query->getQuery()->getResult();
 
         $manager = Shopware()->Models();
 
@@ -65,5 +81,21 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Shopware()->Models()->getRepository(Dispatch::class);
+    }
+
+    /**
+     * Retrieves packlink shipping methods.
+     *
+     * @return array
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function getPacklinkShippingMethods()
+    {
+        $repository = RepositoryRegistry::getRepository(ShippingMethodMap::getClassName());
+        $maps = $repository->select();
+        $methodIds = array_map(function (ShippingMethodMap $item){return $item->shopwareCarrierId;}, $maps);
+
+        return $methodIds;
     }
 }
