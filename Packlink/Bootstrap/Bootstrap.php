@@ -17,6 +17,7 @@ use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Scheduler\Models\Schedule;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\Contracts\Services\BusinessLogic\DebugService;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Repositories\BaseRepository;
 use Packlink\Repositories\OrderRepository;
@@ -66,6 +67,13 @@ class Bootstrap extends BootstrapComponent
             ShopShippingMethodService::CLASS_NAME,
             function () {
                 return new ConcreteShopShippingMethodService();
+            }
+        );
+
+        ServiceRegister::registerService(
+            DebugService::class,
+            function () {
+                return new \Packlink\Services\BusinessLogic\DebugService();
             }
         );
     }

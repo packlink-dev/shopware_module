@@ -7,6 +7,7 @@ use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Http\Proxy;
 use Packlink\BusinessLogic\Location\LocationService;
 use Packlink\BusinessLogic\User\UserAccountService;
+use Packlink\Contracts\Services\BusinessLogic\DebugService;
 
 trait CanInstantiateServices
 {
@@ -18,6 +19,8 @@ trait CanInstantiateServices
     protected $locationService;
     /** @var \Packlink\BusinessLogic\Http\Proxy */
     protected $proxy;
+    /** @var \Packlink\Contracts\Services\BusinessLogic\DebugService */
+    protected $debugService;
 
     /**
      * Retrieves configuration service.
@@ -73,5 +76,19 @@ trait CanInstantiateServices
         }
 
         return $this->proxy;
+    }
+
+    /**
+     * Retrieves debug service.
+     *
+     * @return \Packlink\Contracts\Services\BusinessLogic\DebugService
+     */
+    protected function getDebugService()
+    {
+        if ($this->debugService === null) {
+            $this->debugService = ServiceRegister::getService(DebugService::class);
+        }
+
+        return $this->debugService;
     }
 }

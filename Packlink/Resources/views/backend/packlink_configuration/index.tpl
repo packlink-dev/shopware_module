@@ -1112,7 +1112,7 @@
                             </label>
                         </div>
 
-                        <a href="<!-- TODO DBUG URL -->" value="packlink-debug-data.zip" download>
+                        <a href="{url controller=PacklinkDebug action="download"}" value="packlink-debug-data.zip" download>
                             <button type="button"
                                     class="button button-primary">{s name="configuration/downloadsysteminfofile"}Download system info file{/s}</button>
                         </a>
@@ -1184,8 +1184,8 @@
                     orderStatusMappingsSaveUrl: "{url controller=PacklinkOrderStatusMap action="update"}",
                     shopShippingMethodCountGetUrl: "{url controller=PacklinkShopShippingMethod action="count"}",
                     shopShippingMethodsDisableUrl: "{url controller=PacklinkShopShippingMethod action="deactivate"}",
-                    debugGetStatusUrl: "",
-                    debugSetStatusUrl: "",
+                    debugGetStatusUrl: "{url controller=PacklinkDebug action="getStatus"}",
+                    debugSetStatusUrl: "{url controller=PacklinkDebug action="updateStatus"}",
                     shippingMethodsGetTaxClasses: "{url controller=PacklinkTax action="list"}"
                 }
             );

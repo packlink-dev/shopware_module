@@ -35,4 +35,26 @@ class Response
 
         exit();
     }
+
+    /**
+     * Returns file response.
+     *
+     * @param $filePath
+     * @param string $outputFileName
+     */
+    public static function file($filePath, $outputFileName = '')
+    {
+        $fileName = $outputFileName !== '' ? $outputFileName : basename($filePath);
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . $fileName);
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($filePath));
+        readfile($filePath);
+
+        die();
+    }
 }
