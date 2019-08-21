@@ -25,7 +25,7 @@ require_once __DIR__ . '/CSRFWhitelistAware.php';
 class Packlink extends Plugin
 {
     /**
-     * @var Configuration
+     * @var \Packlink\Services\BusinessLogic\ConfigurationService
      */
     protected $configService;
 
@@ -116,7 +116,7 @@ class Packlink extends Plugin
     /**
      * Retrieves configuration service;
      *
-     * @return \Packlink\BusinessLogic\Configuration
+     * @return \Packlink\Services\BusinessLogic\ConfigurationService
      */
     protected function getConfigService()
     {
@@ -142,10 +142,14 @@ class Packlink extends Plugin
 
         /** @var ShippingMethodMap $map */
         foreach ($maps as $map) {
-            $dispatch = $dispatchRepository->find($map->shopwareCarrierId);
-            if ($dispatch) {
+            if ($dispatch = $dispatchRepository->find($map->shopwareCarrierId)) {
                 Shopware()->Models()->remove($dispatch);
             }
+        }
+
+        $backupId = $this->getConfigService()->getBackupCarrierId();
+        if ($backupId && $dispatch = $dispatchRepository->find($backupId)) {
+            Shopware()->Models()->remove($dispatch);
         }
 
         Shopware()->Models()->flush();

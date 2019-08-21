@@ -108,10 +108,8 @@ class ShopShippingMethodService implements BaseService
      */
     public function addBackupShippingMethod(ShippingMethod $shippingMethod)
     {
-        // To avoid changing data on passed reference new object must be created.
-        $newMethod = ShippingMethod::fromArray($shippingMethod->toArray());
-        $newMethod->setTitle(Translation::get('shipping/cost'));
-        $carrier = $this->createShippingMethod($newMethod);
+        $shippingMethod->setTitle(Translation::get('shipping/cost'));
+        $carrier = $this->createShippingMethod($shippingMethod);
         $this->getConfigService()->setBackupCarrierId($carrier->getId());
 
         return true;
