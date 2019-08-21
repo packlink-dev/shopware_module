@@ -10,7 +10,7 @@ use Shopware\Models\Shop\Shop;
 
 class ConfigurationService extends Configuration
 {
-    const INTEGRATION_NAME = "Shopware";
+    const INTEGRATION_NAME = 'Shopware';
     const DEFAULT_VERSION = '1.0.0';
     const ECOMMERCE_NAME = 'Shopware';
     const DRAFT_SOURCE = 'module_shopware';
@@ -65,6 +65,8 @@ class ConfigurationService extends Configuration
     public function getWebHookUrl()
     {
         // TODO: Implement getWebHookUrl() method.
+
+        return '';
     }
 
     /**
@@ -108,5 +110,25 @@ class ConfigurationService extends Configuration
     public function getECommerceVersion()
     {
         return Shopware::VERSION;
+    }
+
+    /**
+     * Sets default carrier id.
+     *
+     * @param $id
+     */
+    public function setBackupCarrierId($id)
+    {
+        $this->saveConfigValue('backupCarrierId', (int)$id);
+    }
+
+    /**
+     * Retrieves backup carrier id.
+     *
+     * @return int | null
+     */
+    public function getBackupCarrierId()
+    {
+        return $this->getConfigValue('backupCarrierId');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
@@ -9,6 +10,8 @@ use Shopware\Models\Dispatch\Dispatch;
 
 class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
+    use CanInstantiateServices;
+
     /**
      * Returns a list with actions which should not be validated for CSRF protection
      *
@@ -33,10 +36,10 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
             ->where('d.active=1');
 
         if ($packlinkShippingMethods = $this->getPacklinkShippingMethods()) {
-            $query->andWhere('d.id not in (' . implode(',' , $packlinkShippingMethods) . ')');
+            $query->andWhere('d.id not in (' . implode(',', $packlinkShippingMethods) . ')');
         }
 
-        $count = (int) $query->getQuery()->getSingleScalarResult();
+        $count = (int)$query->getQuery()->getSingleScalarResult();
 
         Response::json(['count' => $count]);
     }
@@ -54,7 +57,7 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
             ->where('d.active=1');
 
         if ($packlinkShippingMethods = $this->getPacklinkShippingMethods()) {
-            $query->andWhere('d.id not in (' . implode(',' , $packlinkShippingMethods) . ')');
+            $query->andWhere('d.id not in (' . implode(',', $packlinkShippingMethods) . ')');
         }
 
         $active = $query->getQuery()->getResult();
@@ -94,7 +97,18 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
     {
         $repository = RepositoryRegistry::getRepository(ShippingMethodMap::getClassName());
         $maps = $repository->select();
-        $methodIds = array_map(function (ShippingMethodMap $item){return $item->shopwareCarrierId;}, $maps);
+        $methodIds = array_map(
+            function (ShippingMethodMap $item) {
+                return $item->shopwareCarrierId;
+            },
+            $maps
+        );
+
+        $backupId = $this->getConfigService()->getBackupCarrierId();
+
+        if ($backupId !== null) {
+            $methodIds[] = $backupId;
+        }
 
         return $methodIds;
     }

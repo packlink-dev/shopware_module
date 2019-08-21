@@ -6,9 +6,12 @@ use Doctrine\ORM\OptimisticLockException;
 use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
 use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
+use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService as BaseService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Entities\ShippingMethodMap;
+use Packlink\Utilities\Translation;
 use Shopware\Components\Model\ModelEntity;
 use Shopware\Models\Dispatch\Dispatch;
 use Shopware\Models\Dispatch\ShippingCost;
@@ -23,6 +26,8 @@ class ShopShippingMethodService implements BaseService
      * @var \Packlink\Repositories\BaseRepository
      */
     protected $baseRepository;
+    /** @var \Packlink\Services\BusinessLogic\ConfigurationService */
+    protected $configService;
 
     /**
      * Adds / Activates shipping method in shop integration.
@@ -36,34 +41,7 @@ class ShopShippingMethodService implements BaseService
      */
     public function add(ShippingMethod $shippingMethod)
     {
-        $carrier = new Dispatch();
-
-        $countries = $this->getDispatchRepository()->getCountryQuery()->getResult();
-        foreach ($countries as $country) {
-            $carrier->getCountries()->add($country);
-        }
-
-        $payments = $this->getDispatchRepository()->getPaymentQuery()->getResult();
-        foreach ($payments as $payment) {
-            $carrier->getPayments()->add($payment);
-        }
-
-        // TODO set carrier tracking url
-
-        $carrier->setDescription('');
-        $carrier->setComment('');
-        $carrier->setPosition(0);
-        $carrier->setActive(true);
-        $carrier->setMultiShopId(null);
-        $carrier->setCustomerGroupId(null);
-        $carrier->setShippingFree(null);
-        $carrier->setType(self::STANDARD_SHIPPING);
-        $carrier->setSurchargeCalculation(self::ALLWAYS_CHARGE);
-        $carrier->setCalculation(0);
-        $carrier->setTaxCalculation(0);
-        $carrier->setBindLastStock(0);
-
-        $this->setVariableCarrierParameters($carrier, $shippingMethod);
+        $carrier = $this->createShippingMethod($shippingMethod);
 
         $map = new ShippingMethodMap();
         $map->shopwareCarrierId = $carrier->getId();
@@ -115,6 +93,45 @@ class ShopShippingMethodService implements BaseService
         }
 
         $this->getBaseRepository()->delete($map);
+
+        return true;
+    }
+
+    /**
+     * Adds backup shipping method based on provided shipping method.
+     *
+     * @param ShippingMethod $shippingMethod
+     *
+     * @return bool TRUE if backup shipping method is added; otherwise, FALSE.
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function addBackupShippingMethod(ShippingMethod $shippingMethod)
+    {
+        // To avoid changing data on passed reference new object must be created.
+        $newMethod = ShippingMethod::fromArray($shippingMethod->toArray());
+        $newMethod->setTitle(Translation::get('shipping/cost'));
+        $carrier = $this->createShippingMethod($newMethod);
+        $this->getConfigService()->setBackupCarrierId($carrier->getId());
+
+        return true;
+    }
+
+    /**
+     * Deletes backup shipping method.
+     *
+     * @return bool TRUE if backup shipping method is deleted; otherwise, FALSE.
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deleteBackupShippingMethod()
+    {
+        $id = $this->getConfigService()->getBackupCarrierId();
+
+        /** @var Dispatch $carrier */
+        if ($id !== null && $carrier = $this->getDispatchRepository()->find($id)) {
+            $this->deleteShopwareEntity($carrier);
+        }
 
         return true;
     }
@@ -345,5 +362,62 @@ class ShopShippingMethodService implements BaseService
     {
         Shopware()->Models()->remove($entity);
         Shopware()->Models()->flush();
+    }
+
+    /**
+     * Creates shipping method.
+     *
+     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     *
+     * @return \Shopware\Models\Dispatch\Dispatch
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    protected function createShippingMethod(ShippingMethod $shippingMethod)
+    {
+        $carrier = new Dispatch();
+
+        $countries = $this->getDispatchRepository()->getCountryQuery()->getResult();
+        foreach ($countries as $country) {
+            $carrier->getCountries()->add($country);
+        }
+
+        $payments = $this->getDispatchRepository()->getPaymentQuery()->getResult();
+        foreach ($payments as $payment) {
+            $carrier->getPayments()->add($payment);
+        }
+
+        // TODO set carrier tracking url
+
+        $carrier->setDescription('');
+        $carrier->setComment('');
+        $carrier->setPosition(0);
+        $carrier->setActive(true);
+        $carrier->setMultiShopId(null);
+        $carrier->setCustomerGroupId(null);
+        $carrier->setShippingFree(null);
+        $carrier->setType(self::STANDARD_SHIPPING);
+        $carrier->setSurchargeCalculation(self::ALLWAYS_CHARGE);
+        $carrier->setCalculation(0);
+        $carrier->setTaxCalculation(0);
+        $carrier->setBindLastStock(0);
+
+        $this->setVariableCarrierParameters($carrier, $shippingMethod);
+
+        return $carrier;
+    }
+
+    /**
+     * Retrieves configuration service.
+     *
+     * @return \Packlink\Services\BusinessLogic\ConfigurationService
+     */
+    protected function getConfigService()
+    {
+        if ($this->configService === null) {
+            $this->configService = ServiceRegister::getService(Configuration::CLASS_NAME);
+        }
+
+        return $this->configService;
     }
 }
