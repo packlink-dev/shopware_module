@@ -29,5 +29,10 @@
             <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
+        <!-- Register TemplateRegistration subscriber -->
+        <service id="packlink.subscribers.shipping_cost_calculator" class="Packlink\Subscribers\ShippingCostCalculator">
+            <argument>%packlink.plugin_dir%</argument>
+            <tag name="shopware.event_subscriber"/>
+        </service>
     </services>
 </container>
