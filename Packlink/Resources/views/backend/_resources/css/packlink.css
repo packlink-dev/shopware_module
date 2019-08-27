@@ -573,6 +573,14 @@ body {
     padding-left: 10px !important;
 }
 
+.pl-shipping-method-select-btn {
+    outline: none !important;
+}
+
+.pl-shipping-method-select-btn:focus {
+    outline: none !important;
+}
+
 .pl-form-section-title-wrapper {
     padding: 0 !important;
     height: 20px !important;
@@ -1525,6 +1533,7 @@ body {
 
 .pl-switch {
     cursor: pointer;
+    outline: none;
 }
 
 .pl-switch * {

@@ -24,7 +24,7 @@
             <argument type="service" id="snippets"/>
             <tag name="shopware.event_subscriber"/>
         </service>
-        <!-- Register TemplateRegistration subscriber -->
+        <!-- Register BackendIndex subscriber -->
         <service id="packlink.subscribers.backend_index" class="Packlink\Subscribers\BackendIndex">
             <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
@@ -36,6 +36,11 @@
         </service>
         <!-- Register ShippingMethodListHandler subscriber -->
         <service id="packlink.subscribers.shipping_method_list_handler" class="Packlink\Subscribers\ShippingMethodListHandler">
+            <argument>%packlink.plugin_dir%</argument>
+            <tag name="shopware.event_subscriber"/>
+        </service>
+        <!-- Register DropoffHandler subscriber -->
+        <service id="packlink.subscribers.dropoff_handler" class="Packlink\Subscribers\DropoffHandler">
             <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>

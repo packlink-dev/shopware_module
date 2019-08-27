@@ -46,6 +46,7 @@ class ShopShippingMethodService implements BaseService
         $map = new ShippingMethodMap();
         $map->shopwareCarrierId = $carrier->getId();
         $map->shippingMethodId = $shippingMethod->getId();
+        $map->isDropoff = $shippingMethod->isDestinationDropOff();
         $this->getBaseRepository()->save($map);
 
         return true;

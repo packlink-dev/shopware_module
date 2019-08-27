@@ -50,6 +50,37 @@ class CheckoutService
     }
 
     /**
+     * Retrieves shipping address.
+     *
+     * @param int $userId
+     * @param int | null $shippingId
+     *
+     * @return array
+     *
+     * @throws \Packlink\Exceptions\FailedToRetrieveCheckoutAddressException
+     * @throws \Packlink\Exceptions\FailedToRetrieveDefaultUserAddressException
+     * @throws \Exception
+     */
+    public function getShippingAddress($userId, $shippingId = null)
+    {
+        if (empty($shippingAddress = Cache::getShippingAddress())) {
+            if ($shippingId !== null) {
+                try {
+                    $shippingAddress = $this->getCheckoutShippingAddress($shippingId);
+                } catch (FailedToRetrieveCheckoutAddressException $e) {
+                    $shippingAddress = $this->getAddress($shippingId);
+                }
+            } else {
+                $shippingAddress = $this->getDefaultUserAddress($userId);
+            }
+
+            Cache::setShippingAddress($shippingAddress);
+        }
+
+        return $shippingAddress;
+    }
+
+    /**
      * Calculates shipping costs.
      *
      * @param int $userId
@@ -113,37 +144,6 @@ class CheckoutService
         }
 
         return $parcel;
-    }
-
-    /**
-     * Retrieves shipping address.
-     *
-     * @param int $userId
-     * @param int | null $shippingId
-     *
-     * @return array
-     *
-     * @throws \Packlink\Exceptions\FailedToRetrieveCheckoutAddressException
-     * @throws \Packlink\Exceptions\FailedToRetrieveDefaultUserAddressException
-     * @throws \Exception
-     */
-    protected function getShippingAddress($userId, $shippingId = null)
-    {
-        if (empty($shippingAddress = Cache::getShippingAddress())) {
-            if ($shippingId !== null) {
-                try {
-                    $shippingAddress = $this->getCheckoutShippingAddress($shippingId);
-                } catch (FailedToRetrieveCheckoutAddressException $e) {
-                    $shippingAddress = $this->getAddress($shippingId);
-                }
-            } else {
-                $shippingAddress = $this->getDefaultUserAddress($userId);
-            }
-
-            Cache::setShippingAddress($shippingAddress);
-        }
-
-        return $shippingAddress;
     }
 
     /**

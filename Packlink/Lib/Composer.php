@@ -14,6 +14,8 @@ class Composer
     {
         $map = [
             static::$formBase . 'js' => static::$toBase . 'js',
+            static::$formBase . 'LocationPicker/js' => static::$toBase . 'js/location',
+            static::$formBase . 'LocationPicker/css' => static::$toBase . 'css/location',
             static::$formBase . 'img/carriers/de' => static::$toBase . 'images/carriers/de',
             static::$formBase . 'img/carriers/fr' => static::$toBase . 'images/carriers/fr',
             static::$formBase . 'img/carriers/it' => static::$toBase . 'images/carriers/it',

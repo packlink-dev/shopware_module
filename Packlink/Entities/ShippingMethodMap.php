@@ -17,9 +17,11 @@ class ShippingMethodMap extends Entity
     public $shopwareCarrierId;
     /** @var int */
     public $shippingMethodId;
+    /** @var boolean */
+    public $isDropoff;
 
     /** @var array  */
-    protected $fields = ['id', 'shopwareCarrierId', 'shippingMethodId'];
+    protected $fields = ['id', 'shopwareCarrierId', 'shippingMethodId', 'isDropoff'];
 
     /**
      * Returns full class name.
@@ -40,7 +42,8 @@ class ShippingMethodMap extends Entity
     {
         $map = new IndexMap();
         $map->addIntegerIndex('shopwareCarrierId')
-            ->addIntegerIndex('shippingMethodId');
+            ->addIntegerIndex('shippingMethodId')
+            ->addBooleanIndex('isDropoff');
 
         return new EntityConfiguration($map, 'ShippingMethodMap');
     }

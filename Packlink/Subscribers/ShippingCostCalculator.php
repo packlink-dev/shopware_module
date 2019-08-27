@@ -92,7 +92,8 @@ class ShippingCostCalculator implements SubscriberInterface
      */
     protected function shouldHandle($userId, $sessionId, $carrierId, $shippingId)
     {
-        return !empty($sessionId)
+        return $this->isLoggedIn()
+            && !empty($sessionId)
             && (!empty($shippingId) || !empty($userId))
             && !empty($carrierId)
             && $this->isPacklinkCarrier((int)$carrierId)
@@ -169,6 +170,11 @@ class ShippingCostCalculator implements SubscriberInterface
         return $this->configService;
     }
 
+    /**
+     * Retrieves checkout service.
+     *
+     * @return \Packlink\Services\BusinessLogic\CheckoutService
+     */
     protected function getCheckoutService()
     {
         if ($this->checkoutService === null) {
@@ -176,5 +182,17 @@ class ShippingCostCalculator implements SubscriberInterface
         }
 
         return $this->checkoutService;
+    }
+
+    /**
+     * Checks if user is logged in.
+     *
+     * @return bool
+     */
+    protected function isLoggedIn()
+    {
+        $authToken = $this->getConfigService()->getAuthorizationToken();
+
+        return !empty($authToken);
     }
 }

@@ -87,7 +87,7 @@ class ShippingMethodListHandler implements SubscriberInterface
      */
     protected function shouldHandle($userId, $sessionId)
     {
-        return !empty($userId) && !empty($sessionId);
+        return $this->isLoggedIn() && !empty($userId) && !empty($sessionId);
     }
 
     /**
@@ -136,5 +136,17 @@ class ShippingMethodListHandler implements SubscriberInterface
         }
 
         return $this->configService;
+    }
+
+    /**
+     * Checks if user is logged in.
+     *
+     * @return bool
+     */
+    protected function isLoggedIn()
+    {
+        $authToken = $this->getConfigService()->getAuthorizationToken();
+
+        return !empty($authToken);
     }
 }

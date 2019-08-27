@@ -8,6 +8,7 @@ use Packlink\BusinessLogic\Http\Proxy;
 use Packlink\BusinessLogic\Location\LocationService;
 use Packlink\BusinessLogic\User\UserAccountService;
 use Packlink\Contracts\Services\BusinessLogic\DebugService;
+use Packlink\Services\BusinessLogic\CheckoutService;
 
 trait CanInstantiateServices
 {
@@ -21,6 +22,8 @@ trait CanInstantiateServices
     protected $proxy;
     /** @var \Packlink\Contracts\Services\BusinessLogic\DebugService */
     protected $debugService;
+    /** @var CheckoutService */
+    protected $checkoutService;
 
     /**
      * Retrieves configuration service.
@@ -90,5 +93,18 @@ trait CanInstantiateServices
         }
 
         return $this->debugService;
+    }
+
+    /**
+     * Retrieves checkout service.
+     *
+     * @return \Packlink\Services\BusinessLogic\CheckoutService
+     */
+    protected function getCheckoutService() {
+        if ($this->checkoutService === null) {
+            $this->checkoutService = new CheckoutService();
+        }
+
+        return $this->checkoutService;
     }
 }
