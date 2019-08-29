@@ -10,7 +10,7 @@ var Packlink = window.Packlink || {};
         const STATUSES = [
             'disabled',
             'in-progress',
-            'completed',
+            'completed'
         ];
 
         let templateService = Packlink.templateService;
@@ -18,7 +18,7 @@ var Packlink = window.Packlink || {};
         let ajaxService = Packlink.ajaxService;
         let state = Packlink.state;
 
-        let isDashboardShowed = false;
+        let isDashboardShown = false;
 
         let selectedId = null;
 
@@ -27,7 +27,14 @@ var Packlink = window.Packlink || {};
         let spinnerBarrierCount = 0;
         let spinnerBarrier = configuration.hasTaxConfiguration ? 2 : 1;
 
+        /** @var {{parcelSet, warehouseSet, shippingMethodSet}} dashboardData */
         let dashboardData = {};
+
+        /**
+         * @var {{id, name, title, logoUrl, taxClass, deliveryDescription, showLogo, deliveryType,
+         * parcelDestination, parcelOrigin, selected,
+         * pricePolicy, fixedPriceByWeightPolicy, fixedPriceByValuePolicy, percentPricePolicy}} methodModel
+         */
         let methodModel = {};
         let taxClasses = [];
 
@@ -35,7 +42,7 @@ var Packlink = window.Packlink || {};
             title: [],
             deliveryType: [],
             parcelOrigin: [],
-            parcelDestination: [],
+            parcelDestination: []
         };
 
         // Element in DOM where shipping methods page content is inserted.
@@ -54,13 +61,12 @@ var Packlink = window.Packlink || {};
 
         let renderedShippingMethods = [];
 
-        //Register public methods and variables.
-        this.display = display;
+        let autoConfigureInitialized = false;
 
         /**
          * Displays page content.
          */
-        function display() {
+        this.display = function () {
             utilityService.showSpinner();
 
             extensionPoint = templateService.setTemplate('pl-shipping-methods-page-template');
@@ -115,8 +121,41 @@ var Packlink = window.Packlink || {};
                 ajaxService.get(configuration.getTaxClassesUrl, getTaxClassesSuccessHandler);
             }
 
-            ajaxService.get(configuration.getStatusUrl, getStatusHandler);
-            ajaxService.get(configuration.getAllUrl, getShippingMethodsHandler);
+            ajaxService.get(configuration.getDashboardStatusUrl, function (response) {
+                getStatusHandler(response);
+                ajaxService.get(configuration.getMethodsStatusUrl, getShippingMethodsStatusHandler);
+            });
+        };
+
+        /**
+         * Get status of getting shipping methods task.
+         *
+         * @param {object} response
+         */
+        function getShippingMethodsStatusHandler(response) {
+            if (configuration.context !== state.getContext()) {
+                return;
+            }
+
+            if (response.status === 'completed') {
+                ajaxService.get(configuration.getAllMethodsUrl, getShippingMethodsHandler);
+
+                return;
+            }
+
+            if (response.status === 'failed') {
+                hideDashboardModal();
+                showNoShippingMethodsMessage();
+
+                return;
+            }
+
+            setTimeout(
+                function () {
+                    ajaxService.get(configuration.getMethodsStatusUrl, getShippingMethodsStatusHandler);
+                },
+                1000
+            );
         }
 
         /**
@@ -134,41 +173,87 @@ var Packlink = window.Packlink || {};
             }
 
             if (response.length === 0) {
-                if (!isDashboardShowed) {
-                    showNoShippingMethodsMessage();
-                }
+                hideDashboardModal();
+                showNoShippingMethodsMessage();
 
-                setTimeout(function () {
-                    ajaxService.get(configuration.getAllUrl, getShippingMethodsHandler)
-                }, 1000);
-            } else {
-                hideNoShippingMethodsMessage();
+                return;
             }
 
-
+            hideGettingShippingMethodsMessage();
             renderShippingMethods();
-
-            if (spinnerBarrier === spinnerBarrierCount) {
-                utilityService.hideSpinner();
-            } else {
-                spinnerBarrierCount++;
-            }
         }
 
         /**
-         * Shows message when no shipping service is available.
+         * Shows message when getting shipping services.
+         */
+        function showGettingShippingMethodsMessage() {
+            utilityService.enableInputMask();
+            templateService.getComponent('pl-getting-shipping-services', extensionPoint).classList.remove('hidden');
+        }
+
+        /**
+         * Hides message when shipping services are available.
+         */
+        function hideGettingShippingMethodsMessage() {
+            utilityService.disableInputMask();
+            templateService.getComponent('pl-getting-shipping-services', extensionPoint).classList.add('hidden');
+        }
+
+        /**
+         * Shows message when shipping services cannot be fetched.
          */
         function showNoShippingMethodsMessage() {
-            utilityService.enableInputMask();
-            templateService.getComponent('pl-no-shipping-services', extensionPoint).classList.remove('hidden');
+            let container = templateService.getComponent('pl-no-shipping-services', extensionPoint);
+            utilityService.hideSpinner();
+            hideGettingShippingMethodsMessage();
+            if (container) {
+                container.classList.remove('hidden');
+                if (!autoConfigureInitialized) {
+                    initAutoConfigure(container);
+                }
+            }
         }
 
         /**
-         * Hides message when shipping services are availbale.
+         * Hides message when shipping services cannot be fetched.
          */
         function hideNoShippingMethodsMessage() {
-            utilityService.disableInputMask();
             templateService.getComponent('pl-no-shipping-services', extensionPoint).classList.add('hidden');
+            showGettingShippingMethodsMessage();
+        }
+
+        /**
+         * Initializes the auto-configure process.
+         *
+         * @param {Element} [container]
+         */
+        function initAutoConfigure(container) {
+            let configureButton = templateService.getComponent('pl-shipping-services-retry-btn', container);
+            if (configureButton && configuration.autoConfigureStartUrl) {
+                autoConfigureInitialized = true;
+                configureButton.addEventListener('click', startAutoConfigure);
+            }
+        }
+
+        /**
+         * Starts the auto-configure process.
+         */
+        function startAutoConfigure() {
+            hideNoShippingMethodsMessage();
+            ajaxService.post(
+                configuration.autoConfigureStartUrl,
+                [],
+                function success(response) {
+                    if (response.success === true) {
+                        ajaxService.get(configuration.getMethodsStatusUrl, getShippingMethodsStatusHandler);
+                    } else {
+                        showNoShippingMethodsMessage();
+                    }
+                },
+                function error() {
+                    showNoShippingMethodsMessage();
+                }
+            );
         }
 
         /**
@@ -203,16 +288,13 @@ var Packlink = window.Packlink || {};
                 }
             );
 
-            if (spinnerBarrier === spinnerBarrierCount) {
+            if (spinnerBarrier === ++spinnerBarrierCount) {
                 utilityService.hideSpinner();
-            } else {
-                spinnerBarrierCount++;
             }
         }
 
         /**
          * Adds static component to shipping methods page.
-         *
          *
          * @param {string} template
          * @param {string} point
@@ -285,18 +367,23 @@ var Packlink = window.Packlink || {};
             renderedShippingMethods = result[filterTypes[0]];
             // Finds intersection of results;
             for (let i = 1; i < filterTypes.length; i++) {
-                renderedShippingMethods = renderedShippingMethods.filter(function (item) {
-                    return result[filterTypes[i]].indexOf(item) !== -1;
-                })
+                renderedShippingMethods = renderedShippingMethods.filter(
+                    function (item) {
+                        return result[filterTypes[i]].indexOf(item) !== -1;
+                    }
+                );
             }
 
             // Take only unique values. Rendered shipping methods variable has to behave like a set.
             // Also take current selection tab into consideration.
-            renderedShippingMethods = renderedShippingMethods.filter(function (r, index, set) {
-                let shippingMethod = shippingMethods[r];
-                let selectRequired = currentNavTab === 'selected';
-                return (set.indexOf(r) === index) && (selectRequired && shippingMethod.selected || !selectRequired);
-            });
+            renderedShippingMethods = renderedShippingMethods.filter(
+                function (r, index, set) {
+                    let shippingMethod = shippingMethods[r];
+                    let selectRequired = currentNavTab === 'selected';
+
+                    return (set.indexOf(r) === index) && (selectRequired && shippingMethod.selected || !selectRequired);
+                }
+            );
         }
 
         /**
@@ -312,6 +399,7 @@ var Packlink = window.Packlink || {};
 
             return methods.filter(function (method) {
                 let shippingMethod = shippingMethods[method];
+
                 return (shippingMethod[type] === filter);
             });
         }
@@ -380,7 +468,7 @@ var Packlink = window.Packlink || {};
             name.innerHTML = shippingMethod.name;
 
             let selectButton = templateService.getComponent('pl-shipping-method-select-btn', template);
-            selectButton.setAttribute('data-pl-shipping-method-id', id);
+            selectButton.setAttribute('data-pl-shipping-method-id', id.toString());
             selectButton.addEventListener('click', handleShippingMethodSelectClicked, true);
 
             templateService.getComponent('pl-logo', template).setAttribute('src', shippingMethod.logoUrl);
@@ -390,7 +478,7 @@ var Packlink = window.Packlink || {};
             }
 
             let configButton = templateService.getComponent('pl-shipping-method-config-btn', template);
-            configButton.setAttribute('data-pl-shipping-method-id', id);
+            configButton.setAttribute('data-pl-shipping-method-id', id.toString());
             configButton.addEventListener('click', handleShippingMethodConfigClicked, true);
 
             if (shippingMethod.parcelOrigin === 'pickup') {
@@ -405,9 +493,7 @@ var Packlink = window.Packlink || {};
                 templateService.getComponent('pl-method-title', template).classList.add('pl-national');
             }
 
-
             templateService.getComponent('pl-delivery-type', template).innerHTML = shippingMethod.deliveryDescription;
-
 
             initPriceIndicators(shippingMethod, template);
         }
@@ -480,7 +566,6 @@ var Packlink = window.Packlink || {};
          */
         function getNumberOfActiveServices() {
             let result = 0;
-
             let serviceIds = Object.keys(shippingMethods);
 
             for (let id of serviceIds) {
@@ -571,7 +656,7 @@ var Packlink = window.Packlink || {};
          */
         function handleShippingMethodConfigClicked(event) {
             let configTemplate = templateService.getTemplate('pl-shipping-method-configuration-template')[0];
-            let methodId = event.target.getAttribute('data-pl-shipping-method-id');
+            let methodId = parseInt(event.target.getAttribute('data-pl-shipping-method-id'));
             shippingMethodTemplates[methodId].after(configTemplate);
             configTemplate.setAttribute('id', 'pl-shipping-method-config-form');
 
@@ -593,8 +678,7 @@ var Packlink = window.Packlink || {};
             methodModel = utilityService.cloneObject(shippingMethods[id]);
             templateService.getComponent('pl-method-title-input', template).value = methodModel.name;
 
-            if (
-                configuration.hasTaxConfiguration
+            if (configuration.hasTaxConfiguration
                 && methodModel.taxClass !== null
                 && classExists(methodModel.taxClass)
             ) {
@@ -680,7 +764,7 @@ var Packlink = window.Packlink || {};
             if (value === '') {
                 templateService.setError(event.target, Packlink.errorMsgs.required);
             } else if (configuration.maxTitleLength && value.length > configuration.maxTitleLength) {
-                templateService.setError(event.target, Packlink.errorMsgs.titleLength)
+                templateService.setError(event.target, Packlink.errorMsgs.titleLength);
             } else {
                 templateService.removeError(event.target);
             }
@@ -963,7 +1047,7 @@ var Packlink = window.Packlink || {};
                 byWeight ? 'pl-fixed-price-by-weight-criteria-template' : 'pl-fixed-price-by-value-criteria-template'
             )[0];
 
-            template.setAttribute('data-pl-row', id);
+            template.setAttribute('data-pl-row', id.toString());
 
             if (policies.length === 1) {
                 template.classList.add('first');
@@ -980,7 +1064,7 @@ var Packlink = window.Packlink || {};
                 byWeight ? handleFixedPriceByWeightCriteriaRemoved : handleFixedPriceByValueCriteriaRemoved,
                 true
             );
-            removeBtn.setAttribute('data-pl-criteria-id', id);
+            removeBtn.setAttribute('data-pl-criteria-id', id.toString());
 
             point.appendChild(template);
         }
@@ -997,13 +1081,13 @@ var Packlink = window.Packlink || {};
             let fields = [
                 'from',
                 'to',
-                'amount',
+                'amount'
             ];
 
             for (let field of fields) {
                 let input = templateService.getComponent('data-pl-fixed-price', template, field);
                 input.value = policy[field];
-                input.setAttribute(`data-pl-${field}-id`, id);
+                input.setAttribute('data-pl-' + field + '-id', id.toString());
 
                 if (field === 'to') {
                     input.addEventListener(
@@ -1053,6 +1137,7 @@ var Packlink = window.Packlink || {};
             let index = parseInt(event.target.getAttribute('data-pl-to-id'));
             let value = event.target.value;
             let numericValue = parseFloat(value);
+            // noinspection EqualityComparisonWithCoercionJS
             methodModel[policy][index].to = event.target.value == numericValue ? numericValue : value;
 
             if (value !== '' && !isNaN(value)) {
@@ -1107,6 +1192,7 @@ var Packlink = window.Packlink || {};
             let index = parseInt(event.target.getAttribute('data-pl-amount-id'));
             let numeric = parseFloat(event.target.value);
 
+            // noinspection EqualityComparisonWithCoercionJS
             methodModel[policy][index].amount = event.target.value == numeric ? numeric : event.target.value;
             templateService.removeError(event.target);
             displayFixedPricesSubForm(index === methodModel[policy].length - 1, false, false, false, byWeight);
@@ -1153,6 +1239,7 @@ var Packlink = window.Packlink || {};
         function validateFixedPriceField(fieldName, last, index, lowerBound) {
             let input = templateService.getComponent('data-pl-' + fieldName + '-id', tableExtensionPoint, index);
             let result = true;
+            // noinspection EqualityComparisonWithCoercionJS
             if (last[fieldName] === ''
                 || isNaN(last[fieldName])
                 || typeof last[fieldName] !== 'number'
@@ -1180,7 +1267,7 @@ var Packlink = window.Packlink || {};
                 for (let field of fields) {
                     let value = policies[i][field];
                     if (value === '' || isNaN(value) || typeof value !== 'number') {
-                        let input = templateService.getComponent(`data-pl-${field}-id`, tableExtensionPoint, i);
+                        let input = templateService.getComponent('data-pl-' + field + '-id', tableExtensionPoint, i);
                         templateService.setError(input, Packlink.errorMsgs.numeric);
                         result = false;
                     }
@@ -1242,12 +1329,14 @@ var Packlink = window.Packlink || {};
 
             for (let i = 0; i < policies.length; i++) {
                 let current = policies[i];
+                // noinspection EqualityComparisonWithCoercionJS
                 if (current.to && current.to != current.to.toFixed(2)) {
                     let input = templateService.getComponent('data-pl-to-id', tableExtensionPoint, i);
                     templateService.setError(input, Packlink.errorMsgs.numberOfDecimalPlaces);
                     result = false;
                 }
 
+                // noinspection EqualityComparisonWithCoercionJS
                 if (current.amount && current.amount != current.amount.toFixed(2)) {
                     let input = templateService.getComponent('data-pl-amount-id', tableExtensionPoint, i);
                     templateService.setError(input, Packlink.errorMsgs.numberOfDecimalPlaces);
@@ -1328,7 +1417,7 @@ var Packlink = window.Packlink || {};
 
             if (!methodModel.percentPricePolicy) {
                 methodModel.percentPricePolicy = {
-                    increase: true,
+                    increase: true
                 };
             } else {
                 if (methodModel.percentPricePolicy.amount) {
@@ -1354,6 +1443,7 @@ var Packlink = window.Packlink || {};
         function handlePercentInputBlurEvent(event) {
             let value = event.target.value;
             let numeric = parseFloat(value);
+            // noinspection EqualityComparisonWithCoercionJS
             methodModel.percentPricePolicy.amount = value == numeric ? numeric : value;
 
             if (value === ''
@@ -1409,7 +1499,7 @@ var Packlink = window.Packlink || {};
          * @param response
          */
         function getTaxClassesSuccessHandler(response) {
-            taxSelector = templateService.getComponent('pl-tax-selector', document);
+            taxSelector = templateService.getComponent('pl-tax-selector', document.body);
 
             while (taxSelector.firstChild) {
                 taxSelector.firstChild.remove();
@@ -1425,23 +1515,21 @@ var Packlink = window.Packlink || {};
 
             taxSelector.value = response[0]['value'];
 
-            if (spinnerBarrier === spinnerBarrierCount) {
+            if (spinnerBarrier === ++spinnerBarrierCount) {
                 utilityService.hideSpinner();
-            } else {
-                spinnerBarrierCount++;
             }
         }
 
         /**
          * Checks whether tax class exists in system.
          *
-         * @param taxClass
+         * @param {string} taxClass
          *
          * @return {boolean}
          */
         function classExists(taxClass) {
-            for (taxClassValue of taxClasses) {
-                if (taxClassValue == taxClass) {
+            for (let taxClassValue of taxClasses) {
+                if (taxClassValue === taxClass) {
                     return true;
                 }
             }
@@ -1570,8 +1658,9 @@ var Packlink = window.Packlink || {};
          */
         function showDashboardModal() {
             templateService.getComponent('pl-dashboard-modal-wrapper', extensionPoint).classList.remove('hidden');
-            hideNoShippingMethodsMessage();
-            isDashboardShowed = true;
+            utilityService.hideSpinner();
+            hideGettingShippingMethodsMessage();
+            isDashboardShown = true;
         }
 
         /**
@@ -1584,9 +1673,10 @@ var Packlink = window.Packlink || {};
 
             templateService.getComponent('pl-dashboard-modal-wrapper', extensionPoint).classList.add('hidden');
             if (Object.keys(shippingMethods).length === 0) {
-                showNoShippingMethodsMessage();
+                showGettingShippingMethodsMessage();
             }
-            isDashboardShowed = false;
+
+            isDashboardShown = false;
         }
     }
 

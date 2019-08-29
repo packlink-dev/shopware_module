@@ -132,6 +132,78 @@
     transition: all .25s ease-in;
 }
 
+.pl-tooltip {
+    position: relative;
+    display: flex;
+}
+
+.pl-tooltip:hover .pl-tooltip-concrete {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.pl-tooltip-concrete {
+    box-sizing: border-box;
+    width: 320px;
+    padding: 15px;
+    position: absolute;
+    background-color: white;
+    color: #5d5d5d;
+    font-size: 12px !important;
+    line-height: 14px !important;
+    font-weight: normal;
+    text-align: left !important;
+    border-radius: 3px;
+    border: 1px solid #dcdcdc;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s linear, opacity 0.3s linear;
+}
+
+.pl-tooltip-top {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% + 15px);
+}
+
+.pl-tooltip-top:before,
+.pl-tooltip-top:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 100%;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.pl-tooltip-top:after {
+    left: calc(50% - 5px);
+    border-color: white transparent transparent transparent;
+    border-width: 6px;
+}
+
+.pl-tooltip-top:before {
+    left: calc(50% - 6px);
+    border-color: #dcdcdc transparent transparent transparent;
+    border-width: 7px;
+}
+
+.pl-payment-section-selector-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pl-spacer {
+    margin-top: 20px;
+}
+
+.pl-logo {
+    max-width: 64px;
+}
+
 @keyframes pl-rotate {
     100% {
         transform: rotate(360deg);

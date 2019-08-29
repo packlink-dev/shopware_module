@@ -18,6 +18,7 @@ use Packlink\BusinessLogic\Scheduler\Models\Schedule;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Contracts\Services\BusinessLogic\DebugService;
+use Packlink\Entities\OrderDropoffMap;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Repositories\BaseRepository;
 use Packlink\Repositories\OrderRepository;
@@ -94,5 +95,6 @@ class Bootstrap extends BootstrapComponent
         RepositoryRegistry::registerRepository(QueueItem::getClassName(), QueueItemRepository::getClassName());
         RepositoryRegistry::registerRepository(ShippingMethodMap::getClassName(), BaseRepository::getClassName());
         RepositoryRegistry::registerRepository(ShippingMethod::getClassName(), BaseRepository::getClassName());
+        RepositoryRegistry::registerRepository(OrderDropoffMap::getClassName(), BaseRepository::getClassName());
     }
 }

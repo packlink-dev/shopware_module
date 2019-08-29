@@ -19,13 +19,8 @@ cp -R ./Packlink ./deploy/Packlink
 echo -e "\e[32mSTEP 2:\e[0m Installing composer dependencies..."
 cd deploy/Packlink
 # remove resources that will be copied from the core in the post-install script
-rm -rf views/img/carriers/de/*
-rm -rf views/img/carriers/es/*
-rm -rf views/img/carriers/fr/*
-rm -rf views/img/carriers/it/*
-rm -rf views/js/core
-rm -rf views/js/location
 rm -rf vendor
+rm -rf Lib
 
 composer install --no-dev
 cd ../..

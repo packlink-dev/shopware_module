@@ -13,6 +13,7 @@
     <script type="text/javascript" src="{link file="backend/_resources/js/SidebarController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/js/StateController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/js/TemplateService.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/js/AutoTestController.js"}"></script>
 {/block}
 
 {block name="content/main"}
@@ -422,8 +423,17 @@
                     </div>
                     <div class="pl-table-wrapper" id="pl-table-scroll">
                         <div id="pl-shipping-methods-table-extension-point"></div>
-                        <div class="pl-no-shipping-services hidden" id="pl-no-shipping-services">
-                            {s name="configuration/noshippingservices"}Getting available shipping services from Packlink PRO. Please wait a moment.{/s}
+                        <div class="pl-shipping-services-message hidden" id="pl-getting-shipping-services">
+                            <div class="title">{s name="configuration/importingservices"}We are importing the best shipping services for your shipments.{/s}</div>
+                            <div class="subtitle">{s name="configuration/takefewseconds"}This process could take a few seconds.{/s}</div>
+                            <div class="pl-spinner" id="pl-getting-services-spinner">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="pl-shipping-services-message hidden" id="pl-no-shipping-services">
+                            <div class="title">{s name="configuration/troublereceivingservices"}We are having troubles getting shipping services.{/s}</div>
+                            <div class="subtitle">{s name="configuration/doyouwanttoretry"}Do you want to retry?{/s}</div>
+                            <button type="button" class="button button-primary btn-lg" id="pl-shipping-services-retry-btn">{s name="configuration/retry"}Retry{/s}</button>
                         </div>
                     </div>
                 </div>
@@ -717,7 +727,7 @@
                     <div class="pl-method-pudo-icon-wrapper" id="pl-pudo-icon-origin">
                         <div class="pl-pudo-pickup">
                             <svg width="25" height="25" viewBox="0 0 36 31" version="1.1"
-                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                 xmlns="http://www.w3.org/2000/svg" >
                                 <g id="Pickup" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
                                    transform="translate(-11.000000, -2.000000)">
                                     <g id="home" transform="translate(11.000000, 2.000000)" fill="#1A77C2"
@@ -759,7 +769,7 @@
                     <div class="pl-method-pudo-icon-wrapper" id="pl-pudo-icon-dest">
                         <div class="pl-pudo-pickup">
                             <svg width="25" height="25" viewBox="0 0 36 31" version="1.1"
-                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="Pickup" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
                                    transform="translate(-11.000000, -2.000000)">
                                     <g id="home" transform="translate(11.000000, 2.000000)" fill="#1A77C2"
@@ -1186,7 +1196,8 @@
                     shopShippingMethodsDisableUrl: "{url controller=PacklinkShopShippingMethod action="deactivate"}",
                     debugGetStatusUrl: "{url controller=PacklinkDebug action="getStatus"}",
                     debugSetStatusUrl: "{url controller=PacklinkDebug action="updateStatus"}",
-                    shippingMethodsGetTaxClasses: "{url controller=PacklinkTax action="list"}"
+                    shippingMethodsGetTaxClassesUrl: "{url controller=PacklinkTax action="list"}",
+                    shippingMethodsGetStatusUrl: "{url controller=PacklinkShippingMethod action="getStatus"}",
                 }
             );
 

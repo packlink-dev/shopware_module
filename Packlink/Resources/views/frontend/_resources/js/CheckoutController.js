@@ -87,8 +87,15 @@ var Packlink = window.Packlink || {};
                     },
                     onSelectDropoffClicked
                 );
+                configuration.dropOff = {
+                    isSelected : true,
+                    selectedDropoff : {
+                        id : payload.dropOff.id
+                    }
+                };
 
                 service.enableContinue();
+                service.removeAlerts();
             }
         }
 

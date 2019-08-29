@@ -23,31 +23,18 @@ var Packlink = window.Packlink || {};
     };
 
     constructor.prototype.getExtensionPoint = function (id) {
-        return document.getElementById(`pl-dropoff-extension-point-${id}`);
+        return document.getElementById('pl-dropoff-extension-point-' + id);
     };
 
     constructor.prototype.getTemplate = function (config) {
-        return `
-            <div class="method--description">
-                <p>
-                    ${config.description}
-                </p>
-                <div style="display: flex;justify-content: space-between;">
-                    ${config.isSelected ? `
-                        <p>
-                        ${config.selectedDescription}</br>
-                        <i>${config.selectedAddress}</i>
-                        </p>
-                    ` : ''}
-                    ${config.isError ? `
-                        <p>
-                            ${config.error}
-                        </p>
-                    ` : ''}
-                    <div id="pl-select-button" class="btn is--primary is--icon-right is--large right" style="margin-left: auto">${config.buttonLabel}</i></div>
-                </div>
-            </div>
-        `
+        return '<div class="method--description">' +
+                '<p>' + config.description + '</p>' +
+                '<div style="display: flex;justify-content: space-between;">' +
+                    (config.isSelected ? ('<p>' + config.selectedDescription + '</br><i>' + config.selectedAddress + '</i></p>') : '') +
+                    (config.isError ? ('<p>' + config.error + '</p>') : '') +
+                    '<div id="pl-select-button" class="btn is--primary is--large right" style="margin-left: auto">' + config.buttonLabel + '</i></div>' +
+                '</div>' +
+            '</div>';
     };
 
     constructor.prototype.getSelectButton = function () {
@@ -55,8 +42,8 @@ var Packlink = window.Packlink || {};
     };
 
     constructor.prototype.disableContinue = function () {
-        let ctnBtns = this.getContinueButtons();
-        for (let btn of ctnBtns) {
+        let continueButtons = this.getContinueButtons();
+        for (let btn of continueButtons) {
             btn.disabled = true;
         }
     };
@@ -66,6 +53,18 @@ var Packlink = window.Packlink || {};
         for (let btn of ctnBtns) {
             btn.disabled = false;
         }
+    };
+
+    constructor.prototype.removeAlerts = function () {
+        let alert = this.getAlert();
+
+        if (alert) {
+            alert.remove();
+        }
+    };
+
+    constructor.prototype.getAlert = function () {
+        return document.getElementById('pl-not-selected-dropoff-alert');
     };
 
     constructor.prototype.getContinueButtons = function () {

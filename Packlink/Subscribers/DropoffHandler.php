@@ -4,10 +4,13 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_ActionEventArgs;
+use Enlight_Event_EventArgs;
 use Exception;
+use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\BusinessLogic\Configuration;
+use Packlink\Entities\OrderDropoffMap;
 use Packlink\Services\BusinessLogic\CheckoutService;
 use Packlink\Services\BusinessLogic\DropoffService;
 
@@ -23,6 +26,8 @@ class DropoffHandler implements SubscriberInterface
      * @var \Packlink\Services\BusinessLogic\CheckoutService
      */
     protected $checkoutService;
+    /** @var \Shopware\Components\ProductStream\RepositoryInterface */
+    protected $orderDropoffMapRepository;
 
     /**
      * @inheritDoc
@@ -31,7 +36,30 @@ class DropoffHandler implements SubscriberInterface
     {
         return [
             'Enlight_Controller_Action_PostDispatch_Frontend_Checkout' => 'onCheckoutPostDispatch',
+            'Enlight_Controller_Action_PreDispatch_Frontend_Checkout' => 'onCheckoutPreDispatch',
+            'Shopware_Modules_Order_SaveShipping_FilterArray' => 'saveDropoff',
         ];
+    }
+
+    /**
+     * Handles Enlight_Controller_Action_PreDispatch_Frontend_Checkout event.
+     *
+     * @param \Enlight_Controller_ActionEventArgs $args
+     */
+    public function onCheckoutPreDispatch(Enlight_Controller_ActionEventArgs $args)
+    {
+        Bootstrap::init();
+
+        if (!$this->shouldHandlePreDispatch($args)) {
+            return;
+        }
+
+        $isDropoff = Shopware()->Session()->get('plIsDropoff');
+        $isSelected = Shopware()->Session()->get('plIsSelected');
+
+        if ($isDropoff && !$isSelected) {
+            $args->getSubject()->forward('confirm');
+        }
     }
 
     /**
@@ -46,22 +74,55 @@ class DropoffHandler implements SubscriberInterface
     {
         Bootstrap::init();
 
-        $request = $args->getRequest();
-
-        $isLoggedIn = $this->isLoggedIn();
-        if (!$isLoggedIn || $request->getActionName() !== 'shippingPayment') {
+        if (!$this->shouldHandlePostDispatch($args)) {
             return;
         }
 
         $data = [
-            'plIsLoggedIn' => $isLoggedIn,
+            'plIsLoggedIn' => false,
         ];
 
-        if ($isLoggedIn) {
-            $data['plConfig'] = json_encode($this->getViewData());
+        $viewData = $this->getViewData();
+
+        if ($this->isLoggedIn()) {
+            $data['plIsLoggedIn'] = true;
+            $data['plConfig'] = json_encode($viewData);
+            $data['plIsSelected'] = $viewData['dropOff']['isSelected'];
+            $data['plIsDropoff'] = array_key_exists($viewData['dropOff']['carrier'], $viewData['dropOffs']);
+            Shopware()->Session()->offsetSet('plIsDropoff', $data['plIsDropoff']);
+            Shopware()->Session()->offsetSet('plIsSelected', $data['plIsSelected']);
         }
 
         $args->getSubject()->View()->assign($data);
+    }
+
+    /**
+     * Saves selected drop off.
+     *
+     * @param \Enlight_Event_EventArgs $args
+     *
+     * @return array|null
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function saveDropoff(Enlight_Event_EventArgs $args)
+    {
+        Bootstrap::init();
+        $result = null;
+
+        if (!$this->shouldHandleSaveDropoff()) {
+            return $result;
+        }
+
+        $plDropoff = Shopware()->Session()->get('plDropoff');
+        if (!empty($plDropoff)) {
+            $this->doLinkOrderAndDropoff((int) $args->get('id'), $plDropoff);
+            $result =  $this->doSaveDropoff($args, $plDropoff);
+        }
+
+        $this->invalidateSelectedDropoff();
+
+        return $result;
     }
 
     /**
@@ -90,7 +151,7 @@ class DropoffHandler implements SubscriberInterface
         $data['isSelected'] = false;
 
         $sessionId = Shopware()->Session()->get('sessionId');
-        $currentCarrier = Shopware()->Session()->get('sDispatch');
+        $data['carrier'] = $currentCarrier = Shopware()->Session()->get('sDispatch');
         $userId = Shopware()->Session()->get('sUserId');
         $shippingId = Shopware()->Session()->get('checkoutShippingAddressId');
         $shippingId = !empty($shippingId) ? (int)$shippingId : null;
@@ -190,5 +251,104 @@ class DropoffHandler implements SubscriberInterface
         Shopware()->Session()->offsetUnset('plCarrier');
         Shopware()->Session()->offsetUnset('plDropoff');
         Shopware()->Session()->offsetUnset('plShippingAddress');
+    }
+
+    /**
+     * Checks whether event should be handled.
+     *
+     * @param \Enlight_Controller_ActionEventArgs $args
+     *
+     * @return bool
+     */
+    protected function shouldHandlePostDispatch(Enlight_Controller_ActionEventArgs $args)
+    {
+        return $this->isLoggedIn() && $this->isPermittedAction($args);
+    }
+
+    /**
+     * Checks whether proper action is performed.
+     *
+     * @param \Enlight_Controller_ActionEventArgs $args
+     *
+     * @return bool
+     */
+    protected function isPermittedAction(Enlight_Controller_ActionEventArgs $args)
+    {
+        $request = $args->getRequest();
+        $targetAction = $args->getSubject()->View()->getAssign('sTargetAction');
+
+        return $request->getActionName() === 'shippingPayment' || $targetAction === 'confirm';
+    }
+
+    /**
+     * Checks wheter predispatch hook can be handled.
+     *
+     * @param \Enlight_Controller_ActionEventArgs $args
+     *
+     * @return bool
+     */
+    protected function shouldHandlePreDispatch(Enlight_Controller_ActionEventArgs $args)
+    {
+        return $this->isLoggedIn() && $args->getRequest()->getActionName() === 'finish';
+    }
+
+    /**
+     * Checks whether dropoff save should be handled.
+     *
+     * @return bool
+     */
+    protected function shouldHandleSaveDropoff()
+    {
+        return $this->isLoggedIn();
+    }
+
+    /**
+     * Saves selected dropoff.
+     *
+     * @param Enlight_Event_EventArgs $args
+     * @param $plDropoff
+     *
+     * @return array
+     */
+    protected function doSaveDropoff(Enlight_Event_EventArgs $args, array  $plDropoff)
+    {
+        $result = $args->getReturn();
+
+        $result['street'] = $plDropoff['address'];
+        $result['zipcode'] = $plDropoff['zip'];
+        $result['city'] = $plDropoff['city'];
+
+        return $result;
+    }
+
+    /**
+     * Links order and selected dropoff.
+     *
+     * @param int $id
+     * @param array $plDropoff
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function doLinkOrderAndDropoff($id, array $plDropoff)
+    {
+        $map = new OrderDropoffMap();
+        $map->orderId = $id;
+        $map->dropoff = $plDropoff;
+        $this->getOrderDropoffMapRepository()->save($map);
+    }
+
+    /**
+     * Retrieves order dropoff map repository.
+     *
+     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function getOrderDropoffMapRepository()
+    {
+        if ($this->orderDropoffMapRepository === null) {
+            $this->orderDropoffMapRepository = RepositoryRegistry::getRepository(OrderDropoffMap::getClassName());
+        }
+
+        return $this->orderDropoffMapRepository;
     }
 }

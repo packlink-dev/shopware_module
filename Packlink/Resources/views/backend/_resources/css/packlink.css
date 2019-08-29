@@ -291,6 +291,7 @@ body {
     color: #5d5d5d;
     cursor: pointer;
     border-bottom: 3px solid transparent;
+    outline: none;
 }
 
 .pl-nav-item * {
@@ -1585,6 +1586,32 @@ body {
 
 .md-checkbox input[type=checkbox]:checked + i.md-checkbox-control:before {
     background-color: #2095F2 !important;
+}
+
+.pl-shipping-services-message {
+    text-align: center;
+    z-index: 1000 !important;
+    margin-top: 30px;
+    font-size: 1.3rem;
+    color: #5d5d5d;
+    position: relative;
+}
+
+.pl-shipping-services-message div {
+    margin-bottom: 20px;
+}
+
+.pl-shipping-services-message .title {
+    font-size: 1.6rem;
+}
+
+.pl-shipping-services-message .pl-spinner {
+    position: relative;
+    display: flex;
+}
+
+.hidden {
+    display: none !important;
 }
 
 html,

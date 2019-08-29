@@ -7,6 +7,16 @@
     <div id="pl-dropoff-extension-point-{$dispatch.id}"></div>
 {/block}
 
+{* Radio Button *}
+{block name='frontend_checkout_dispatch_shipping_input_radio'}
+    {$smarty.block.parent}
+    {if $dispatch.isPlLogoEnabled}
+        <div class="pl-logo right">
+            <img src="{$dispatch.plLogo}" alt="Logo">
+        </div>
+    {/if}
+{/block}
+
 
 {block name="frontend_checkout_shipping_content"}
     {$smarty.block.parent}

@@ -2,9 +2,12 @@
 
 namespace Packlink\Utilities;
 
+use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
+use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Packlink\BusinessLogic\Http\DTO\ParcelInfo;
 use Packlink\BusinessLogic\Http\DTO\Warehouse;
+use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Entities\ShippingMethodMap;
 
 class Cache
@@ -28,6 +31,12 @@ class Cache
      * @var array
      */
     private static $parcelItems;
+    /**
+     * @var array
+     */
+    private static $services = [];
+    /** @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface */
+    protected static $shippingServicesRepository;
 
     /**
      * Returns shipping method maps.
@@ -167,6 +176,27 @@ class Cache
     }
 
     /**
+     * Retrieves service.
+     *
+     * @param int $id
+     *
+     * @return ShippingMethod | null
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public static function getService($id)
+    {
+        if (empty(static::$services[$id])) {
+            $query = new QueryFilter();
+            $query->where('id', Operators::EQUALS, $id);
+            static::$services[$id] = static::getShippingServicesRepository()->selectOne($query);
+        }
+
+        return static::$services[$id];
+    }
+
+    /**
      * Retrieves shipping map repository;
      *
      * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
@@ -180,5 +210,20 @@ class Cache
         }
 
         return static::$shippingMapRepository;
+    }
+
+    /**
+     * Retrieves shipping method repository.
+     *
+     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected static function getShippingServicesRepository()
+    {
+        if (static::$shippingServicesRepository === null) {
+            static::$shippingServicesRepository = RepositoryRegistry::getRepository(ShippingMethod::getClassName());
+        }
+
+        return static::$shippingServicesRepository;
     }
 }

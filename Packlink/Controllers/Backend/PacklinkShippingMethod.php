@@ -1,9 +1,13 @@
 <?php
 
+use Logeecom\Infrastructure\Exceptions\BaseException;
+use Logeecom\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\Controllers\DTO\ShippingMethodConfiguration;
 use Packlink\BusinessLogic\Controllers\ShippingMethodController;
+use Packlink\BusinessLogic\Controllers\UpdateShippingServicesTaskStatusController;
 use Packlink\Controllers\Common\CanFormatResponse;
 use Packlink\Controllers\Common\CanInstantiateServices;
+use Packlink\Utilities\CarrierLogo;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
@@ -41,7 +45,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
      */
     public function getWhitelistedCSRFActions()
     {
-        return ['list', 'activate', 'deactivate', 'update'];
+        return ['list', 'activate', 'deactivate', 'update', 'getStatus'];
     }
 
     /**
@@ -54,7 +58,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
         $result = [];
         $country = $this->getUserCountry();
         foreach ($data as $item) {
-            $item->logoUrl = $this->getShippingMethodLogoUrl($country, $item->carrierName);
+            $item->logoUrl = CarrierLogo::getLogo($country, $item->carrierName);
             $result[] = $this->formatResponse($item);
         }
 
@@ -105,9 +109,25 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
             $model->selected = $this->controller->activate($model->id);
         }
 
-        $model->logoUrl = $this->getShippingMethodLogoUrl($this->getUserCountry(), $model->carrierName);
+        $model->logoUrl = CarrierLogo::getLogo($this->getUserCountry(), $model->carrierName);
 
         Response::json($this->formatResponse($model));
+    }
+
+    /**
+     * Retrieves status of update shipping services task.
+     */
+    public function getStatusAction()
+    {
+        $status = QueueItem::FAILED;
+
+        $controller = new UpdateShippingServicesTaskStatusController();
+        try {
+            $status = $controller->getLastTaskStatus();
+        } catch (BaseException $e) {
+        }
+
+        Response::json(['status' => $status]);
     }
 
     /**
@@ -146,21 +166,6 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
         $data['taxClass'] = (int)$data['taxClass'];
 
         return ShippingMethodConfiguration::fromArray($data);
-    }
-
-    /**
-     * Retrieves shipping method url.
-     *
-     * @param $country
-     * @param $name
-     *
-     * @return string
-     */
-    protected function getShippingMethodLogoUrl($country, $name)
-    {
-        $image = '/' . $country . '/' . strtolower(str_replace(' ', '-', $name)) . '.png';
-
-        return Url::getFrontUrl('PacklinkImage', 'index') . '?image=' . $image;
     }
 
     /**

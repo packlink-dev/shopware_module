@@ -48,6 +48,8 @@ class Shopware_Controllers_Frontend_PacklinkDropoff extends Enlight_Controller_A
         Shopware()->Session()->offsetSet('plCarrier', $payload['carrierId']);
         Shopware()->Session()->offsetSet('plDropoff', $payload['dropOff']);
         Shopware()->Session()->offsetSet('plShippingAddress', $currentAddress);
+        Shopware()->Session()->offsetUnset('plIsDropoff');
+        Shopware()->Session()->offsetUnset('plIsSelected');
 
         Response::json();
     }

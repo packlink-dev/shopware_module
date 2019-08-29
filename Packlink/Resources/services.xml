@@ -44,5 +44,10 @@
             <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
+        <!-- Register CarrierLogoHandler subscriber -->
+        <service id="packlink.subscribers.carrier_logo_handler" class="Packlink\Subscribers\CarrierLogoHandler">
+            <argument>%packlink.plugin_dir%</argument>
+            <tag name="shopware.event_subscriber"/>
+        </service>
     </services>
 </container>
