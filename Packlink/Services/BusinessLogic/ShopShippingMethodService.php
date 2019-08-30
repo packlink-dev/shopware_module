@@ -110,6 +110,7 @@ class ShopShippingMethodService implements BaseService
     public function addBackupShippingMethod(ShippingMethod $shippingMethod)
     {
         $shippingMethod->setTitle(Translation::get('shipping/cost'));
+        $shippingMethod->setDestinationDropOff(false);
         $carrier = $this->createShippingMethod($shippingMethod);
         $this->getConfigService()->setBackupCarrierId($carrier->getId());
 
