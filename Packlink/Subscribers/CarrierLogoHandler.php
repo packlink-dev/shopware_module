@@ -32,6 +32,7 @@ class CarrierLogoHandler implements SubscriberInterface
      *
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Exception
      */
     public function onAfterSGetPremiumDispatches(Enlight_Hook_HookArgs $args)
     {

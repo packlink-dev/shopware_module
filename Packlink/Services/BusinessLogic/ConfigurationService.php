@@ -4,9 +4,8 @@ namespace Packlink\Services\BusinessLogic;
 
 use Packlink\BusinessLogic\Configuration;
 use Packlink\Utilities\Plugin;
+use Packlink\Utilities\Shop;
 use Packlink\Utilities\Url;
-use Shopware;
-use Shopware\Models\Shop\Shop;
 
 class ConfigurationService extends Configuration
 {
@@ -37,9 +36,7 @@ class ConfigurationService extends Configuration
     public function getCurrentSystemId()
     {
         if ($this->systemId === null) {
-            /** @var \Shopware\Models\Shop\Repository $repository */
-            $repository = Shopware()->Models()->getRepository(Shop::class);
-            $this->systemId = (string)$repository->getDefault()->getId();
+            $this->systemId = (string)Shop::getDefaultShop()->getId();
         }
 
         return $this->systemId;

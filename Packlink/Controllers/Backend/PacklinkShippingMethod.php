@@ -11,7 +11,6 @@ use Packlink\Utilities\CarrierLogo;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
-use Packlink\Utilities\Url;
 use Shopware\Components\CSRFWhitelistAware;
 
 class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Controller_Action implements CSRFWhitelistAware
@@ -50,6 +49,8 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 
     /**
      * Retrieves all shipping methods.
+     *
+     * @throws \Exception
      */
     public function listAction()
     {
@@ -95,6 +96,8 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 
     /**
      * Updates shipping method.
+     *
+     * @throws \Exception
      */
     public function updateAction()
     {
