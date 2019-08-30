@@ -109,7 +109,7 @@ class ConfigurationService extends Configuration
      */
     public function getECommerceVersion()
     {
-        return Shopware::VERSION;
+        return Shopware()->Config()->get('version');
     }
 
     /**

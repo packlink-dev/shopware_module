@@ -49,5 +49,10 @@
             <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
+        <!-- Register OrderDropoffDisplayHandler subscriber -->
+        <service id="packlink.subscribers.order_dropoff_display_handler" class="Packlink\Subscribers\OrderDropoffDisplayHandler">
+            <argument>%packlink.plugin_dir%</argument>
+            <tag name="shopware.event_subscriber"/>
+        </service>
     </services>
 </container>
