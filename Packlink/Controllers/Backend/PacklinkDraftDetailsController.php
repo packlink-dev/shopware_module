@@ -5,6 +5,7 @@ use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
 use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Utilities\CarrierLogo;
+use Packlink\Utilities\Reference;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
 use Shopware\Components\CSRFWhitelistAware;
@@ -54,7 +55,7 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
         $country = $this->getUserCountry();
 
         if ($details['reference']) {
-            $details['referenceUrl'] = "https://pro.packlink.$country/private/shipments/{$details['reference']}";
+            $details['referenceUrl'] = Reference::getUrl($country, $details['reference']);
         }
 
         try {

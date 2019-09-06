@@ -59,6 +59,11 @@
             <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
+        <!-- Register OrderListHandler subscriber -->
+        <service id="packlink.subscribers.order_dropoff_display_handler" class="Packlink\Subscribers\OrderListHandler">
+            <argument>%packlink.plugin_dir%</argument>
+            <tag name="shopware.event_subscriber"/>
+        </service>
         <!-- Register OrderModelEventHandler subscriber -->
         <service id="packlink.subscribers.order_model_event_handler" class="Packlink\Subscribers\OrderModelEventHandler">
             <tag name="doctrine.event_subscriber"/>

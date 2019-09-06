@@ -50,6 +50,8 @@ class ExtendOrderDetailsHandler implements SubscriberInterface
 
         if ($view && $request->getActionName() === 'load') {
             $view->extendsTemplate('backend/packlink_detail/window.js');
+            $view->extendsTemplate('backend/packlink_list/packlink_order_list.js');
+            $view->extendsTemplate('backend/packlink_list/models/packlink_order_model.js');
         }
     }
 }
