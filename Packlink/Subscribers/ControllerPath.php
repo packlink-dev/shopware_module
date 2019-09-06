@@ -39,9 +39,12 @@ class ControllerPath implements SubscriberInterface
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkShopShippingMethod' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDashboard' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDebug' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDraftTaskStatusController' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDraftTaskCreateController' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDraftDetailsController' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkAsyncProcess' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkLocations' => 'onGetControllerPromotion',
-            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkDropoff' => 'onGetControllerPromotion'
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkDropoff' => 'onGetControllerPromotion',
         ];
     }
 

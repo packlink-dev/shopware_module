@@ -57,6 +57,13 @@ class Shopware_Controllers_Backend_PacklinkDefaultParcel extends Enlight_Control
         Response::json($data);
     }
 
+    /**
+     * Validates default parcel.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
     protected function validate(array $data)
     {
         $result = [];

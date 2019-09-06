@@ -17,6 +17,8 @@ use Packlink\BusinessLogic\Order\Objects\Address;
 use Packlink\BusinessLogic\Order\Objects\Item;
 use Packlink\BusinessLogic\Order\Objects\Order;
 use Packlink\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
+use Packlink\Entities\OrderDropoffMap;
+use Packlink\Entities\ShippingMethodMap;
 use Shopware\Models\Article\Article;
 
 class OrderRepository implements BaseOrderRepository
@@ -29,6 +31,14 @@ class OrderRepository implements BaseOrderRepository
      * @var \Packlink\BusinessLogic\Configuration
      */
     protected $configService;
+    /**
+     * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     */
+    protected $orderDropoffRepository;
+    /**
+     * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     */
+    protected $shippingMethodMapRepository;
 
     /**
      * Returns shipment references of the orders that have not yet been completed.
@@ -63,6 +73,8 @@ class OrderRepository implements BaseOrderRepository
      *
      * @return Order Order object.
      *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Packlink\BusinessLogic\Order\Exceptions\OrderNotFound When order with provided id is not found.
      */
     public function getOrderAndShippingData($orderId)
@@ -76,14 +88,18 @@ class OrderRepository implements BaseOrderRepository
 
         $order = new Order();
 
-        $order->setId($sourceOrder->getNumber());
+        $order->setId($sourceOrder->getId());
+        $order->setOrderNumber($sourceOrder->getNumber());
         $order->setCustomerId($sourceOrder->getCustomer()->getId());
         $order->setCurrency($sourceOrder->getCurrency());
         $order->setTotalPrice($sourceOrder->getInvoiceAmount());
         $order->setBasePrice($sourceOrder->getInvoiceAmountNet());
 
-        // TODO set drop off point id and shipping method id
-
+        $this->setDropoffId($order, $orderId);
+        $dispatch = $sourceOrder->getDispatch();
+        if ($dispatch) {
+            $this->setShippingMethodId($order, $dispatch->getId());
+        }
         $order->setShippingAddress($this->getOrderAddress($sourceOrder));
 
         $order->setItems($this->getOrderItems($sourceOrder));
@@ -112,10 +128,17 @@ class OrderRepository implements BaseOrderRepository
             throw new OrderNotFound("Source order with id [$orderId] not found.");
         }
 
-        $orderDetails = new OrderShipmentDetails();
-        $orderDetails->setOrderId($orderId);
-        $orderDetails->setReference($shipmentReference);
-        $this->getOrderDetailsRepository()->save($orderDetails);
+        $orderDetails = $this->getOrderDetailsById($orderId);
+
+        if ($orderDetails === null) {
+            $orderDetails = new OrderShipmentDetails();
+            $orderDetails->setOrderId($orderId);
+            $orderDetails->setReference($shipmentReference);
+            $this->getOrderDetailsRepository()->save($orderDetails);
+        } else {
+            $orderDetails->setReference($shipmentReference);
+            $this->getOrderDetailsRepository()->update($orderDetails);
+        }
 
         $this->setShippingStatusByReference($shipmentReference, ShipmentStatus::STATUS_PENDING);
     }
@@ -172,7 +195,6 @@ class OrderRepository implements BaseOrderRepository
         $orderDetails->setCarrierTrackingUrl($shipment->carrierTrackingUrl);
         $orderDetails->setCarrierTrackingNumbers($shipment->trackingCodes);
 
-
         if (!empty($trackingHistory)) {
             $history = $this->sortTrackingRecords($trackingHistory);
             $latestTrackingRecord = $history[0];
@@ -225,7 +247,6 @@ class OrderRepository implements BaseOrderRepository
                 Shopware()->Models()->flush($sourceOrder);
             }
         }
-
     }
 
     /**
@@ -292,7 +313,7 @@ class OrderRepository implements BaseOrderRepository
             throw new OrderNotFound("Order details for reference [$shipmentReference] not found.");
         }
 
-        return  $details->isDeleted();
+        return $details->isDeleted();
     }
 
     /**
@@ -334,6 +355,7 @@ class OrderRepository implements BaseOrderRepository
         $address->setZipCode($shippingAddress->getZipCode());
         $address->setCity($shippingAddress->getCity());
         $address->setPhone($shippingAddress->getPhone());
+        $address->setCountry($shippingAddress->getCountry()->getIso());
 
         return $address;
     }
@@ -375,12 +397,14 @@ class OrderRepository implements BaseOrderRepository
             $orderItem->setCategoryName($this->getCategoryName($article));
 
             $productDetails = $article->getMainDetail();
-            $orderItem->setWeight(round($productDetails->getWeight() ?: $defaultParcel->weight, 2));
+            $weight = $productDetails->getWeight();
+            /** @noinspection TypeUnsafeComparisonInspection */
+            $orderItem->setWeight(round($weight != 0 ? $weight : $defaultParcel->weight, 2));
             $orderItem->setHeight(round($productDetails->getHeight() ?: $defaultParcel->height, 2));
             $orderItem->setLength(round($productDetails->getLen() ?: $defaultParcel->length, 2));
             $orderItem->setWidth(round($productDetails->getWidth() ?: $defaultParcel->width, 2));
 
-            $orderItem->$result[] = $orderItem;
+            $result[] = $orderItem;
         }
 
         return $result;
@@ -499,7 +523,7 @@ class OrderRepository implements BaseOrderRepository
 
         $imgData = Shopware()->Modules()->Articles()->sGetConfiguratorImage($product);
 
-        return !empty($imgData['source']) ? $imgData['source'] : '';
+        return !empty($imgData['image']['source']) ? $imgData['image']['source'] : '';
     }
 
     /**
@@ -537,5 +561,78 @@ class OrderRepository implements BaseOrderRepository
         );
 
         return $trackingRecords;
+    }
+
+    /**
+     * Sets dropoff id if dropoff has been used for order.
+     *
+     * @param \Packlink\BusinessLogic\Order\Objects\Order $order
+     * @param int $orderId
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function setDropoffId(Order $order, $orderId)
+    {
+        $filter = new QueryFilter();
+        $filter->where('orderId', Operators::EQUALS, $orderId);
+        /** @var OrderDropoffMap $map | null */
+        $map = $this->getOrderDropoffRepository()->selectOne($filter);
+        if ($map !== null) {
+            $order->setShippingDropOffId((string)$map->dropoff['id']);
+        }
+    }
+
+    /**
+     * Retrieves order dropoff map repository.
+     *
+     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function getOrderDropoffRepository()
+    {
+        if ($this->orderDropoffRepository === null) {
+            $this->orderDropoffRepository = RepositoryRegistry::getRepository(OrderDropoffMap::getClassName());
+        }
+
+        return $this->orderDropoffRepository;
+    }
+
+    /**
+     * Sets shipping method id if shipping method is packlink carrier.
+     *
+     * @param \Packlink\BusinessLogic\Order\Objects\Order $order
+     * @param int $carrierId
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function setShippingMethodId(Order $order, $carrierId)
+    {
+        $filter = new QueryFilter();
+        $filter->where('shopwareCarrierId', Operators::EQUALS, $carrierId);
+
+        /** @var ShippingMethodMap $map | null */
+        $map = $this->getShippingMethodMapRepository()->selectOne($filter);
+
+        if ($map) {
+            $order->setShippingMethodId($map->shippingMethodId);
+        }
+    }
+
+    /**
+     * Retrieves shipping method map repository.
+     *
+     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function getShippingMethodMapRepository()
+    {
+        if ($this->shippingMethodMapRepository === null) {
+            $this->shippingMethodMapRepository = RepositoryRegistry::getRepository(ShippingMethodMap::getClassName());
+        }
+
+        return $this->shippingMethodMapRepository;
     }
 }
