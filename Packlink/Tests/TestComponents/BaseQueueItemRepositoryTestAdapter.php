@@ -27,6 +27,7 @@ class BaseQueueItemRepositoryTestAdapter extends AbstractGenericQueueItemReposit
 
     /**
      * @inheritDoc
+     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     public function setUp()
     {
@@ -56,6 +57,7 @@ class BaseQueueItemRepositoryTestAdapter extends AbstractGenericQueueItemReposit
 
     /**
      * Cleans up all storage services used by repositories
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function cleanUpStorage()
     {

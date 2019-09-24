@@ -2,6 +2,8 @@
 
 namespace Packlink\Tests;
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use Packlink\Tests\TestComponents\BaseQueueItemRepositoryTestAdapter;
 use Shopware\Components\Test\Plugin\TestCase;
 

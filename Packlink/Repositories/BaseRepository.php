@@ -93,6 +93,7 @@ class BaseRepository implements RepositoryInterface
     public function selectOne(QueryFilter $filter = null)
     {
         $query = $this->getBaseDoctrineQuery($filter);
+        $query->setMaxResults(1);
 
         $result = $this->getResult($query);
 
@@ -173,11 +174,15 @@ class BaseRepository implements RepositoryInterface
      *
      * @return int Number of records that match filter criteria.
      *
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      */
     public function count(QueryFilter $filter = null)
     {
-        return count($this->select($filter));
+        $query = $this->getBaseDoctrineQuery($filter, true);
+
+        return $query->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -217,10 +222,12 @@ class BaseRepository implements RepositoryInterface
      *
      * @param \Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter|null $filter
      *
+     * @param bool $isCount
+     *
      * @return \Doctrine\ORM\QueryBuilder
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      */
-    protected function getBaseDoctrineQuery(QueryFilter $filter = null)
+    protected function getBaseDoctrineQuery(QueryFilter $filter = null, $isCount = false)
     {
         /** @var Entity $entity */
         $entity = new $this->entityClass;
@@ -229,7 +236,8 @@ class BaseRepository implements RepositoryInterface
 
         $query = $this->entityManager->createQueryBuilder();
         $alias = 'p';
-        $query->select('' . $alias . '')
+        $baseSelect = $isCount ? "count($alias.id)" : $alias;
+        $query->select($baseSelect)
             ->from(static::$doctrineModel, $alias)
             ->where("$alias.type = '$type'");
 

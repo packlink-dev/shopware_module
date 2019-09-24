@@ -10,7 +10,7 @@ use Shopware\Components\Test\Plugin\TestCase;
 class BaseRepositoryWrapperTest extends TestCase
 {
     protected static $ensureLoadedPlugins = [
-        'Packlink' => []
+        'Packlink' => [],
     ];
     /**
      * @var \Packlink\Tests\TestComponents\BaseRepositoryTestAddatper
