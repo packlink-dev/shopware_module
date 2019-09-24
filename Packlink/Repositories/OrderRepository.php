@@ -354,7 +354,9 @@ class OrderRepository implements BaseOrderRepository
         $address->setStreet2($shippingAddress->getAdditionalAddressLine2());
         $address->setZipCode($shippingAddress->getZipCode());
         $address->setCity($shippingAddress->getCity());
-        $address->setPhone($shippingAddress->getPhone());
+        if (method_exists($shippingAddress, 'getPhone')) {
+            $address->setPhone($shippingAddress->getPhone());
+        }
         $address->setCountry($shippingAddress->getCountry()->getIso());
 
         return $address;

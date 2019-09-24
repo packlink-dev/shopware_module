@@ -59,6 +59,12 @@ class OrderListHandler implements SubscriberInterface
                     $userCountry,
                     $orderDetails->getReference()
                 );
+
+                $shipmentLabels = $orderDetails->getShipmentLabels();
+                if ($shipmentLabels) {
+                    $return['data'][$index]['plHasLabel'] = true;
+                    $return['data'][$index]['plIsLabelPrinted'] = $shipmentLabels[0]->isPrinted();
+                }
             }
         }
 

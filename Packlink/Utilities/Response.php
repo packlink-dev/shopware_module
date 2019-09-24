@@ -57,4 +57,26 @@ class Response
 
         die();
     }
+
+    /**
+     * Returns inline file.
+     *
+     * @param string $filePath
+     * @param string $type
+     * @param string $outputFileName
+     */
+    public static function inlineFile($filePath, $type, $outputFileName = '')
+    {
+        $fileName = $outputFileName !== '' ? $outputFileName : basename($filePath);
+
+        header('Content-Type: ' . $type);
+        header('Content-Disposition: inline; filename=' . $fileName);
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($filePath));
+        readfile($filePath);
+
+        die();
+    }
 }

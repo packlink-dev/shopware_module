@@ -41,6 +41,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
         let order = tab.record.data;
         let currentState = null;
         let stateCleanupCallbacks = [];
+        let store = tab.record.store;
 
         init();
         function init() {
@@ -302,6 +303,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                 tab.removeAll();
                 tab.add(getPanels(response));
                 tab.setLoading(false);
+                store.reload();
             }
 
             /**
@@ -439,7 +441,10 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                  * Click handler for print labels button.
                  */
                 function onPrintLabelsButtonClicked() {
-                    alert('TODO');
+                    let url = '{url controller=PacklinkPrintLabelsController action="print"}';
+                    url += '?orderIds=' + tab.record.get('id');
+                    openNewTab(url);
+                    store.reload();
                 }
             }
 
