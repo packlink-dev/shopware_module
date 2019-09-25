@@ -205,6 +205,8 @@ class OrderRepository implements BaseOrderRepository
             $sourceOrder->setTrackingCode($shipment->trackingCodes[0]);
             Shopware()->Models()->flush($sourceOrder);
         }
+
+        $this->getOrderDetailsRepository()->update($orderDetails);
     }
 
     /**

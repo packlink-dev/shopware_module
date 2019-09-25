@@ -61,9 +61,7 @@ class ConfigurationService extends Configuration
      */
     public function getWebHookUrl()
     {
-        // TODO: Implement getWebHookUrl() method.
-
-        return '';
+        return Url::getFrontUrl('PacklinkWebhooks', 'index');
     }
 
     /**
