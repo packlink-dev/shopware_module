@@ -20,6 +20,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderListController', {
                     cellclick: function (grid, cell, index, record, row, rowIndex, event) {
                         if (event.target && event.target.hasAttribute('data-pl-label') && record.get('plHasLabel')) {
                             let url = '{url controller=PacklinkPrintLabelsController action="print"}';
+                            url += '/__csrf_token/' + Ext.CSRFService.getToken();
                             url += '?orderIds=' + record.get('id');
                             let newWindow = window.open(url, '_blank');
                             newWindow.focus();
@@ -47,6 +48,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderListController', {
 
                        function printLabels(ids) {
                            let url = '{url controller=PacklinkPrintLabelsController action="print"}';
+                           url += '/__csrf_token/' + Ext.CSRFService.getToken();
                            url += '?orderIds=' + ids.join(',');
                            let newWindow = window.open(url, '_blank');
                            newWindow.focus();

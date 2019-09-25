@@ -2,21 +2,10 @@
 
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
-use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Models\Tax\Tax;
 
-class Shopware_Controllers_Backend_PacklinkTax extends Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkTax extends Enlight_Controller_Action
 {
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['list'];
-    }
-
     /**
      * Retrieves available taxes.
      */

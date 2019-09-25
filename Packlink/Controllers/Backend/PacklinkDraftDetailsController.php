@@ -8,20 +8,9 @@ use Packlink\Utilities\CarrierLogo;
 use Packlink\Utilities\Reference;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends PacklinkOrderDetailsController implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends PacklinkOrderDetailsController
 {
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['index'];
-    }
-
     /**
      * Retrieves order details.
      *

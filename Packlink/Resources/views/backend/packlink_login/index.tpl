@@ -81,6 +81,7 @@
                     {s name="login/connectaccount"}Connect your account{/s}
                 </div>
                 <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{$csrfToken}" />
                     <div class="pl-login-form-wrapper">
                         <fieldset class="form-group pl-form-section-input pl-text-input">
                             <input type="text" class="form-control" id="pl-login-api-key" name="api_key" required/>

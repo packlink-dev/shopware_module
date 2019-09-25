@@ -81,6 +81,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
          */
         function getDraftTaskStatusUrl(orderId) {
             let url = '{url controller=PacklinkDraftTaskStatusController action="index"}';
+            url += '/index/__csrf_token/' + Ext.CSRFService.getToken();
 
             return url + '?orderId=' + orderId;
         }
@@ -142,7 +143,8 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             }
 
             function getCreateDraftUrl() {
-                return '{url controller=PacklinkDraftTaskCreateController action="create"}'
+                return '{url controller=PacklinkDraftTaskCreateController action="create"}' +
+                    '/__csrf_token/' + Ext.CSRFService.getToken();
             }
 
             function createDraftSuccessHandler() {
@@ -291,7 +293,8 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
              * @return { string }
              */
             function getDraftDetailsUrl(id) {
-                return '{url controller=PacklinkDraftDetailsController action="index"}?orderId=' + id;
+                return '{url controller=PacklinkDraftDetailsController action="index"}/index/__csrf_token/' +
+                    Ext.CSRFService.getToken() + '?orderId=' + id;
             }
 
             /**
@@ -442,6 +445,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                  */
                 function onPrintLabelsButtonClicked() {
                     let url = '{url controller=PacklinkPrintLabelsController action="print"}';
+                    url += '/__csrf_token/' + Ext.CSRFService.getToken();
                     url += '?orderIds=' + tab.record.get('id');
                     openNewTab(url);
                     store.reload();

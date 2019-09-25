@@ -6,21 +6,10 @@ use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Backend_PacklinkDraftTaskCreateController extends PacklinkOrderDetailsController implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkDraftTaskCreateController extends PacklinkOrderDetailsController
 {
     use CanInstantiateServices;
-
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['create'];
-    }
 
     /**
      * Creates send draft if necessary task.

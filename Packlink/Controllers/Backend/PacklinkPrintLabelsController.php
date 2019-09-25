@@ -3,20 +3,9 @@
 use iio\libmergepdf\Merger;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Utilities\Response;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends PacklinkOrderDetailsController implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends PacklinkOrderDetailsController
 {
-    /**
-     * Retrieves whitelisted actions.
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['print'];
-    }
-
     /**
      * Prints labels.
      *

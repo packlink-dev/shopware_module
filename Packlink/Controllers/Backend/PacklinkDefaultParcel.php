@@ -5,9 +5,8 @@ use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Backend_PacklinkDefaultParcel extends Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkDefaultParcel extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
     /** @var array */
@@ -17,16 +16,6 @@ class Shopware_Controllers_Backend_PacklinkDefaultParcel extends Enlight_Control
         'height',
         'length',
     ];
-
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection.
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['index', 'update'];
-    }
 
     /**
      * Retrieves default parcel.

@@ -2,21 +2,10 @@
 
 use Logeecom\Infrastructure\Logger\Logger;
 use Packlink\Controllers\Common\CanInstantiateServices;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Backend_PacklinkLogin extends Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkLogin extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
-
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['index'];
-    }
 
     /**
      * Performs index action.
@@ -58,6 +47,7 @@ class Shopware_Controllers_Backend_PacklinkLogin extends Enlight_Controller_Acti
                 'module' => 'backend',
                 'controller' => "Packlink{$action}",
                 'action' => 'index',
+                '__csrf_token' => $this->container->get('BackendSession')->offsetGet('X-CSRF-Token'),
             ]
         );
     }

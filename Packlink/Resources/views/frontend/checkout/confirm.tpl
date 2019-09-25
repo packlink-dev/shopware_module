@@ -31,8 +31,8 @@
 
         let plConfig = JSON.parse('{$plConfig}'.replace(/&quot;/g, '"').replace(/&amp;/g, '&'));
         plConfig.currentDispatch = '{$sDispatch.id}';
-        plConfig.getLocationsUrl = '{url controller=PacklinkLocations action="list"}';
-        plConfig.updateDropoffUrl = '{url controller=PacklinkDropoff action="update"}';
+        plConfig.getLocationsUrl = '{url controller=PacklinkLocations action="list" __csrf_token=$plCsrf}';
+        plConfig.updateDropoffUrl = '{url controller=PacklinkDropoff action="update" __csrf_token=$plCsrf}';
         let plController = new Packlink.CheckoutController(Packlink.ConfirmService(), plConfig, plTranslations);
         plController.init();
     </script>

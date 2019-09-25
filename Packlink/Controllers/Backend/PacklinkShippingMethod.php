@@ -11,9 +11,8 @@ use Packlink\Utilities\CarrierLogo;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Controller_Action
 {
     use CanInstantiateServices, CanFormatResponse;
     /** @var \Packlink\BusinessLogic\Controllers\ShippingMethodController */
@@ -35,16 +34,6 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
         parent::__construct($request, $response);
 
         $this->controller = new ShippingMethodController();
-    }
-
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['list', 'activate', 'deactivate', 'update', 'getStatus'];
     }
 
     /**

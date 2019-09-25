@@ -5,10 +5,9 @@ use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
-use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Models\Dispatch\Dispatch;
 
-class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
 

@@ -3,21 +3,10 @@
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Frontend_PacklinkDropoff extends Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Frontend_PacklinkDropoff extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
-
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['update'];
-    }
 
     /**
      * Sets selected dropoff location.

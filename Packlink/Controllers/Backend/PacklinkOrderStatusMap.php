@@ -3,22 +3,11 @@
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
-use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Models\Order\Status;
 
-class Shopware_Controllers_Backend_PacklinkOrderStatusMap extends Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkOrderStatusMap extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
-
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['index', 'update', 'list'];
-    }
 
     /**
      * Retrieves order status mappings.

@@ -3,20 +3,9 @@
 use Logeecom\Infrastructure\TaskExecution\QueueItem;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Utilities\Response;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends PacklinkOrderDetailsController implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends PacklinkOrderDetailsController
 {
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['index'];
-    }
-
     /**
      * Retrieves send draft task status for particular order.
      *

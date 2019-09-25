@@ -1122,7 +1122,7 @@
                             </label>
                         </div>
 
-                        <a href="{url controller=PacklinkDebug action="download"}" value="packlink-debug-data.zip" download>
+                        <a href="{url controller=PacklinkDebug action="download" __csrf_token=$csrfToken}" value="packlink-debug-data.zip" download>
                             <button type="button"
                                     class="button button-primary">{s name="configuration/downloadsysteminfofile"}Download system info file{/s}</button>
                         </a>
@@ -1179,25 +1179,25 @@
                     },
                     hasTaxConfiguration: true,
 
-                    dashboardGetStatusUrl: "{url controller=PacklinkDashboard action="index"}",
-                    defaultParcelGetUrl: "{url controller=PacklinkDefaultParcel action="index"}",
-                    defaultParcelSubmitUrl: "{url controller=PacklinkDefaultParcel action="update"}",
-                    defaultWarehouseGetUrl: "{url controller=PacklinkDefaultWarehouse action="index"}",
-                    defaultWarehouseSubmitUrl: "{url controller=PacklinkDefaultWarehouse action="update"}",
-                    defaultWarehouseSearchPostalCodesUrl: "{url controller=PacklinkDefaultWarehouse action="search"}",
-                    shippingMethodsGetAllUrl: "{url controller=PacklinkShippingMethod action="list"}",
-                    shippingMethodsActivateUrl: "{url controller=PacklinkShippingMethod action="activate"}",
-                    shippingMethodsDeactivateUrl: "{url controller=PacklinkShippingMethod action="deactivate"}",
-                    shippingMethodsSaveUrl: "{url controller=PacklinkShippingMethod action="update"}",
-                    getSystemOrderStatusesUrl: "{url controller=PacklinkOrderStatusMap action="list"}",
-                    orderStatusMappingsGetUrl: "{url controller=PacklinkOrderStatusMap action="index"}",
-                    orderStatusMappingsSaveUrl: "{url controller=PacklinkOrderStatusMap action="update"}",
-                    shopShippingMethodCountGetUrl: "{url controller=PacklinkShopShippingMethod action="count"}",
-                    shopShippingMethodsDisableUrl: "{url controller=PacklinkShopShippingMethod action="deactivate"}",
-                    debugGetStatusUrl: "{url controller=PacklinkDebug action="getStatus"}",
-                    debugSetStatusUrl: "{url controller=PacklinkDebug action="updateStatus"}",
-                    shippingMethodsGetTaxClassesUrl: "{url controller=PacklinkTax action="list"}",
-                    shippingMethodsGetStatusUrl: "{url controller=PacklinkShippingMethod action="getStatus"}",
+                    dashboardGetStatusUrl: "{url controller=PacklinkDashboard action="index" __csrf_token=$csrfToken}",
+                    defaultParcelGetUrl: "{url controller=PacklinkDefaultParcel action="index" __csrf_token=$csrfToken}",
+                    defaultParcelSubmitUrl: "{url controller=PacklinkDefaultParcel action="update" __csrf_token=$csrfToken}",
+                    defaultWarehouseGetUrl: "{url controller=PacklinkDefaultWarehouse action="index" __csrf_token=$csrfToken}",
+                    defaultWarehouseSubmitUrl: "{url controller=PacklinkDefaultWarehouse action="update" __csrf_token=$csrfToken}",
+                    defaultWarehouseSearchPostalCodesUrl: "{url controller=PacklinkDefaultWarehouse action="search" __csrf_token=$csrfToken}",
+                    shippingMethodsGetAllUrl: "{url controller=PacklinkShippingMethod action="list" __csrf_token=$csrfToken}",
+                    shippingMethodsActivateUrl: "{url controller=PacklinkShippingMethod action="activate" __csrf_token=$csrfToken}",
+                    shippingMethodsDeactivateUrl: "{url controller=PacklinkShippingMethod action="deactivate" __csrf_token=$csrfToken}",
+                    shippingMethodsSaveUrl: "{url controller=PacklinkShippingMethod action="update" __csrf_token=$csrfToken}",
+                    getSystemOrderStatusesUrl: "{url controller=PacklinkOrderStatusMap action="list" __csrf_token=$csrfToken}",
+                    orderStatusMappingsGetUrl: "{url controller=PacklinkOrderStatusMap action="index" __csrf_token=$csrfToken}",
+                    orderStatusMappingsSaveUrl: "{url controller=PacklinkOrderStatusMap action="update" __csrf_token=$csrfToken}",
+                    shopShippingMethodCountGetUrl: "{url controller=PacklinkShopShippingMethod action="count" __csrf_token=$csrfToken}",
+                    shopShippingMethodsDisableUrl: "{url controller=PacklinkShopShippingMethod action="deactivate" __csrf_token=$csrfToken}",
+                    debugGetStatusUrl: "{url controller=PacklinkDebug action="getStatus" __csrf_token=$csrfToken}",
+                    debugSetStatusUrl: "{url controller=PacklinkDebug action="updateStatus" __csrf_token=$csrfToken}",
+                    shippingMethodsGetTaxClassesUrl: "{url controller=PacklinkTax action="list" __csrf_token=$csrfToken}",
+                    shippingMethodsGetStatusUrl: "{url controller=PacklinkShippingMethod action="getStatus" __csrf_token=$csrfToken}",
                 }
             );
 

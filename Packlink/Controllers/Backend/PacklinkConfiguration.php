@@ -2,9 +2,8 @@
 
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Translation;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
     /**
@@ -42,16 +41,6 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     );
 
     /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['index'];
-    }
-
-    /**
      * Renders configuration page.
      *
      * @throws \Exception
@@ -76,6 +65,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
                 'helpUrl' => self::$helpUrls[$urlKey],
                 'termsUrl' => self::$termsAndConditionsUrls[$urlKey],
                 'pluginVersion' => $this->configService->getModuleVersion(),
+                'csrfToken' => $this->container->get('BackendSession')->offsetGet('X-CSRF-Token'),
             ]
         );
     }

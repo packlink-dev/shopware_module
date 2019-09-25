@@ -54,6 +54,10 @@
         <service id="packlink.subscribers.order_list_handler" class="Packlink\Subscribers\OrderListHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
+        <!-- Register FrontedCsrfProvider subscriber -->
+        <service id="packlink.subscribers.frontend_csrf_provider" class="Packlink\Subscribers\FrontendCsrfProvider">
+            <tag name="shopware.event_subscriber"/>
+        </service>
         <!-- Register OrderModelEventHandler subscriber -->
         <service id="packlink.subscribers.order_model_event_handler" class="Packlink\Subscribers\OrderModelEventHandler">
             <tag name="doctrine.event_subscriber"/>

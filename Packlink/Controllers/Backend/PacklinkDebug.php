@@ -3,22 +3,11 @@
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
-use Shopware\Components\CSRFWhitelistAware;
 
-class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
     const SYSTEM_INFO_FILE_NAME = 'packlink-debug-data.zip';
-
-    /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
-     */
-    public function getWhitelistedCSRFActions()
-    {
-        return ['getStatus', 'updateStatus', 'download'];
-    }
 
     /**
      * Retrieves debug mode status.
