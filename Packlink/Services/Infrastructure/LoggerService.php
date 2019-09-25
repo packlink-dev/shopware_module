@@ -37,8 +37,11 @@ class LoggerService extends Singleton implements ShopLoggerAdapter
     {
         parent::__construct();
 
-        // TODO switch to Packlink logger
-        $this->logger = Shopware()->Container()->get('pluginlogger');
+        if (Shopware()->Container()->has('packlink.logger')) {
+            $this->logger = Shopware()->Container()->get('packlink.logger');
+        } else {
+            $this->logger = Shopware()->Container()->get('pluginlogger');
+        }
     }
 
     /**
