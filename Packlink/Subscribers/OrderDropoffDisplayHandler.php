@@ -7,7 +7,6 @@ use Enlight_Event_EventArgs;
 use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
 use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Packlink\Bootstrap\Bootstrap;
 use Packlink\Entities\OrderDropoffMap;
 
 class OrderDropoffDisplayHandler implements SubscriberInterface
@@ -37,8 +36,6 @@ class OrderDropoffDisplayHandler implements SubscriberInterface
      */
     public function displayDropoffInformation(Enlight_Event_EventArgs $args)
     {
-        Bootstrap::init();
-
         $return = $args->getReturn();
 
         foreach ($return as $index => $order) {

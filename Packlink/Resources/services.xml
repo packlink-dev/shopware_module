@@ -24,6 +24,10 @@
             <argument type="service" id="snippets"/>
             <tag name="shopware.event_subscriber"/>
         </service>
+        <!-- Register BootstrapRegistration subscriber -->
+        <service id="packlink.subscribers.bootstrap_registration" class="Packlink\Subscribers\BootstrapRegistration">
+            <tag name="shopware.event_subscriber"/>
+        </service>
         <!-- Register BackendIndex subscriber -->
         <service id="packlink.subscribers.backend_index" class="Packlink\Subscribers\BackendIndex">
             <argument>%packlink.plugin_dir%</argument>
@@ -31,37 +35,30 @@
         </service>
         <!-- Register ExtendOrderDetailsHandler subscriber -->
         <service id="packlink.subscribers.backend_index" class="Packlink\Subscribers\ExtendOrderDetailsHandler">
-            <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register ShippingCostCalculator subscriber -->
         <service id="packlink.subscribers.shipping_cost_calculator" class="Packlink\Subscribers\ShippingCostCalculator">
-            <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register ShippingMethodListHandler subscriber -->
         <service id="packlink.subscribers.shipping_method_list_handler" class="Packlink\Subscribers\ShippingMethodListHandler">
-            <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register DropoffHandler subscriber -->
         <service id="packlink.subscribers.dropoff_handler" class="Packlink\Subscribers\DropoffHandler">
-            <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register CarrierLogoHandler subscriber -->
         <service id="packlink.subscribers.carrier_logo_handler" class="Packlink\Subscribers\CarrierLogoHandler">
-            <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register OrderDropoffDisplayHandler subscriber -->
         <service id="packlink.subscribers.order_dropoff_display_handler" class="Packlink\Subscribers\OrderDropoffDisplayHandler">
-            <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register OrderListHandler subscriber -->
-        <service id="packlink.subscribers.order_dropoff_display_handler" class="Packlink\Subscribers\OrderListHandler">
-            <argument>%packlink.plugin_dir%</argument>
+        <service id="packlink.subscribers.order_list_handler" class="Packlink\Subscribers\OrderListHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register OrderModelEventHandler subscriber -->

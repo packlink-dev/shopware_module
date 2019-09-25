@@ -9,7 +9,6 @@ use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
 use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\Bootstrap\Bootstrap;
 use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
 use Packlink\Utilities\Reference;
 
@@ -44,8 +43,6 @@ class OrderListHandler implements SubscriberInterface
      */
     public function extendOrderList(Enlight_Hook_HookArgs $args)
     {
-        Bootstrap::init();
-
         if (!$this->isLoggedIn()) {
             return;
         }

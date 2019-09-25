@@ -6,7 +6,6 @@ use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs;
 use Logeecom\Infrastructure\ServiceRegister;
 use Logeecom\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup;
-use Packlink\Bootstrap\Bootstrap;
 
 class ControllerPath implements SubscriberInterface
 {
@@ -58,8 +57,6 @@ class ControllerPath implements SubscriberInterface
      */
     public function onGetControllerPromotion(Enlight_Event_EventArgs $arguments)
     {
-        Bootstrap::init();
-
         $this->getWakeupService()->wakeup();
 
         $eventName = $arguments->getName();

@@ -9,7 +9,6 @@ use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
 use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\Bootstrap\Bootstrap;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\Controllers\DraftController;
 use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
@@ -51,8 +50,6 @@ class OrderModelEventHandler implements EventSubscriber
      */
     public function postPersist(LifecycleEventArgs $args)
     {
-        Bootstrap::init();
-
         $model = $args->getEntity();
         if (!$this->shouldHandle($model)) {
             return;
@@ -72,8 +69,6 @@ class OrderModelEventHandler implements EventSubscriber
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
-        Bootstrap::init();
-
         $model = $args->getEntity();
         if (!$this->shouldHandle($model)) {
             return;

@@ -4,7 +4,6 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_ActionEventArgs;
-use Packlink\Bootstrap\Bootstrap;
 
 class ExtendOrderDetailsHandler implements SubscriberInterface
 {
@@ -36,8 +35,6 @@ class ExtendOrderDetailsHandler implements SubscriberInterface
      */
     public function onOrderPostDispatch(Enlight_Controller_ActionEventArgs $args)
     {
-        Bootstrap::init();
-
         /** @var \Shopware_Controllers_Backend_Order $controller */
         $controller = $args->getSubject();
 

@@ -5,7 +5,6 @@ namespace Packlink\Subscribers;
 use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
 use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\Bootstrap\Bootstrap;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\Utilities\Cache;
 use Packlink\Utilities\CarrierLogo;
@@ -36,8 +35,6 @@ class CarrierLogoHandler implements SubscriberInterface
      */
     public function onAfterSGetPremiumDispatches(Enlight_Hook_HookArgs $args)
     {
-        Bootstrap::init();
-
         if (!$this->shouldHandle()) {
             return;
         }

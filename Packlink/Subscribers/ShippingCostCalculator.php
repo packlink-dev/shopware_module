@@ -7,7 +7,6 @@ use Enlight_Hook_HookArgs;
 use Exception;
 use Logeecom\Infrastructure\Logger\Logger;
 use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\Bootstrap\Bootstrap;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\Services\BusinessLogic\CheckoutService;
 use Packlink\Utilities\Cache;
@@ -44,8 +43,6 @@ class ShippingCostCalculator implements SubscriberInterface
      */
     public function onBeforeSGetPremiumShippingcosts(Enlight_Hook_HookArgs $args)
     {
-        Bootstrap::init();
-
         $shippingId = Shopware()->Session()->get('checkoutShippingAddressId');
         $userId = Shopware()->Session()->get('sUserId');
         $sessionId = Shopware()->Session()->get('sessionId');

@@ -8,7 +8,6 @@ use Enlight_Event_EventArgs;
 use Exception;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\Bootstrap\Bootstrap;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\Entities\OrderDropoffMap;
 use Packlink\Services\BusinessLogic\CheckoutService;
@@ -48,8 +47,6 @@ class DropoffHandler implements SubscriberInterface
      */
     public function onCheckoutPreDispatch(Enlight_Controller_ActionEventArgs $args)
     {
-        Bootstrap::init();
-
         if (!$this->shouldHandlePreDispatch($args)) {
             return;
         }
@@ -72,8 +69,6 @@ class DropoffHandler implements SubscriberInterface
      */
     public function onCheckoutPostDispatch(Enlight_Controller_ActionEventArgs $args)
     {
-        Bootstrap::init();
-
         if (!$this->shouldHandlePostDispatch($args)) {
             return;
         }
@@ -107,7 +102,6 @@ class DropoffHandler implements SubscriberInterface
      */
     public function saveDropoff(Enlight_Event_EventArgs $args)
     {
-        Bootstrap::init();
         $result = null;
 
         if (!$this->shouldHandleSaveDropoff()) {
