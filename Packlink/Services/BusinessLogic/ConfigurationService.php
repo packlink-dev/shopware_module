@@ -13,6 +13,7 @@ class ConfigurationService extends Configuration
     const DEFAULT_VERSION = '1.0.0';
     const ECOMMERCE_NAME = 'Shopware';
     const DRAFT_SOURCE = 'module_shopware';
+    const MAX_TASK_INACTIVITY_PERIOD = 60;
     /**
      * @var string
      */
@@ -51,7 +52,12 @@ class ConfigurationService extends Configuration
      */
     public function getAsyncProcessUrl($guid)
     {
-        return Url::getFrontUrl('PacklinkAsyncProcess', 'run', ['guid' => $guid]);
+        $params = ['guid' => $guid];
+        if ( $this->isAutoTestMode() ) {
+            $params['auto-test'] = 1;
+        }
+
+        return Url::getFrontUrl('PacklinkAsyncProcess', 'run', $params);
     }
 
     /**
@@ -125,5 +131,15 @@ class ConfigurationService extends Configuration
     public function getBackupCarrierId()
     {
         return $this->getConfigValue('backupCarrierId');
+    }
+
+    /**
+     * Gets max inactivity period for a task in seconds.
+     * After inactivity period is passed, system will fail such task as expired.
+     *
+     * @return int Max task inactivity period in seconds if set; otherwise, self::MAX_TASK_INACTIVITY_PERIOD.
+     */
+    public function getMaxTaskInactivityPeriod() {
+        return parent::getMaxTaskInactivityPeriod() ?: self::MAX_TASK_INACTIVITY_PERIOD;
     }
 }

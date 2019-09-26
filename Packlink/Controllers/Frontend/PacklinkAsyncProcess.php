@@ -1,9 +1,9 @@
 <?php
 
+use Logeecom\Infrastructure\AutoTest\AutoTestService;
 use Logeecom\Infrastructure\Logger\Logger;
 use Logeecom\Infrastructure\ServiceRegister;
 use Logeecom\Infrastructure\TaskExecution\Interfaces\AsyncProcessService;
-use Packlink\Bootstrap\Bootstrap;
 use Packlink\Utilities\Response;
 use Shopware\Components\CSRFWhitelistAware;
 
@@ -25,12 +25,21 @@ class Shopware_Controllers_Frontend_PacklinkAsyncProcess extends Enlight_Control
     public function runAction()
     {
         $guid = $this->Request()->getParam('guid', '');
+        $autoTest = $this->Request()->getParam('auto-test', false);
 
-        Logger::logDebug("Received async process request with guid [{$guid}].");
+        if ($autoTest) {
+            $autoTestService = new AutoTestService();
+            $autoTestService->setAutoTestMode();
+            Logger::logInfo('Received auto-test async process request', 'Integration');
+        } else {
+            Logger::logDebug("Received async process request with guid [{$guid}].", 'Integration');
+        }
 
-        /** @var AsyncProcessService $asyncProcessService */
-        $asyncProcessService = ServiceRegister::getService(AsyncProcessService::CLASS_NAME);
-        $asyncProcessService->runProcess($guid);
+        if ($guid !== 'auto-configure') {
+            /** @var AsyncProcessService $asyncProcessService */
+            $asyncProcessService = ServiceRegister::getService(AsyncProcessService::CLASS_NAME);
+            $asyncProcessService->runProcess($guid);
+        }
 
         Response::json(['success' => true]);
     }

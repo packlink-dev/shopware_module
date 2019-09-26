@@ -7,6 +7,7 @@ use Logeecom\Infrastructure\Configuration\Configuration;
 use Logeecom\Infrastructure\Http\CurlHttpClient;
 use Logeecom\Infrastructure\Http\HttpClient;
 use Logeecom\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
+use Logeecom\Infrastructure\Logger\LogData;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
 use Logeecom\Infrastructure\TaskExecution\Process;
@@ -96,5 +97,6 @@ class Bootstrap extends BootstrapComponent
         RepositoryRegistry::registerRepository(ShippingMethodMap::getClassName(), BaseRepository::getClassName());
         RepositoryRegistry::registerRepository(ShippingMethod::getClassName(), BaseRepository::getClassName());
         RepositoryRegistry::registerRepository(OrderDropoffMap::getClassName(), BaseRepository::getClassName());
+        RepositoryRegistry::registerRepository(LogData::CLASS_NAME, BaseRepository::getClassName());
     }
 }

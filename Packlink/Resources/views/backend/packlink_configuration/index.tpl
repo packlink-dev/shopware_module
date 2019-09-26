@@ -1198,6 +1198,7 @@
                     debugSetStatusUrl: "{url controller=PacklinkDebug action="updateStatus" __csrf_token=$csrfToken}",
                     shippingMethodsGetTaxClassesUrl: "{url controller=PacklinkTax action="list" __csrf_token=$csrfToken}",
                     shippingMethodsGetStatusUrl: "{url controller=PacklinkShippingMethod action="getStatus" __csrf_token=$csrfToken}",
+                    autoConfigureStartUrl: "{url controller=PacklinkAutoConfigure action="index" __csrf_token=$csrfToken}"
                 }
             );
 

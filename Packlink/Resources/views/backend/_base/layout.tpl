@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="{link file="backend/base/frame/postmessage-api.js"}"></script>
     <link rel="stylesheet" href="{link file="backend/_resources/css/packlink.css"}">
+    {block name="styles"}{/block}
     {block name="scripts"}{/block}
 </head>
 <body role="document" style="padding-top: 17px">

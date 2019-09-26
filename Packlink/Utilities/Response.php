@@ -79,4 +79,25 @@ class Response
 
         die();
     }
+
+    /**
+     * Sets string specified by $content as a file response.
+     *
+     * @param string $content Content to output as file.
+     * @param string $fileName The name of the file.
+     */
+    public static function fileFromString($content, $fileName)
+    {
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . $fileName);
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . strlen($content));
+
+        echo $content;
+
+        die();
+    }
 }
