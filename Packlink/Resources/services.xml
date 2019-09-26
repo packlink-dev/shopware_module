@@ -27,7 +27,7 @@
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register ExtendOrderDetailsHandler subscriber -->
-        <service id="packlink.subscribers.backend_index" class="Packlink\Subscribers\ExtendOrderDetailsHandler">
+        <service id="packlink.subscribers.extend_order_details_handler" class="Packlink\Subscribers\ExtendOrderDetailsHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register ShippingCostCalculator subscriber -->
