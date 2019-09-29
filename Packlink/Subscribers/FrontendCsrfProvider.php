@@ -3,6 +3,7 @@
 namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
+use Enlight_Controller_ActionEventArgs;
 
 class FrontendCsrfProvider implements SubscriberInterface
 {
@@ -21,10 +22,19 @@ class FrontendCsrfProvider implements SubscriberInterface
      * Sets csrf token.
      *
      * @param \Enlight_Controller_ActionEventArgs $args
+     *
+     * @throws \Exception
      */
-    public function setCsrfToken(\Enlight_Controller_ActionEventArgs $args)
+    public function setCsrfToken(Enlight_Controller_ActionEventArgs $args)
     {
         $token = Shopware()->Session()->get('X-CSRF-Token');
+
+        if (!$token) {
+            /** @var \Shopware\Bundle\StoreFrontBundle\Struct\ShopContext $context */
+            $context = Shopware()->Container()->get('shopware_storefront.context_service')->getShopContext();
+            $token = $args->getSubject()->Request()->getCookie('__csrf_token-' . $context->getShop()->getId());
+        }
+
         if ($token) {
             $args->getSubject()->View()->assign(['plCsrf' => $token]);
         }
