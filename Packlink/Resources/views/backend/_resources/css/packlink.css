@@ -728,6 +728,7 @@ body {
     font-weight: bold;
     color: #9b9b9b;
     pointer-events: none;
+    left: 0;
 }
 
 #pl-login-api-key-label {

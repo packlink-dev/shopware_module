@@ -36,10 +36,13 @@ class Packlink extends Plugin
      * @param InstallContext $context
      *
      * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Exception
      */
     public function install(InstallContext $context)
     {
         Bootstrap::init();
+
+        Shopware()->Container()->get('shopware.snippet_database_handler')->loadToDatabase($this->getPath() . '/Resources/snippets/');
 
         /** @var EntityManager $entityManager */
         $entityManager = $this->container->get('models');

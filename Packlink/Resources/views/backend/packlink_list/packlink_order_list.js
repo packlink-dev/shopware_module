@@ -1,3 +1,5 @@
+// {namespace name=backend/packlink/configuration}
+
 //{block name="backend/order/view/list/list"}
 // {$smarty.block.parent}
 

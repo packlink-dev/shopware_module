@@ -1,3 +1,5 @@
+//{namespace name=backend/packlink/configuration}
+
 // Packlink order details tab
 
 Ext.define('Shopware.apps.Packlink.packlink_detail.PacklinkOrderDetailTab', {
