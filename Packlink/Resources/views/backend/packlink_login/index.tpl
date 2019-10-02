@@ -35,25 +35,25 @@
                         {s name="login/country"}Select country to start{/s}
                     </div>
                     <div class="pl-register-country-list-wrapper">
-                        <a href="https://pro.packlink.es/cmslp/woocommerce" target="_blank">
+                        <a href="https://pro.packlink.es/registro" target="_blank">
                             <div class="pl-country">
                                 <img src="{link file="backend/_resources/images/flags/spain.svg"}">
                                 es
                             </div>
                         </a>
-                        <a href="https://pro.packlink.de/cmslp/woocommerce" target="_blank">
+                        <a href="https://pro.packlink.de/registrieren" target="_blank">
                             <div class="pl-country">
                                 <img src="{link file="backend/_resources/images/flags/germany.svg"}">
                                 de
                             </div>
                         </a>
-                        <a href="https://pro.packlink.fr/cmslp/woocommerce" target="_blank">
+                        <a href="https://pro.packlink.fr/inscription" target="_blank">
                             <div class="pl-country">
                                 <img src="{link file="backend/_resources/images/flags/france.svg"}">
                                 fr
                             </div>
                         </a>
-                        <a href="https://pro.packlink.it/cmslp/woocommerce" target="_blank">
+                        <a href="https://pro.packlink.it/registro" target="_blank">
                             <div class="pl-country">
                                 <img src="{link file="backend/_resources/images/flags/france.svg"}">
                                 it
