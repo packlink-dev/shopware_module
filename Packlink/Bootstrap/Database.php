@@ -62,6 +62,26 @@ class Database
     }
 
     /**
+     * Performs activation logic.
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function activate()
+    {
+        $this->setPacklinkCarriersStatus(true);
+    }
+
+    /**
+     * Performs deactivation logic.
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function deactivate()
+    {
+        $this->setPacklinkCarriersStatus(false);
+    }
+
+    /**
      * Sets default data.
      *
      * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
@@ -85,6 +105,26 @@ class Database
     protected function removeData()
     {
         $this->removeCreatedShippingMethods();
+    }
+
+    /**
+     * Sets status for Shopware's dispatches that are created by Packlink plugin.
+     *
+     * @param boolean $isActive
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function setPacklinkCarriersStatus($isActive)
+    {
+        $status = (int) $isActive;
+
+        $ids = $this->getPacklinkCarrierIds();
+
+        if (!empty($ids)) {
+            $this->entityManager->createQuery(
+                'UPDATE ' . Dispatch::class . ' d SET d.active=' . $status . ' WHERE d.id in (' . implode(',', $ids) . ')'
+            )->execute();
+        }
     }
 
     /**
@@ -121,16 +161,7 @@ class Database
     protected function removeCreatedShippingMethods()
     {
 
-        $mapRepository = RepositoryRegistry::getRepository(ShippingMethodMap::getClassName());
-        $maps = $mapRepository->select();
-
-        $ids = array_map(function (ShippingMethodMap $map) {
-            return $map->shopwareCarrierId;
-        }, $maps);
-
-        if ($backupId = $this->getConfigService()->getBackupCarrierId()) {
-            $ids[] = $backupId;
-        }
+        $ids = $this->getPacklinkCarrierIds();
 
         if (!empty($ids)) {
             $this->entityManager->createQuery(
@@ -163,5 +194,31 @@ class Database
         }
 
         return $this->configService;
+    }
+
+    /**
+     * Retrieves list of Shopware's carrier's ids that are created by Packlink.
+     *
+     * @return array
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function getPacklinkCarrierIds()
+    {
+        $mapRepository = RepositoryRegistry::getRepository(ShippingMethodMap::getClassName());
+        $maps = $mapRepository->select();
+
+        $ids = array_map(
+            function (ShippingMethodMap $map) {
+                return $map->shopwareCarrierId;
+            },
+            $maps
+        );
+
+        if ($backupId = $this->getConfigService()->getBackupCarrierId()) {
+            $ids[] = $backupId;
+        }
+
+        return $ids;
     }
 }

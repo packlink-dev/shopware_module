@@ -10,6 +10,8 @@ use Logeecom\Infrastructure\Logger\Logger;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Bootstrap\Database;
 use Shopware\Components\Plugin;
+use Shopware\Components\Plugin\Context\ActivateContext;
+use Shopware\Components\Plugin\Context\DeactivateContext;
 use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UninstallContext;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -69,5 +71,43 @@ class Packlink extends Plugin
             $db = new Database($entityManager);
             $db->uninstall();
         }
+    }
+
+    /**
+     * Activates plugin.
+     *
+     * @param \Shopware\Components\Plugin\Context\ActivateContext $context
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function activate(ActivateContext $context)
+    {
+        Bootstrap::init();
+
+        parent::activate($context);
+
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->container->get('models');
+        $db = new Database($entityManager);
+        $db->activate();
+    }
+
+    /**
+     * Deactivates plugin.
+     *
+     * @param \Shopware\Components\Plugin\Context\DeactivateContext $context
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function deactivate(DeactivateContext $context)
+    {
+        Bootstrap::init();
+
+        parent::deactivate($context);
+
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->container->get('models');
+        $db = new Database($entityManager);
+        $db->deactivate();
     }
 }
