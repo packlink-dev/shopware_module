@@ -35,14 +35,17 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
             'orderCost' => $order->getInvoiceShipping(),
             'cost' => $orderDetails->getShippingCost(),
             'status' => Translation::get('shipment/packlink/status/' . $orderDetails->getStatus()),
-            'trackingNumbers' => implode(', ', !empty($orderDetails->getCarrierTrackingNumbers()) ? $orderDetails->getCarrierTrackingNumbers() : []),
             'reference' => $orderDetails->getReference(),
-            'trackingUrl' => $orderDetails->getCarrierTrackingUrl(),
             'isLabelsAvailable' => !empty($orderDetails->getShipmentLabels()),
         ];
 
         if ($details['isLabelsAvailable']) {
             $details['isLabelsPrinted'] = $orderDetails->getShipmentLabels()[0]->isPrinted();
+        }
+
+        if (!empty($orderDetails->getCarrierTrackingNumbers())) {
+            $details['trackingNumbers'] = implode(', ', $orderDetails->getCarrierTrackingNumbers());
+            $details['trackingUrl'] = $orderDetails->getCarrierTrackingUrl();
         }
 
         $country = $this->getUserCountry();
