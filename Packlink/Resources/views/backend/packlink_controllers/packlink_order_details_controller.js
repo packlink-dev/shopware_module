@@ -42,6 +42,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
         let stateCleanupCallbacks = [];
         let store = tab.record.store;
         let isRendered = false;
+        let printButton;
 
         init();
         function init() {
@@ -261,14 +262,14 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
          */
         function completedStateHandler() {
             let task;
-            
+
             this.handle = function () {
                 tab.setLoading(true);
                 getDraftDetails();
                 task = createRefreshDetailsTask();
                 task.start();
             };
-            
+
             this.getCleanupCallbacks = function () {
                 return [
                     function () {
@@ -390,9 +391,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
              */
             function getLeftPanelToolbar(data) {
                 let items = [getViewOnPacklinkButton()];
-                if (data.isLabelsAvailable) {
-                    items.push(getPrintLabelsButton());
-                }
+                items.push(getPrintLabelsButton());
 
                 return Ext.create('Ext.toolbar.Toolbar', {
                     items: items,
@@ -431,17 +430,22 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                  * @return { Ext.Button }
                  */
                 function getPrintLabelsButton() {
-                    let printButton = Ext.create('Ext.Button', {
-                        text: '{s name="shipment/printed"}Printed{/s}',
-                        cls: 'large secondary',
+                    printButton = Ext.create('Ext.Button', {
+                        text: '{s name="shipment/print"}Print shipment labels{/s}',
+                        cls: 'large',
                         border: true,
                         handler: onPrintLabelsButtonClicked
                     });
 
-                    if (!data.isPrinted) {
+                    if (!data.isLabelsPrinted) {
                         printButton.cls = 'large primary';
-                        printButton.text = '{s name="shipment/print"}Print shipment labels{/s}'
+                    } else {
+                        printButton.removeCls('primary');
+                        printButton.addCls('secondary');
+                        printButton.text = '{s name="shipment/printed"}Printed{/s}';
                     }
+
+                    printButton.setDisabled(!data.isLabelsAvailable);
 
                     return printButton;
                 }
@@ -454,6 +458,13 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                     url += '/__csrf_token/' + Ext.CSRFService.getToken();
                     url += '?orderIds=' + tab.record.get('id');
                     openNewTab(url);
+
+                    if (printButton) {
+                        printButton.removeCls('primary');
+                        printButton.addCls('secondary');
+                        printButton.setText('{s name="shipment/printed"}Printed{/s}');
+                    }
+
                     if (store) {
                         store.reload();
                     }
@@ -518,15 +529,15 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                  */
                 function getAdditionalInformation() {
                     return [
-                            {
-                                xtype: 'displayfield',
-                                value: '{s name="shipment/status"}Status:{/s} ' + (data.status || 'n/a'),
-                            },
-                            {
-                                xtype: 'displayfield',
-                                value: '{s name="shipment/tracking/numbers"}Tracking numbers:{/s} ' + (data.trackingNumbers || 'n/a'),
-                            }
-                        ];
+                        {
+                            xtype: 'displayfield',
+                            value: '{s name="shipment/status"}Status:{/s} ' + (data.status || 'n/a'),
+                        },
+                        {
+                            xtype: 'displayfield',
+                            value: '{s name="shipment/tracking/numbers"}Tracking numbers:{/s} ' + (data.trackingNumbers || 'n/a'),
+                        }
+                    ];
                 }
             }
 
@@ -575,7 +586,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                     interval: 5000
                 })
             }
-            
+
             return this;
         }
 
