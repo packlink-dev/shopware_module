@@ -182,7 +182,7 @@ class BaseRepository implements RepositoryInterface
     {
         $query = $this->getBaseDoctrineQuery($filter, true);
 
-        return $query->getQuery()->getSingleScalarResult();
+        return (int)$query->getQuery()->getSingleScalarResult();
     }
 
     /**
