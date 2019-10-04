@@ -10,7 +10,6 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
 
     init: function () {
         let me = this;
-
         // me.callParent will execute the init function of the overridden controller
         me.callParent(arguments);
 
@@ -42,6 +41,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
         let currentState = null;
         let stateCleanupCallbacks = [];
         let store = tab.record.store;
+        let isRendered = false;
 
         init();
         function init() {
@@ -303,10 +303,16 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
              * @param { object } response
              */
             function render(response) {
-                tab.removeAll();
-                tab.add(getPanels(response));
-                tab.setLoading(false);
-                store.reload();
+                if (!isRendered) {
+                    tab.removeAll();
+                    tab.add(getPanels(response));
+                    tab.setLoading(false);
+                    if (store) {
+                        store.reload();
+                    }
+                }
+
+                isRendered = true;
             }
 
             /**
@@ -448,7 +454,9 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                     url += '/__csrf_token/' + Ext.CSRFService.getToken();
                     url += '?orderIds=' + tab.record.get('id');
                     openNewTab(url);
-                    store.reload();
+                    if (store) {
+                        store.reload();
+                    }
                 }
             }
 
