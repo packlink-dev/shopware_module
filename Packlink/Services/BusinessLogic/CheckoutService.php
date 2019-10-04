@@ -2,7 +2,6 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Doctrine\DBAL\Types\Type;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
@@ -35,7 +34,6 @@ class CheckoutService
      *
      * @return array
      *
-     * @throws \Packlink\Exceptions\FailedToRetrieveCheckoutAddressException
      * @throws \Packlink\Exceptions\FailedToRetrieveDefaultUserAddressException
      */
     public function getShippingCosts($userId, $sessionId, $shippingAddressId = null)
@@ -57,7 +55,6 @@ class CheckoutService
      *
      * @return array
      *
-     * @throws \Packlink\Exceptions\FailedToRetrieveCheckoutAddressException
      * @throws \Packlink\Exceptions\FailedToRetrieveDefaultUserAddressException
      * @throws \Exception
      */
@@ -66,9 +63,9 @@ class CheckoutService
         if (empty($shippingAddress = Cache::getShippingAddress())) {
             if ($shippingId !== null) {
                 try {
-                    $shippingAddress = $this->getCheckoutShippingAddress($shippingId);
+                    $shippingAddress = $this->getAddress($userId, $shippingId);
                 } catch (FailedToRetrieveCheckoutAddressException $e) {
-                    $shippingAddress = $this->getAddress($shippingId);
+                    $shippingAddress = $this->getDefaultUserAddress($userId);
                 }
             } else {
                 $shippingAddress = $this->getDefaultUserAddress($userId);
@@ -89,7 +86,6 @@ class CheckoutService
      *
      * @return array
      *
-     * @throws \Packlink\Exceptions\FailedToRetrieveCheckoutAddressException
      * @throws \Packlink\Exceptions\FailedToRetrieveDefaultUserAddressException
      * @throws \Exception
      */
@@ -161,52 +157,26 @@ class CheckoutService
     }
 
     /**
-     * Retrieves shipping address.
+     * Retrieves address.
      *
+     * @param int $userId
      * @param int $addressId
      *
      * @return array
-     * @throws \Packlink\Exceptions\FailedToRetrieveCheckoutAddressException
-     * @throws \Exception
-     */
-    protected function getCheckoutShippingAddress($addressId)
-    {
-        /** @var \Doctrine\DBAL\Connection $connection */
-        $connection = Shopware()->Container()->get('dbal_connection');
-        $sql = 'SELECT a.zipcode, c.countryiso 
-                FROM s_user_shippingaddress as a
-                LEFT JOIN s_core_countries as c on c.id = a.countryId
-                WHERE a.id=?;';
-
-        $rawData = $connection->fetchAll($sql, [$addressId], [Type::INTEGER]);
-        if (empty($rawData[0]['zipcode']) || empty($rawData[0]['countryiso'])) {
-            throw new FailedToRetrieveCheckoutAddressException("Failed to retrieve address with id [$addressId].");
-        }
-
-        return [
-            'countryCode' => $rawData[0]['countryiso'],
-            'postalCode' => $rawData[0]['zipcode'],
-        ];
-    }
-
-    /**
-     * Retrieves address.
-     *
-     * @param $addressId
-     *
-     * @return array
      *
      * @throws \Packlink\Exceptions\FailedToRetrieveCheckoutAddressException
      */
-    protected function getAddress($addressId)
+    protected function getAddress($userId, $addressId)
     {
         $repository = Shopware()->Models()->getRepository(Address::class);
         /** @var Address $address */
-        $address = $repository->find($addressId);
+        $addresses = $repository->findBy(['customer' => $userId, 'id' => $addressId]);
 
-        if ($address === null || empty($address->getZipcode()) || empty($address->getCountry()->getIso())) {
+        if ( empty($addresses[0])) {
             throw new FailedToRetrieveCheckoutAddressException("Address [{$addressId}] can not be retrieved.");
         }
+
+        $address = $addresses[0];
 
         return [
             'countryCode' => $address->getCountry()->getIso(),
