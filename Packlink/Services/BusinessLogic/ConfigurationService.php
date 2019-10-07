@@ -2,6 +2,7 @@
 
 namespace Packlink\Services\BusinessLogic;
 
+use Logeecom\Infrastructure\Logger\Logger;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\Utilities\Plugin;
 use Packlink\Utilities\Shop;
@@ -14,6 +15,8 @@ class ConfigurationService extends Configuration
     const ECOMMERCE_NAME = 'Shopware';
     const DRAFT_SOURCE = 'module_shopware';
     const MAX_TASK_INACTIVITY_PERIOD = 60;
+    const MIN_LOG_LEVEL = Logger::WARNING;
+
     /**
      * @var string
      */
