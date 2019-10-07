@@ -26,7 +26,7 @@
                 let plTranslations = {
                     selectDropoffDescription: '{s name="selectDropoffDescription"}This shipping service supports delivery to pre-defined drop-off locations. Please choose location that suits you the most by clicking on the "Select drop-off location" button.{/s}',
                     selectDropoffBtnLabel: '{s name="selectDropoffBtnLabel"}Select drop-off location{/s}',
-                    noLocations: '{s name="noLocations"}There are no delivery locations available for your delivery address. Please change your address.{/s}',
+                    noLocations: "{s name="noLocations"}There are no delivery locations available for your delivery address. Please change your address.{/s}",
                     selectedAddress: '{s name="selectedAddress"}Package will be delivered to:{/s}'
                 };
 
@@ -34,6 +34,8 @@
                 plConfig.currentDispatch = '{$sDispatch.id}';
                 plConfig.getLocationsUrl = '{url controller=PacklinkLocations action="list" __csrf_token=$plCsrf}';
                 plConfig.updateDropoffUrl = '{url controller=PacklinkDropoff action="update" __csrf_token=$plCsrf}';
+                plConfig.lang = '{$plLang}';
+
                 let plController = new Packlink.CheckoutController(new Packlink.CheckoutService(), plConfig, plTranslations);
 
                 if (Packlink.isLoaded) {

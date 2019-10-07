@@ -25,7 +25,11 @@
     "psr-4": {
       "Packlink\\TestComponents\\": "TestComponents",
       "Packlink\\Tests\\": "Tests",
-      "Logeecom\\Tests\\": "vendor/packlink/integration-core/tests",
+      "Logeecom\\Tests\\": "vendor/packlink/integration-core/tests"
+    }
+  },
+  "autoload": {
+    "psr-4": {
       "Packlink\\Lib\\": "Lib"
     }
   },

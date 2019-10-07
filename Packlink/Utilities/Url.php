@@ -22,6 +22,8 @@ class Url
         ],
         $params);
 
-        return Shopware()->Front()->Router()->assemble($params);
+        $url = Shopware()->Front()->Router()->assemble($params);
+
+        return str_replace('http:', 'https:', $url);
     }
 }

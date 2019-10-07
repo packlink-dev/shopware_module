@@ -1,4 +1,4 @@
-<script src="{link file="backend/_resources/js/AjaxService.js"}"></script>
+<script src="{link file="backend/_resources/js/FrontEndAjaxService.js"}"></script>
 <script src="{link file="backend/_resources/js/TemplateService.js"}"></script>
 <script src="{link file="backend/_resources/js/UtilityService.js"}"></script>
 <script src="{link file="backend/_resources/js/location/LocationPicker.js"}"></script>

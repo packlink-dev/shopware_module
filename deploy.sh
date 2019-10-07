@@ -20,9 +20,11 @@ echo -e "\e[32mSTEP 2:\e[0m Installing composer dependencies..."
 cd deploy/Packlink
 # remove resources that will be copied from the core in the post-install script
 rm -rf vendor
-rm -rf Lib
 
 composer install --no-dev
+
+rm -rf Lib
+
 cd ../..
 
 # Remove unnecessary files from final release archive

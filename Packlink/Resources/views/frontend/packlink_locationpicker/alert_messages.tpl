@@ -1,3 +1,4 @@
+{namespace name=frontend/packlink/dropoff}
 {if $plIsDropoff && !$plIsSelected}
     <div class="alert is--warning is--rounded pl-spacer" id="pl-not-selected-dropoff-alert">
 

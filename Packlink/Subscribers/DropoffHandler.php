@@ -15,6 +15,8 @@ use Packlink\Services\BusinessLogic\DropoffService;
 
 class DropoffHandler implements SubscriberInterface
 {
+    const DEFUALT_LANGUAGE = 'en';
+
     /** @var \Packlink\Services\BusinessLogic\ConfigurationService */
     protected $configService;
     /**
@@ -86,6 +88,7 @@ class DropoffHandler implements SubscriberInterface
             $data['plIsDropoff'] = array_key_exists($viewData['dropOff']['carrier'], $viewData['dropOffs']);
             Shopware()->Session()->offsetSet('plIsDropoff', $data['plIsDropoff']);
             Shopware()->Session()->offsetSet('plIsSelected', $data['plIsSelected']);
+            $data['plLang'] = $this->getCurrentLanguage();
         }
 
         $args->getSubject()->View()->assign($data);
@@ -344,5 +347,29 @@ class DropoffHandler implements SubscriberInterface
         }
 
         return $this->orderDropoffMapRepository;
+    }
+
+    /**
+     * Retrieves current language.
+     *
+     * @return string
+     */
+    protected function getCurrentLanguage()
+    {
+        $shop = Shopware()->Shop();
+
+        if (!$shop) {
+            return self::DEFUALT_LANGUAGE;
+        }
+
+        $locale = $shop->getLocale();
+
+        if (!$locale) {
+            return self::DEFUALT_LANGUAGE;
+        }
+
+        $lang = explode('_', $locale->getLocale());
+
+        return $lang[0];
     }
 }
