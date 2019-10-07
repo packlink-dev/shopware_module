@@ -92,6 +92,7 @@ class DebugService implements BaseService
         $result['admin url'] = Shopware()->Front()->Router()->assemble(['module' => 'backend']);
         $result['async process url'] = $config->getAsyncProcessUrl('test');
         $result['plugin version'] = $config->getModuleVersion();
+        $result['webhook_url'] = $config->getWebHookUrl();
 
         return json_encode($result, JSON_PRETTY_PRINT);
     }

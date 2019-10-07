@@ -40,9 +40,9 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
         let order = tab.record.data;
         let currentState = null;
         let stateCleanupCallbacks = [];
-        let store = tab.record.store;
         let isRendered = false;
         let printButton;
+        let grids = Ext.ComponentQuery.query('order-list-main-window order-list');
 
         init();
         function init() {
@@ -308,9 +308,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                     tab.removeAll();
                     tab.add(getPanels(response));
                     tab.setLoading(false);
-                    if (store) {
-                        store.reload();
-                    }
+                    reloadStores();
                 }
 
                 isRendered = true;
@@ -465,9 +463,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                         printButton.setText('{s name="shipment/printed"}Printed{/s}');
                     }
 
-                    if (store) {
-                        store.reload();
-                    }
+                    reloadStores();
                 }
             }
 
@@ -628,6 +624,12 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                 },
                 interval: 1000
             })
+        }
+
+        function reloadStores() {
+            grids.forEach(function (grid) {
+                grid.getStore().reload();
+            });
         }
 
         /**
