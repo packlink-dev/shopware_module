@@ -71,6 +71,8 @@ class Packlink extends Plugin
             $db = new Database($entityManager);
             $db->uninstall();
         }
+
+        $context->scheduleClearCache(InstallContext::CACHE_LIST_DEFAULT);
     }
 
     /**
