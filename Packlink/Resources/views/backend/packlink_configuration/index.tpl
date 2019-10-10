@@ -800,7 +800,7 @@
                     </div>
                 </td>
                 <td>
-                    <a class="pl-link" id="pl-shipping-method-config-btn" tabindex="-1">
+                    <a class="pl-link pl-config-btn" id="pl-shipping-method-config-btn" tabindex="-1">
                         {s name="configuration/configure"}Configure{/s}
                     </a>
                 </td>

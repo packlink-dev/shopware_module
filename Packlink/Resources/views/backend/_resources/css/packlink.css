@@ -559,6 +559,10 @@ body *:focus {
     border-width: 11px;
 }
 
+.pl-config-btn {
+    cursor: pointer;
+}
+
 .pl-shipping-method-form {
     padding: 0 !important;
 }
