@@ -364,6 +364,10 @@ class OrderRepository implements BaseOrderRepository
             $address->setPhone($billingAddress->getPhone());
         }
 
+        if (!$address->getPhone() && ($phone = $this->getConfigService()->getDefaultWarehouse()->phone)) {
+            $address->setPhone($phone);
+        }
+
         $address->setCountry($shippingAddress->getCountry()->getIso());
 
         return $address;
