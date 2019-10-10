@@ -327,11 +327,11 @@
                         {s name="configuration/disablemethodsdesc"}In order to offer you the best possible service, its important to disable your previous carriers. Do you want us to disable them? (recommended){/s}
                     </div>
                     <div class="pl-shipping-modal-row">
+                        <button class="button pl-shipping-modal-btn button-primary" id="pl-disable-methods-modal-accept">
+                            {s name="configuration/accept"}Accept{/s}
+                        </button>
                         <button class="button pl-shipping-modal-btn" id="pl-disable-methods-modal-cancel">
                             {s name="configuration/cancel"}Cancel{/s}
-                        </button>
-                        <button class="button button-primary" id="pl-disable-methods-modal-accept">
-                            {s name="configuration/accept"}Accept{/s}
                         </button>
                     </div>
                 </div>
