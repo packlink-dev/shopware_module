@@ -912,7 +912,7 @@
                 <div class="row">
                     <div class=" pl-form-section-input-wrapper pl-fixed-price-wrapper">
                         <div class="form-group pl-form-section-input pl-text-input">
-                            <input type="text" data-pl-fixed-price="from" disabled tabindex="-1" />
+                            <input type="text" data-pl-fixed-price="from" tabindex="-1" />
                             <span class="pl-text-input-label">
 						{s name="configuration/from"}FROM{/s} (kg)</span>
                         </div>
@@ -965,7 +965,7 @@
                 <div class="row">
                     <div class=" pl-form-section-input-wrapper pl-fixed-price-wrapper">
                         <div class="form-group pl-form-section-input pl-text-input">
-                            <input type="text" data-pl-fixed-price="from" disabled tabindex="-1" />
+                            <input type="text" data-pl-fixed-price="from" tabindex="-1" />
                             <span class="pl-text-input-label">
 						{s name="configuration/from"}FROM{/s} (€)</span>
                         </div>

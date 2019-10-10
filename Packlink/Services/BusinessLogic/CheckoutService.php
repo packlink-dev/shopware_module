@@ -253,7 +253,7 @@ class CheckoutService
         $sql = 'SELECT b.quantity,  a.weight, a.width, a.length, a.height 
                 FROM s_order_basket as b
                 LEFT JOIN s_articles_details as a on a.ordernumber = b.ordernumber and a.articleID = b.articleID
-                WHERE b.sessionID=?;';
+                WHERE b.sessionID=? AND b.articleID <> 0;';
 
         $rawData = $connection->fetchAll($sql, [$sessionId]);
         $defaultParcel = $this->getDefaultParcel();
