@@ -347,6 +347,7 @@ class OrderRepository implements BaseOrderRepository
         $address = new Address();
 
         $shippingAddress = $sourceOrder->getShipping();
+        $billingAddress = $sourceOrder->getBilling();
         $address->setName($shippingAddress->getFirstName());
         $address->setSurname($shippingAddress->getLastName());
         $address->setEmail($sourceOrder->getCustomer()->getEmail());
@@ -356,9 +357,13 @@ class OrderRepository implements BaseOrderRepository
         $address->setStreet2($shippingAddress->getAdditionalAddressLine2());
         $address->setZipCode($shippingAddress->getZipCode());
         $address->setCity($shippingAddress->getCity());
+
         if (method_exists($shippingAddress, 'getPhone')) {
             $address->setPhone($shippingAddress->getPhone());
+        } else if (method_exists($billingAddress, 'getPhone')) {
+            $address->setPhone($billingAddress->getPhone());
         }
+
         $address->setCountry($shippingAddress->getCountry()->getIso());
 
         return $address;
