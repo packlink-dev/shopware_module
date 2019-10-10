@@ -21,7 +21,7 @@ var Packlink = window.Packlink || {};
                     {
                         isSelected: true,
                         description: translations.selectDropoffDescription,
-                        buttonLabel: translations.selectDropoffBtnLabel,
+                        buttonLabel: translations.changeDropoffBtnLabel,
                         selectedDescription: translations.selectedAddress,
                         selectedAddress: getAddress(configuration.dropOff.selectedDropoff)
                     },
@@ -81,7 +81,7 @@ var Packlink = window.Packlink || {};
                     {
                         isSelected: true,
                         description: translations.selectDropoffDescription,
-                        buttonLabel: translations.selectDropoffBtnLabel,
+                        buttonLabel: translations.changeDropoffBtnLabel,
                         selectedDescription: translations.selectedAddress,
                         selectedAddress: payload.address
                     },

@@ -25,6 +25,7 @@
         let plTranslations = {
             selectDropoffDescription: '{s name="selectDropoffDescription"}This shipping service supports delivery to pre-defined drop-off locations. Please choose location that suits you the most by clicking on the "Select drop-off location" button.{/s}',
             selectDropoffBtnLabel: '{s name="selectDropoffBtnLabel"}Select drop-off location{/s}',
+            changeDropoffBtnLabel: '{s name="changeDropoffBtnLabel"}Change drop-off location{/s}',
             noLocations: "{s name="noLocations"}There are no delivery locations available for your delivery address. Please change your address.{/s}",
             selectedAddress: '{s name="selectedAddress"}Package will be delivered to:{/s}'
         };
