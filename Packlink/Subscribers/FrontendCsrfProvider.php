@@ -35,6 +35,10 @@ class FrontendCsrfProvider implements SubscriberInterface
             $token = $args->getSubject()->Request()->getCookie('__csrf_token-' . $context->getShop()->getId());
         }
 
+        if (!$token) {
+            $token = $args->getSubject()->Request()->getCookie('__csrf_token-1');
+        }
+
         if ($token) {
             $args->getSubject()->View()->assign(['plCsrf' => $token]);
         }

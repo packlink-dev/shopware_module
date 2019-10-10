@@ -8,19 +8,6 @@ use Enlight_Controller_ActionEventArgs;
 class ExtendOrderDetailsHandler implements SubscriberInterface
 {
     /**
-     * @var string
-     */
-    protected $pluginDirectory;
-
-    /**
-     * @param $pluginDirectory
-     */
-    public function __construct($pluginDirectory)
-    {
-        $this->pluginDirectory = $pluginDirectory;
-    }
-
-    /**
      * @inheritDoc
      */
     public static function getSubscribedEvents()

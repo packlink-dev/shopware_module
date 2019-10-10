@@ -58,6 +58,10 @@ body {
     height: calc(100% - 35px)!important;
 }
 
+body *:focus {
+    outline: none;
+}
+
 .pl-main-wrapper {
     position: relative;
     clear: both;
