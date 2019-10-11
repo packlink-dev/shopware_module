@@ -70,11 +70,17 @@ Ext.define('Shopware.apps.Packlink.view.Order.List', {
 
         return columns;
 
-        function renderPacklinkProColumn(value) {
+        function renderPacklinkProColumn(value, meta, model) {
             if (value) {
+                let img = '<img width="16px" src="{link file="backend/_resources/images/logo.png"}" />';
+
+                if (model.get('plIsDeleted')) {
+                    return img;
+                }
+
                 return '<a href="' +
                     value +
-                    '" target="_blank"><img width="16px" src="{link file="backend/_resources/images/logo.png"}" /> </a>';
+                    '" target="_blank">' + img + '</a>';
             }
         }
 

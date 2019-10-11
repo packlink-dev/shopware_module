@@ -57,6 +57,8 @@ class OrderListHandler implements SubscriberInterface
                     $orderDetails->getReference()
                 );
 
+                $return['data'][$index]['plIsDeleted'] = $orderDetails->isDeleted();
+
                 $shipmentLabels = $orderDetails->getShipmentLabels();
                 if ($shipmentLabels) {
                     $return['data'][$index]['plHasLabel'] = true;

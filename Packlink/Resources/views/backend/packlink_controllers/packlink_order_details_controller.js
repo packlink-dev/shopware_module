@@ -409,7 +409,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                     return Ext.create('Ext.Button', {
                         text: '{s name="shipment/view"}View on Packlink PRO{/s}',
                         cls: 'large primary',
-                        disabled: !data.referenceUrl,
+                        disabled: !data.referenceUrl || data.isDeleted,
                         border: true,
                         handler: onViewOnPacklinkClicked
                     });

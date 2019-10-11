@@ -37,6 +37,7 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
             'status' => Translation::get('shipment/packlink/status/' . $orderDetails->getStatus()),
             'reference' => $orderDetails->getReference(),
             'isLabelsAvailable' => !empty($orderDetails->getShipmentLabels()),
+            'isDeleted' => $orderDetails->isDeleted(),
         ];
 
         if ($details['isLabelsAvailable']) {
