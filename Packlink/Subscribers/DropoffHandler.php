@@ -117,8 +117,6 @@ class DropoffHandler implements SubscriberInterface
             $result =  $this->doSaveDropoff($args, $plDropoff);
         }
 
-        $this->invalidateSelectedDropoff();
-
         return $result;
     }
 

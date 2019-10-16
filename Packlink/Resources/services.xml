@@ -46,6 +46,10 @@
         <service id="packlink.subscribers.dropoff_handler" class="Packlink\Subscribers\DropoffHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
+        <!-- Register DropoffMailHandler subscriber -->
+        <service id="packlink.subscribers.dropoff_mail_handler" class="Packlink\Subscribers\DropoffMailHandler">
+            <tag name="shopware.event_subscriber"/>
+        </service>
         <!-- Register CarrierLogoHandler subscriber -->
         <service id="packlink.subscribers.carrier_logo_handler" class="Packlink\Subscribers\CarrierLogoHandler">
             <tag name="shopware.event_subscriber"/>
