@@ -25,7 +25,7 @@ var Packlink = window.Packlink || {};
         let currentNavTab = 'all';
 
         let spinnerBarrierCount = 0;
-        let spinnerBarrier = configuration.hasTaxConfiguration ? 2 : 1;
+        let spinnerBarrier = getSpinnerBarrier();
 
         /** @var {{parcelSet, warehouseSet, shippingMethodSet}} dashboardData */
         let dashboardData = {};
@@ -33,7 +33,8 @@ var Packlink = window.Packlink || {};
         /**
          * @var {{id, name, title, logoUrl, taxClass, deliveryDescription, showLogo, deliveryType,
          * parcelDestination, parcelOrigin, selected,
-         * pricePolicy, fixedPriceByWeightPolicy, fixedPriceByValuePolicy, percentPricePolicy}} methodModel
+         * pricePolicy, fixedPriceByWeightPolicy, fixedPriceByValuePolicy, percentPricePolicy,
+         * isShipToAllCountries, shippingCountries}} methodModel
          */
         let methodModel = {};
         let taxClasses = [];
@@ -62,6 +63,9 @@ var Packlink = window.Packlink || {};
         let renderedShippingMethods = [];
 
         let autoConfigureInitialized = false;
+
+        let countrySelector = {};
+        let availableCountries = [];
 
         /**
          * Displays page content.
@@ -121,6 +125,10 @@ var Packlink = window.Packlink || {};
                 ajaxService.get(configuration.getTaxClassesUrl, getTaxClassesSuccessHandler);
             }
 
+            if (configuration.hasCountryConfiguration) {
+                ajaxService.get(configuration.getShippingCountries, getShippingCountriesHandler);
+            }
+
             ajaxService.get(configuration.getDashboardStatusUrl, function (response) {
                 getStatusHandler(response);
                 ajaxService.get(configuration.getMethodsStatusUrl, getShippingMethodsStatusHandler);
@@ -144,7 +152,7 @@ var Packlink = window.Packlink || {};
             }
 
             if (response.status === 'failed') {
-                hideDashboardModal();
+                hideDashboardModal(true);
                 showNoShippingMethodsMessage();
 
                 return;
@@ -173,7 +181,7 @@ var Packlink = window.Packlink || {};
             }
 
             if (response.length === 0) {
-                hideDashboardModal();
+                hideDashboardModal(true);
                 showNoShippingMethodsMessage();
 
                 return;
@@ -723,6 +731,58 @@ var Packlink = window.Packlink || {};
             let pricingPolicySelector = templateService.getComponent('pl-pricing-policy-selector', template);
             pricingPolicySelector.addEventListener('change', handleShippingMethodPricingPolicyChanged, true);
             pricingPolicySelector.value = methodModel.pricePolicy;
+
+            if (configuration.hasCountryConfiguration) {
+                initializeCountryCountrySelector(methodModel, template);
+            }
+        }
+
+        /**
+         * Initializes shipping country selector
+         *
+         * @param {object} method
+         * @param {Element} template
+         */
+        function initializeCountryCountrySelector(method, template) {
+            let checkbox = templateService.getComponent('pl-country-selector-checkbox', template);
+            let countryListBtn = templateService.getComponent('pl-country-list-btn', template);
+            let countrySelectorCtrl = new Packlink.CountrySelectorController();
+
+            checkbox.addEventListener('change', onChangeCountrySelectorCheckbox);
+            countryListBtn.addEventListener('click', onClickCountryList);
+
+            countrySelector.isShipToAllCountries = method.isShipToAllCountries;
+            countrySelector.shippingCountries = method.shippingCountries;
+
+            checkbox.checked = countrySelector.isShipToAllCountries;
+            if (countrySelector.isShipToAllCountries) {
+                countryListBtn.classList.add('hidden');
+            }
+
+            function onChangeCountrySelectorCheckbox(event) {
+                countrySelector.isShipToAllCountries = event.target.checked;
+
+                if (countrySelector.isShipToAllCountries) {
+                    countryListBtn.classList.add('hidden');
+                    countrySelectorCtrl.destroy();
+                } else {
+                    countryListBtn.classList.remove('hidden');
+                    countrySelectorCtrl.display(availableCountries, countrySelector.shippingCountries, save, cancel);
+                }
+            }
+
+            function onClickCountryList() {
+                countrySelectorCtrl.display(availableCountries, countrySelector.shippingCountries, save, cancel);
+            }
+
+            function save(selectedCountries) {
+                countrySelector.shippingCountries = selectedCountries;
+                countrySelectorCtrl.destroy();
+            }
+
+            function cancel() {
+                countrySelectorCtrl.destroy();
+            }
         }
 
         /**
@@ -836,6 +896,13 @@ var Packlink = window.Packlink || {};
                     methodModel.taxClass = templateService.getComponent('pl-tax-selector', extensionPoint).value;
                 }
 
+                if (configuration.hasCountryConfiguration) {
+                    methodModel.isShipToAllCountries = countrySelector.isShipToAllCountries;
+                    methodModel.shippingCountries = countrySelector.shippingCountries;
+
+                    countrySelector = {};
+                }
+
                 ajaxService.post(
                     configuration.saveUrl,
                     methodModel,
@@ -917,6 +984,14 @@ var Packlink = window.Packlink || {};
             if ((methodModel.pricePolicy === PRICING_POLICY_FIXED_BY_WEIGHT && !isFixedPriceValid(true, true, true))
                 || (methodModel.pricePolicy === PRICING_POLICY_FIXED_BY_VALUE && !isFixedPriceValid(true, true, false))
             ) {
+                isValid = false;
+            }
+
+            if (configuration.hasCountryConfiguration
+                && !countrySelector.isShipToAllCountries
+                && countrySelector.shippingCountries.length === 0) {
+                utilityService.showFlashMessage(Packlink.errorMsgs.invalidCountryList, 'danger');
+
                 isValid = false;
             }
 
@@ -1561,6 +1636,14 @@ var Packlink = window.Packlink || {};
             }
         }
 
+        function getShippingCountriesHandler(response) {
+            availableCountries = response;
+
+            if (spinnerBarrier === ++spinnerBarrierCount) {
+                utilityService.hideSpinner();
+            }
+        }
+
         /**
          * Checks whether tax class exists in system.
          *
@@ -1706,9 +1789,15 @@ var Packlink = window.Packlink || {};
 
         /**
          * Hides dashboard modal.
+         *
+         * @param {boolean} [isAutoconfigure]
          */
-        function hideDashboardModal() {
-            if (!dashboardData.parcelSet || !dashboardData.warehouseSet) {
+        function hideDashboardModal(isAutoconfigure) {
+            if (typeof isAutoconfigure !== 'boolean') {
+                isAutoconfigure = false;
+            }
+
+            if (!isAutoconfigure && (!dashboardData.parcelSet || !dashboardData.warehouseSet)) {
                 return;
             }
 
@@ -1718,6 +1807,16 @@ var Packlink = window.Packlink || {};
             }
 
             isDashboardShown = false;
+        }
+
+        /**
+         * Retrieves spinner barrier value. Spinner barrier is used to denote number of required ajax requests that
+         * have to be completed before initial loading spinner is hidden.
+         *
+         * @return {number}
+         */
+        function getSpinnerBarrier() {
+            return 1 + !!(configuration.hasTaxConfiguration) + !!(configuration.hasCountryConfiguration);
         }
     }
 
