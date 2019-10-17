@@ -79,7 +79,11 @@ class OrderRepository implements BaseOrderRepository
     public function getOrderReferencesWithStatus(array $statuses)
     {
         $filter = new QueryFilter();
-        $filter->where('status', Operators::IN, $statuses);
+
+        foreach ($statuses as $status) {
+            $filter->orWhere('status', Operators::EQUALS, $status);
+        }
+
         $orders = $this->getOrderDetailsRepository()->select($filter);
 
         $result = [];
