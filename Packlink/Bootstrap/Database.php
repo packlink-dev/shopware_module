@@ -4,12 +4,14 @@ namespace Packlink\Bootstrap;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
+use Logeecom\Infrastructure\Logger\Logger;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Models\PacklinkEntity;
+use Packlink\Utilities\VersionedFileReader;
 use Shopware\Models\Dispatch\Dispatch;
 use Shopware\Models\Order\Status;
 
@@ -69,6 +71,38 @@ class Database
     public function activate()
     {
         $this->setPacklinkCarriersStatus(true);
+    }
+
+    /**
+     * Performs database update.
+     *
+     * @param \Packlink\Utilities\VersionedFileReader $versionedFileReader
+     *
+     * @return bool
+     */
+    public function update(VersionedFileReader $versionedFileReader)
+    {
+        $db = Shopware()->Db();
+
+        if ($db === null) {
+            Logger::logError('Failed to perform database update because: Database is not connected.');
+
+            return false;
+        }
+
+        while (($statements = $versionedFileReader->readNext())) {
+            foreach ($statements as $statement) {
+                try {
+                    $db->executeQuery($statement);
+                } catch (\Exception $e) {
+                    Logger::logError("Failed to perform database update because: {$e->getMessage()}");
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
