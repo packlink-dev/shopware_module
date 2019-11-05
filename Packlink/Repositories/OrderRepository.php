@@ -173,29 +173,6 @@ class OrderRepository implements BaseOrderRepository
     }
 
     /**
-     * Sets order packlink shipping labels to an order by shipment reference.
-     *
-     * @param string $shipmentReference Packlink shipment reference.
-     * @param string[] $labels Packlink shipping labels.
-     *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Packlink\BusinessLogic\Order\Exceptions\OrderNotFound When order with provided reference is not found.
-     */
-    public function setLabelsByReference($shipmentReference, array $labels)
-    {
-        $details = $this->getOrderDetailsByReference($shipmentReference);
-
-        if ($details === null) {
-            throw new OrderNotFound("Order details for reference [$shipmentReference] not found.");
-        }
-
-        $details->setShipmentLabels($labels);
-
-        $this->getOrderDetailsRepository()->update($details);
-    }
-
-    /**
      * Sets order packlink shipment tracking history to an order for given shipment.
      *
      * @param Shipment $shipment Packlink shipment details.
@@ -205,6 +182,7 @@ class OrderRepository implements BaseOrderRepository
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Packlink\BusinessLogic\Order\Exceptions\OrderNotFound When order with provided reference is not found.
+     * @throws \Doctrine\ORM\ORMException
      */
     public function updateTrackingInfo(Shipment $shipment, array $trackingHistory)
     {
@@ -323,28 +301,6 @@ class OrderRepository implements BaseOrderRepository
         $details->setDeleted(true);
 
         $this->getOrderDetailsRepository()->update($details);
-    }
-
-    /**
-     * Returns whether shipment identified by provided reference is deleted on Packlink or not.
-     *
-     * @param string $shipmentReference Packlink shipment reference.
-     *
-     * @return bool Returns TRUE if shipment has been deleted; otherwise returns FALSE.
-     *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Packlink\BusinessLogic\Order\Exceptions\OrderNotFound When order with provided reference is not found.
-     */
-    public function isShipmentDeleted($shipmentReference)
-    {
-        $details = $this->getOrderDetailsByReference($shipmentReference);
-
-        if ($details === null) {
-            throw new OrderNotFound("Order details for reference [$shipmentReference] not found.");
-        }
-
-        return $details->isDeleted();
     }
 
     /**
