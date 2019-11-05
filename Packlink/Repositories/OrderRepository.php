@@ -304,20 +304,25 @@ class OrderRepository implements BaseOrderRepository
     }
 
     /**
-     * Returns whether shipment identified by provided reference has Packlink shipment label set.
+     * Returns whether shipment identified by provided reference is deleted on Packlink or not.
      *
      * @param string $shipmentReference Packlink shipment reference.
      *
-     * @return bool Returns TRUE if label is set; otherwise, FALSE.
+     * @return bool Returns TRUE if shipment has been deleted; otherwise returns FALSE.
      *
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\BusinessLogic\Order\Exceptions\OrderNotFound When order with provided reference is not found.
      */
-    public function isLabelSet($shipmentReference)
+    public function isShipmentDeleted($shipmentReference)
     {
         $details = $this->getOrderDetailsByReference($shipmentReference);
 
-        return $details !== null && !empty($details->getShipmentLabels());
+        if ($details === null) {
+            throw new OrderNotFound("Order details for reference [$shipmentReference] not found.");
+        }
+
+        return $details->isDeleted();
     }
 
     /**
