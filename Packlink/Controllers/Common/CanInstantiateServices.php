@@ -9,6 +9,7 @@ use Logeecom\Infrastructure\TaskExecution\QueueService;
 use Packlink\BusinessLogic\Http\Proxy;
 use Packlink\BusinessLogic\Location\LocationService;
 use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
+use Packlink\BusinessLogic\Order\OrderService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\BusinessLogic\User\UserAccountService;
 use Packlink\Contracts\Services\BusinessLogic\DebugService;
@@ -40,6 +41,8 @@ trait CanInstantiateServices
     protected $shippingMethodMapRepository;
     /** @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface */
     protected $shippingMethodRepository;
+    /** @var \Packlink\BusinessLogic\Order\OrderService */
+    protected $orderService;
 
     /**
      * Retrieves configuration service.
@@ -211,5 +214,19 @@ trait CanInstantiateServices
         }
 
         return $this->shippingMethodRepository;
+    }
+
+    /**
+     * Retrieves order service.
+     *
+     * @return \Packlink\BusinessLogic\Order\OrderService
+     */
+    protected function getOrderService()
+    {
+        if ($this->orderService === null) {
+            $this->orderService = ServiceRegister::getService(OrderService::CLASS_NAME);
+        }
+
+        return $this->orderService;
     }
 }

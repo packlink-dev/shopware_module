@@ -36,12 +36,14 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
             'cost' => $orderDetails->getShippingCost(),
             'status' => Translation::get('shipment/packlink/status/' . $orderDetails->getStatus()),
             'reference' => $orderDetails->getReference(),
-            'isLabelsAvailable' => !empty($orderDetails->getShipmentLabels()),
+            'isLabelsAvailable' => false,
             'isDeleted' => $orderDetails->isDeleted(),
         ];
 
-        if ($details['isLabelsAvailable']) {
-            $details['isLabelsPrinted'] = $orderDetails->getShipmentLabels()[0]->isPrinted();
+        if ($this->getOrderService()->isReadyToFetchShipmentLabels($orderDetails->getStatus())) {
+            $details['isLabelsAvailable'] = true;
+            $labels = $orderDetails->getShipmentLabels();
+            $details['isLabelsPrinted'] = !empty($labels) && $orderDetails->getShipmentLabels()[0]->isPrinted();
         }
 
         if (!empty($orderDetails->getCarrierTrackingNumbers())) {

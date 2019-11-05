@@ -10,6 +10,7 @@ use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
+use Packlink\BusinessLogic\Order\OrderService;
 use Packlink\Utilities\Reference;
 
 class OrderListHandler implements SubscriberInterface
@@ -22,6 +23,10 @@ class OrderListHandler implements SubscriberInterface
      * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $orderDetailsRepository;
+    /**
+     * @var \Packlink\BusinessLogic\Order\OrderService
+     */
+    protected $orderService;
 
     /**
      * @inheritDoc
@@ -59,10 +64,14 @@ class OrderListHandler implements SubscriberInterface
 
                 $return['data'][$index]['plIsDeleted'] = $orderDetails->isDeleted();
 
-                $shipmentLabels = $orderDetails->getShipmentLabels();
-                if ($shipmentLabels) {
+                $orderService = $this->getOrderService();
+                $isLabelsAvailable = $orderService->isReadyToFetchShipmentLabels($orderDetails->getStatus());
+
+                if ($isLabelsAvailable) {
+                    $labels = $orderDetails->getShipmentLabels();
+
                     $return['data'][$index]['plHasLabel'] = true;
-                    $return['data'][$index]['plIsLabelPrinted'] = $shipmentLabels[0]->isPrinted();
+                    $return['data'][$index]['plIsLabelPrinted'] = !empty($labels) && $labels[0]->isPrinted();
                 }
             }
         }
@@ -142,5 +151,19 @@ class OrderListHandler implements SubscriberInterface
         }
 
         return $this->orderDetailsRepository;
+    }
+
+    /**
+     * Retrieves order service.
+     *
+     * @return \Packlink\BusinessLogic\Order\OrderService
+     */
+    protected function getOrderService()
+    {
+        if ($this->orderService === null) {
+            $this->orderService = ServiceRegister::getService(OrderService::CLASS_NAME);
+        }
+
+        return $this->orderService;
     }
 }

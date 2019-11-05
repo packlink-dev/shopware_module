@@ -19,8 +19,19 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
         if (!empty($orderQuery) && !empty($orderIds = explode(',', $orderQuery))) {
             $pdfs = [];
 
+            $orderService = $this->getOrderService();
+
             foreach ($orderIds as $id) {
-                if (($dts = $this->getOrderDetails((int)$id)) !== null && !empty($labels = $dts->getShipmentLabels())) {
+                if (($dts = $this->getOrderDetails((int)$id)) !== null
+                    && $orderService->isReadyToFetchShipmentLabels($dts->getStatus())
+                ) {
+                    $labels = $dts->getShipmentLabels();
+
+                    if (empty($labels)) {
+                        $labels = $orderService->getShipmentLabels($dts->getReference());
+                        $dts->setShipmentLabels($labels);
+                    }
+
                     /** @var \Packlink\BusinessLogic\Http\DTO\ShipmentLabel $label */
                     foreach ($labels as $label) {
                         $label->setPrinted(true);
@@ -36,6 +47,9 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
             if (!empty($pdfs) && $pdf = $this->merge($pdfs)) {
                 Response::inlineFile($pdf, 'application/pdf');
             }
+
+            echo '<script>window.close()</script>';
+            exit;
         }
     }
 
