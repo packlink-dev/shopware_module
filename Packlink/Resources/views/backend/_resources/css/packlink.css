@@ -4,14 +4,75 @@
  * @copyright  2019 Packlink
  */
 
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-ExtrabldWeb.woff") format("woff");
+    font-weight: 800;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-BoldWeb.woff") format("woff");
+    font-weight: 700;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-SemiboldWeb.woff") format("woff");
+    font-weight: 600;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-MediumWeb.woff") format("woff");
+    font-weight: 500;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-RegularWeb.woff") format("woff");
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-LightWeb.woff") format("woff");
+    font-weight: 200;
+    font-style: normal
+}
+
+@font-face {
+    font-family: proxima-nova;
+    src: url("/../fonts/ProximaNova-ThinWeb.woff") format("woff");
+    font-weight: 100;
+    font-style: normal
+}
+
+body {
+    font-family: proxima-nova, sans-serif;
+    height: calc(100% - 35px)!important;
+}
+
+body *:focus {
+    outline: none;
+}
+
+input[type="checkbox"] {
+    padding: 0;
+    margin: 0;
+}
+
 .pl-main-wrapper {
     position: relative;
     clear: both;
     padding: 0 !important;
     margin: -20px 0 0;
-    min-height: 500px;
-    border: 1px solid #dfdfdf;
-    height: 500px;
+    height: calc(100% - 5px);
 }
 
 .pl-header-wrapper {
@@ -32,6 +93,11 @@
 }
 
 .pl-dashboard-logo {
+    position: absolute;
+    width: 250px;
+}
+
+.pl-configuration-dashboard-logo {
     width: 100%;
 }
 
@@ -234,6 +300,7 @@
     color: #5d5d5d;
     cursor: pointer;
     border-bottom: 3px solid transparent;
+    outline: none;
 }
 
 .pl-nav-item * {
@@ -324,6 +391,10 @@
 .pl-table-header-wrapper > th:last-child, .pl-table-row-wrapper > td:last-child {
     color: #2095F2 !important;
     border-right: 1px solid #dcdcdc !important;
+}
+
+.pl-table-row-method-title {
+    max-width: 400px;
 }
 
 .pl-table-row-method-title h2 {
@@ -438,7 +509,7 @@
     border-radius: 5px;
     position: relative;
     margin: 0 auto;
-    height: 100%;
+    height: 95%;
 }
 
 .pl-disable-methods-modal {
@@ -497,6 +568,10 @@
     border-width: 11px;
 }
 
+.pl-config-btn {
+    cursor: pointer;
+}
+
 .pl-shipping-method-form {
     padding: 0 !important;
 }
@@ -514,6 +589,14 @@
 
 .pl-shipping-method-form > div:nth-child(2) {
     padding-left: 10px !important;
+}
+
+.pl-shipping-method-select-btn {
+    outline: none !important;
+}
+
+.pl-shipping-method-select-btn:focus {
+    outline: none !important;
 }
 
 .pl-form-section-title-wrapper {
@@ -653,16 +736,16 @@
 
 .pl-text-input-label {
     height: 16px;
-    line-height: 7px;
+    line-height: 16px;
     position: absolute;
-    top: 22px;
-    left: 0;
+    top: 17px;
     margin-left: 15px;
     text-transform: uppercase;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: bold;
     color: #9b9b9b;
     pointer-events: none;
+    left: 0;
 }
 
 #pl-login-api-key-label {
@@ -708,20 +791,23 @@
 .pl-form-section-input {
     position: relative;
     border: none;
+    padding: 0;
+    margin: 0 0 10px 0;
 }
 
 .pl-form-section-input input {
     height: 50px !important;
+    box-sizing: border-box;
     background-color: white !important;
     border-radius: 0 !important;
     border: 1px solid #dcdcdc;
     padding: 20px 0 0 15px !important;
     font-size: 14px;
     color: #5d5d5d !important;
+    outline: none;
     width: 100%;
-    margin: 0;
-    box-shadow: unset;
 }
+
 
 .pl-form-section-input input:focus {
     border: 1px solid #2095F2 !important;
@@ -777,7 +863,7 @@
     cursor: pointer;
     min-width: 65px;
     display: inline-block;
-    margin-top: 10px;
+    margin-bottom: 10px;
     color: #2095f2;
 }
 
@@ -914,7 +1000,7 @@
 }
 
 .pl-warehouse-input {
-    margin-bottom: 15px !important;
+    margin-bottom: 5px !important;
     width: 500px;
 }
 
@@ -1056,20 +1142,26 @@
 }
 
 .pl-login-form-header {
-    margin: 0 0 40px 11px;
+    margin: 0 0 40px 0;
     color: #545454;
 }
 
 .pl-login-form-title-wrapper {
     margin-bottom: 25px;
     padding: 0;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     line-height: 30px;
+    text-align: center;
+}
+
+.pl-login-form-text-wrapper {
+    text-align: center;
+    margin-bottom: 60px;
+    font-size: 12px;
 }
 
 .pl-login-form-label-wrapper {
-    margin-left: 11px;
     margin-bottom: 15px;
     padding: 0;
     font-size: 13px;
@@ -1460,6 +1552,7 @@
 
 .pl-switch {
     cursor: pointer;
+    outline: none;
 }
 
 .pl-switch * {
@@ -1511,6 +1604,32 @@
 
 .md-checkbox input[type=checkbox]:checked + i.md-checkbox-control:before {
     background-color: #2095F2 !important;
+}
+
+.pl-shipping-services-message {
+    text-align: center;
+    z-index: 1000 !important;
+    margin-top: 30px;
+    font-size: 1.3rem;
+    color: #5d5d5d;
+    position: relative;
+}
+
+.pl-shipping-services-message div {
+    margin-bottom: 20px;
+}
+
+.pl-shipping-services-message .title {
+    font-size: 1.6rem;
+}
+
+.pl-shipping-services-message .pl-spinner {
+    position: relative;
+    display: flex;
+}
+
+.hidden {
+    display: none !important;
 }
 
 html,
@@ -1600,7 +1719,6 @@ body {
 }
 
 #pl-main-page-holder .button.button-login {
-    margin-left: 12px;
 }
 
 #pl-main-page-holder .button.button-login::before {
@@ -1740,6 +1858,14 @@ body {
 .pl-configure-shipping-method-wrapper {
     padding: 0 !important;
     box-sizing: content-box;
+}
+
+.pl-managed-by {
+    margin: 0;
+}
+
+.pl-tax-spacer {
+    margin-top: 5px !important;
 }
 
 @media screen and (max-width: 950px) {

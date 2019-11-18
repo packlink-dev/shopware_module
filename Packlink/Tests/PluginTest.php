@@ -3,7 +3,7 @@
 namespace Packlink;
 
 use Packlink\Packlink as Plugin;
-use Shopware\Tests\Functional\Components\Plugin\TestCase;
+use Shopware\Components\Test\Plugin\TestCase;
 
 class PluginTest extends TestCase
 {
@@ -11,6 +11,9 @@ class PluginTest extends TestCase
         'Packlink' => []
     ];
 
+    /**
+     * @throws \Exception
+     */
     public function testCanCreateInstance()
     {
         /** @var Plugin $plugin */

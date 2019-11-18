@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7efb13d3d0d21fbc94bc7aeb4c522953",
+    "content-hash": "06ae4f4352fe613ecc32ea5933480ccf",
     "packages": [
         {
             "name": "iio/libmergepdf",
@@ -58,16 +58,16 @@
         },
         {
             "name": "packlink/integration-core",
-            "version": "v1.3.1",
+            "version": "dev-release/v1.5.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:packlink-dev/ecommerce_module_core.git",
-                "reference": "19b49cf3c5e0fa46d45cece8a333ff5573f25a83"
+                "url": "git@github.com:logeecom/pl_module_core.git",
+                "reference": "d85c4077d0dc91f1545bf7aee9f088c8de1f2824"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/packlink-dev/ecommerce_module_core/zipball/19b49cf3c5e0fa46d45cece8a333ff5573f25a83",
-                "reference": "19b49cf3c5e0fa46d45cece8a333ff5573f25a83",
+                "url": "https://api.github.com/repos/logeecom/pl_module_core/zipball/d85c4077d0dc91f1545bf7aee9f088c8de1f2824",
+                "reference": "d85c4077d0dc91f1545bf7aee9f088c8de1f2824",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
                 "proprietary"
             ],
             "description": "Packlink integrations core library",
-            "time": "2019-07-16T10:03:31+00:00"
+            "time": "2019-11-05T12:57:26+00:00"
         },
         {
             "name": "setasign/fpdf",
@@ -232,18 +232,21 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "packlink/integration-core": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3",
+        "php": ">=5.6",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-zip": "*",
-        "ext-fileinfo": "*"
+        "ext-fileinfo": "*",
+        "ext-simplexml": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "5.3.29"
+        "php": "5.6.39"
     }
 }

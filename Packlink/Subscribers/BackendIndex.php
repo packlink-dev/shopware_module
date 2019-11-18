@@ -21,9 +21,9 @@ class BackendIndex implements SubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             'Enlight_Controller_Action_PostDispatch_Backend_Index' => 'onPostDispatchBackendIndex'
-        );
+        ];
     }
 
     /**
@@ -38,7 +38,7 @@ class BackendIndex implements SubscriberInterface
 
         if (!$request->isDispatched()
             || $response->isException()
-            || $request->getActionName() != 'index'
+            || $request->getActionName() !== 'index'
             || !$view->hasTemplate()
         ) {
             return;

@@ -2,23 +2,40 @@
   "name": "packlink/shopware",
   "description": "Packlink Shipping Shopware plugin",
   "type": "library",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "repositories": [
     {
       "type": "vcs",
       "no-api": true,
-      "url": "git@github.com:packlink-dev/ecommerce_module_core.git"
+      "url": "git@github.com:logeecom/pl_module_core.git"
     }
   ],
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.6",
-    "packlink/integration-core": "1.3.*",
+    "packlink/integration-core": "dev-release/v1.5.0",
     "ext-json": "*",
     "ext-curl": "*",
     "ext-zip": "*",
     "ext-fileinfo": "*",
-    "iio/libmergepdf": "3.0.0"
+    "iio/libmergepdf": "3.0.0",
+    "ext-simplexml": "*"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Packlink\\TestComponents\\": "TestComponents",
+      "Packlink\\Tests\\": "Tests",
+      "Logeecom\\Tests\\": "vendor/packlink/integration-core/tests"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Packlink\\Lib\\": "Lib"
+    }
+  },
+  "scripts": {
+    "post-update-cmd": "Packlink\\Lib\\Composer::postUpdate",
+    "post-install-cmd": "Packlink\\Lib\\Composer::postUpdate"
   },
   "config": {
     "platform": {

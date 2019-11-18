@@ -1,9 +1,12 @@
 <?php
 
+use Packlink\Controllers\Common\CanInstantiateServices;
 use Shopware\Components\CSRFWhitelistAware;
 
 class Shopware_Controllers_Backend_PacklinkMain extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
+    use CanInstantiateServices;
+
     /**
      * @inheritDoc
      */
@@ -13,20 +16,45 @@ class Shopware_Controllers_Backend_PacklinkMain extends Enlight_Controller_Actio
     }
 
     /**
-     * @inheritDoc
+     * Performs index action.
+     *
+     * @throws \Exception
      */
-    public function postDispatch()
-    {
-        $csrfToken = $this->container->get('BackendSession')->offsetGet('X-CSRF-Token');
-        $this->View()->assign([ 'csrfToken' => $csrfToken ]);
-    }
-
     public function indexAction()
     {
+        $action = $this->isLoggedIn() ? 'Configuration' : 'Login';
+
+        $this->backendRedirect($action);
     }
 
-    public function testAction()
+    /**
+     * Checks whether user is logged in.
+     *
+     * @return bool
+     */
+    protected function isLoggedIn()
     {
+        $authToken = $this->getConfigService()->getAuthorizationToken();
 
+        return !empty($authToken);
+    }
+
+    /**
+     * Redirects to backend controller
+     *
+     * @param string $action
+     *
+     * @throws \Exception
+     */
+    protected function backendRedirect($action)
+    {
+        $this->redirect(
+            [
+                'module' => 'backend',
+                'controller' => "Packlink{$action}",
+                'action' => 'index',
+                '__csrf_token' => $this->container->get('BackendSession')->offsetGet('X-CSRF-Token'),
+            ]
+        );
     }
 }
