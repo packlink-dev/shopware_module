@@ -107,6 +107,7 @@ class BaseRepository implements RepositoryInterface
      *
      * @return int Identifier of saved entity.
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
      */
     public function save(Entity $entity)
     {
@@ -174,7 +175,6 @@ class BaseRepository implements RepositoryInterface
      *
      * @return int Number of records that match filter criteria.
      *
-     * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      */
@@ -273,8 +273,8 @@ class BaseRepository implements RepositoryInterface
         foreach ($conditionGroups as $group) {
             $subPart = [];
 
-            foreach ($group as $condtion) {
-                $subPart[] = $this->getQueryPart($condtion, $indexMap, $alias);
+            foreach ($group as $condition) {
+                $subPart[] = $this->getQueryPart($condition, $indexMap, $alias);
             }
 
             if (!empty($subPart)) {
@@ -304,10 +304,37 @@ class BaseRepository implements RepositoryInterface
 
         $part = "$alias.index_" . $indexMap[$column] . ' ' . $condition->getOperator();
         if (!in_array($condition->getOperator(), array(Operators::NULL, Operators::NOT_NULL), true)) {
-            $part .= " '" . IndexHelper::castFieldValue($condition->getValue(), $condition->getValueType()) . "'";
+            if (in_array($condition->getOperator(), array(Operators::NOT_IN, Operators::IN), true)) {
+                $part .= $this->getInOperatorValues($condition);
+            } else {
+                $part .= " '" . IndexHelper::castFieldValue($condition->getValue(), $condition->getValueType()) . "'";
+            }
         }
 
         return $part;
+    }
+
+    /**
+     * Handles values for the IN and NOT IN operators,
+     *
+     * @param QueryCondition $condition
+     *
+     * @return string
+     */
+    protected function getInOperatorValues(QueryCondition $condition)
+    {
+        $values = array_map(
+            function ($item) {
+                if (is_string($item)) {
+                    return "'$item'";
+                }
+
+                return "'" . IndexHelper::castFieldValue($item, is_int($item) ? 'integer' : 'double') . "'";
+            },
+            $condition->getValue()
+        );
+
+        return '(' . implode(',', $values) . ')';
     }
 
     /**
@@ -366,6 +393,7 @@ class BaseRepository implements RepositoryInterface
      * @return int
      *
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
      */
     protected function persistEntity(Entity $entity, BaseEntity $persistedEntity)
     {

@@ -4,8 +4,8 @@ namespace Packlink;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Packlink\Tests\TestComponents\BaseRepositoryTestAddatper;
-use Shopware\Components\Test\Plugin\TestCase;
+use Packlink\Tests\TestComponents\BaseRepositoryTestAdapter;
+use PHPUnit\Framework\TestCase;
 
 class BaseRepositoryWrapperTest extends TestCase
 {
@@ -13,7 +13,7 @@ class BaseRepositoryWrapperTest extends TestCase
         'Packlink' => [],
     ];
     /**
-     * @var \Packlink\Tests\TestComponents\BaseRepositoryTestAddatper
+     * @var \Packlink\Tests\TestComponents\BaseRepositoryTestAdapter
      */
     protected $baseTest;
 
@@ -25,7 +25,7 @@ class BaseRepositoryWrapperTest extends TestCase
     public function __construct()
     {
         parent::__construct(...func_get_args());
-        $this->baseTest = new BaseRepositoryTestAddatper(...func_get_args());
+        $this->baseTest = new BaseRepositoryTestAdapter(...func_get_args());
         $entityManager = Shopware()->Container()->get('models');
         $this->baseTest->setEntityManager($entityManager);
     }
@@ -110,6 +110,87 @@ class BaseRepositoryWrapperTest extends TestCase
     public function testQueryWithAndAndOr()
     {
         $this->baseTest->testQueryWithAndAndOr();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithNotEquals()
+    {
+        $this->baseTest->testQueryWithNotEquals();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithGreaterThan()
+    {
+        $this->baseTest->testQueryWithGreaterThan();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithLessThan()
+    {
+        $this->baseTest->testQueryWithLessThan();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithGreaterEqualThan()
+    {
+        $this->baseTest->testQueryWithGreaterEqualThan();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithLessOrEqualThan()
+    {
+        $this->baseTest->testQueryWithLessOrEqualThan();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithCombinedComparisonOperators()
+    {
+        $this->baseTest->testQueryWithCombinedComparisonOperators();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithInOperator()
+    {
+        $this->baseTest->testQueryWithInOperator();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithNotInOperator()
+    {
+        $this->baseTest->testQueryWithNotInOperator();
+    }
+
+    /**
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testQueryWithLikeOperator()
+    {
+        $this->baseTest->testQueryWithLikeOperator();
     }
 
     /**
