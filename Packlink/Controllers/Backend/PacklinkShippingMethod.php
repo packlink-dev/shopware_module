@@ -48,9 +48,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
         $data = $this->controller->getAll();
 
         $result = [];
-        $country = $this->getUserCountry();
         foreach ($data as $item) {
-            $item->logoUrl = CarrierLogo::getLogo($country, $item->carrierName);
             $result[] = $this->formatResponse($item);
         }
 
@@ -102,8 +100,6 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
         if (!$model->selected) {
             $model->selected = $this->controller->activate($model->id);
         }
-
-        $model->logoUrl = CarrierLogo::getLogo($this->getUserCountry(), $model->carrierName);
 
         Response::json($this->formatResponse($model));
     }

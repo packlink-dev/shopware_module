@@ -5,13 +5,10 @@ namespace Packlink\Subscribers;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
-use Packlink\BusinessLogic\Controllers\DraftController;
-use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
+use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
+use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 use Shopware\Models\Order\Order;
 use Shopware\Models\Order\Status;
 
@@ -21,6 +18,10 @@ class OrderModelEventHandler implements EventSubscriber
      * @var \Packlink\Services\BusinessLogic\ConfigurationService
      */
     protected $configService;
+    /**
+     * @var \Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService
+     */
+    protected $shipmentDraftService;
     /**
      * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
@@ -47,6 +48,8 @@ class OrderModelEventHandler implements EventSubscriber
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapExists
+     * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapNotFound
      */
     public function postPersist(LifecycleEventArgs $args)
     {
@@ -55,7 +58,7 @@ class OrderModelEventHandler implements EventSubscriber
             return;
         }
 
-        DraftController::createDraft($model->getId());
+        $this->shipmentDraftService->enqueueCreateShipmentDraftTask($model->getId());
     }
 
     /**
@@ -66,6 +69,8 @@ class OrderModelEventHandler implements EventSubscriber
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapExists
+     * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapNotFound
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
@@ -74,7 +79,7 @@ class OrderModelEventHandler implements EventSubscriber
             return;
         }
 
-        DraftController::createDraft($model->getId());
+        $this->shipmentDraftService->enqueueCreateShipmentDraftTask($model->getId());
     }
 
     /**
@@ -122,6 +127,20 @@ class OrderModelEventHandler implements EventSubscriber
     }
 
     /**
+     * Retrieves shipment draft service.
+     *
+     * @return \Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService
+     */
+    protected function getShipmentDraftService()
+    {
+        if ($this->shipmentDraftService === null) {
+            $this->shipmentDraftService = ServiceRegister::getService(ShipmentDraftService::CLASS_NAME);
+        }
+
+        return $this->shipmentDraftService;
+    }
+
+    /**
      * Checks whether order draft has been created.
      *
      * @param $id
@@ -133,27 +152,10 @@ class OrderModelEventHandler implements EventSubscriber
      */
     protected function isOrderDetailsCreated($id)
     {
-        $filter = new QueryFilter();
-        $filter->where('orderId', Operators::EQUALS, $id);
-        $details = $this->getOrderDetailsRepository()->selectOne($filter);
+        /** @var \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
+        $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetails::CLASS_NAME);
+        $details = $orderShipmentDetailsService->getDetailsByOrderId($id);
 
         return $details !== null;
     }
-
-    /**
-     * Retrieves order details repository.
-     *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
-     *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     */
-    protected function getOrderDetailsRepository()
-    {
-        if ($this->orderDetailsRepository === null) {
-            $this->orderDetailsRepository = RepositoryRegistry::getRepository(OrderShipmentDetails::getClassName());
-        }
-
-        return $this->orderDetailsRepository;
-    }
-
 }

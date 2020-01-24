@@ -4,6 +4,8 @@ namespace Packlink\Controllers\Backend;
 
 use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
 use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 
 class PacklinkOrderDetailsController extends \Enlight_Controller_Action
@@ -11,23 +13,22 @@ class PacklinkOrderDetailsController extends \Enlight_Controller_Action
     use CanInstantiateServices;
 
     /**
-     * Retrieves order details.
-     *
-     * @param int $orderId
-     *
-     * @return \Packlink\BusinessLogic\Order\Models\OrderShipmentDetails | null
-     *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @var OrderShipmentDetailsService
      */
-    protected function getOrderDetails($orderId)
-    {
-        $filter = new QueryFilter();
-        $filter->where('orderId', Operators::EQUALS, $orderId);
-        /** @var \Packlink\BusinessLogic\Order\Models\OrderShipmentDetails $details */
-        $details = $this->getOrderDetailsRepository()->selectOne($filter);
+    private $orderShipmentDetailsService;
 
-        return $details;
+    /**
+     * Returns an instance of order shipment details service.
+     *
+     * @return OrderShipmentDetailsService
+     */
+    protected function getOrderShipmentDetailsService()
+    {
+        if ($this->orderShipmentDetailsService === null) {
+            $this->orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
+        }
+
+        return $this->orderShipmentDetailsService;
     }
 
     /**

@@ -11,6 +11,7 @@ use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService as BaseService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Entities\ShippingMethodMap;
+use Packlink\Utilities\CarrierLogo;
 use Packlink\Utilities\Translation;
 use Shopware\Components\Model\ModelEntity;
 use Shopware\Models\Dispatch\Dispatch;
@@ -115,6 +116,20 @@ class ShopShippingMethodService implements BaseService
         $this->getConfigService()->setBackupCarrierId($carrier->getId());
 
         return true;
+    }
+
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function getCarrierLogoFilePath($carrierName)
+    {
+        /** @var \Packlink\Services\BusinessLogic\ConfigurationService $configService */
+        $configService = ServiceRegister::getService(Configuration::CLASS_NAME);
+        $userInfo = $configService->getUserInfo();
+        $country = $userInfo ? $userInfo->country : '';
+
+        return CarrierLogo::getLogo(strtolower($country), $carrierName);
     }
 
     /**

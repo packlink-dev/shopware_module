@@ -22,7 +22,7 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
             $orderService = $this->getOrderService();
 
             foreach ($orderIds as $id) {
-                if (($dts = $this->getOrderDetails((int)$id)) !== null
+                if (($dts = $this->getOrderShipmentDetailsService()->getDetailsByOrderId((int)$id)) !== null
                     && $orderService->isReadyToFetchShipmentLabels($dts->getStatus())
                 ) {
                     $labels = $dts->getShipmentLabels();

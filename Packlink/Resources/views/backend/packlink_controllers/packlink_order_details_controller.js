@@ -59,8 +59,8 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                 case 'not_logged_in':
                     start(notLoggedInStateHandler(), 'not_logged_in');
                     break;
-                case 'not_created':
-                    start(notCreatedStateHandler(), 'not_created');
+                case 'not_queued':
+                    start(notQueuedStateHandler(), 'not_queued');
                     break;
                 case 'in_progress':
                     start(inProgressStateHandler(), 'in_progress');
@@ -69,7 +69,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                     start(completedStateHandler(), 'completed');
                     break;
                 default:
-                    start(notCreatedStateHandler(), 'not_created');
+                    start(notQueuedStateHandler(), 'not_queued');
                     break;
             }
         }
@@ -109,11 +109,11 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
         }
 
         /**
-         * Handles not created state.
+         * Handles not queued state.
          *
          * @return { object }
          */
-        function notCreatedStateHandler() {
+        function notQueuedStateHandler() {
             let task = null;
             this.handle = function () {
                 render();
