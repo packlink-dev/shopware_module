@@ -5,6 +5,38 @@ namespace Packlink\Utilities;
 class Response
 {
     /**
+     * Converts DTOs to array and returns a JSON response.
+     *
+     * @param \Packlink\BusinessLogic\DTO\BaseDto[] $entities
+     */
+    public static function dtoEntitiesResponse(array $entities)
+    {
+        $response = array();
+
+        foreach ($entities as $entity) {
+            $response[] = $entity->toArray();
+        }
+
+        self::json($response);
+    }
+
+    /**
+     * Returns 400 response with validation errors.
+     *
+     * @param \Packlink\BusinessLogic\DTO\ValidationError[] $errors
+     */
+    public static function validationErrorsResponse(array $errors)
+    {
+        $result = array();
+
+        foreach ($errors as $error) {
+            $result[$error->field] = $error->message;
+        }
+
+        self::json($result, 400);
+    }
+    
+    /**
      * Returns json response.
      *
      * @param array $data

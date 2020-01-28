@@ -6,7 +6,7 @@ use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
 use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Packlink\BusinessLogic\Http\DTO\ParcelInfo;
-use Packlink\BusinessLogic\Http\DTO\Warehouse;
+use Packlink\BusinessLogic\Warehouse\Warehouse;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Entities\ShippingMethodMap;
 
@@ -98,7 +98,7 @@ class Cache
     /**
      * Retrieves default warehouse.
      *
-     * @return \Packlink\BusinessLogic\Http\DTO\Warehouse | null
+     * @return \Packlink\BusinessLogic\Warehouse\Warehouse | null
      */
     public static function getDefaultWarehouse()
     {
@@ -108,7 +108,7 @@ class Cache
     /**
      * Sets default warehouse.
      *
-     * @param \Packlink\BusinessLogic\Http\DTO\Warehouse $warehouse
+     * @param \Packlink\BusinessLogic\Warehouse\Warehouse $warehouse
      */
     public static function setDefaultWarehouse(Warehouse $warehouse)
     {

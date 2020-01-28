@@ -113,7 +113,7 @@ class CheckoutService
     /**
      * Retrieves default warehouse.
      *
-     * @return \Packlink\BusinessLogic\Http\DTO\Warehouse
+     * @return \Packlink\BusinessLogic\Warehouse\Warehouse
      */
     protected function getDefaultWarehouse()
     {
