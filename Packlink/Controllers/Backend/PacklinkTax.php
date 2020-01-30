@@ -14,25 +14,21 @@ class Shopware_Controllers_Backend_PacklinkTax extends Enlight_Controller_Action
     {
         $result = [];
 
-        try {
-            $result[] = TaxClass::fromArray(
-                [
-                    'value' => 0,
-                    'label' => Translation::get('configuration/defaulttax'),
-                ]
-            );
+        $result[] = TaxClass::fromArray(
+            [
+                'value' => 0,
+                'label' => Translation::get('configuration/defaulttax'),
+            ]
+        );
 
-            $availableTaxes = $this->getTaxRepository()->queryAll()->execute();
+        $availableTaxes = $this->getTaxRepository()->queryAll()->execute();
 
-            /** @var Tax $tax */
-            foreach ($availableTaxes as $tax) {
-                $result[] = TaxClass::fromArray([
-                    'value' => $tax->getId(),
-                    'label' => $tax->getName(),
-                ]);
-            }
-        } catch (\Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException $e) {
-            Response::validationErrorsResponse($e->getValidationErrors());
+        /** @var Tax $tax */
+        foreach ($availableTaxes as $tax) {
+            $result[] = TaxClass::fromArray([
+                'value' => $tax->getId(),
+                'label' => $tax->getName(),
+            ]);
         }
 
         Response::dtoEntitiesResponse($result);

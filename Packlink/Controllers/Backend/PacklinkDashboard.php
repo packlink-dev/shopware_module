@@ -7,18 +7,12 @@ class Shopware_Controllers_Backend_PacklinkDashboard extends Enlight_Controller_
 {
     /**
      * Retrieves setup status.
-     *
-     * @throws \Packlink\BusinessLogic\DTO\Exceptions\FrontDtoNotRegisteredException
      */
     public function indexAction()
     {
         $controller = new DashboardController();
 
-        try {
-            $status = $controller->getStatus();
-            Response::json($status->toArray());
-        } catch (\Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException $e) {
-            Response::validationErrorsResponse($e->getValidationErrors());
-        }
+        $status = $controller->getStatus();
+        Response::json($status->toArray());
     }
 }

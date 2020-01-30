@@ -30,7 +30,7 @@ class Response
         $result = array();
 
         foreach ($errors as $error) {
-            $result[$error->field] = $error->message;
+            $result[$error->field] = Translation::getValidationErrorTranslation($error->code, $error->field);
         }
 
         self::json($result, 400);

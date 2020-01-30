@@ -1164,7 +1164,7 @@
                 phone: "{s name="error/phone"}Field must be valid phone number.{/s}",
                 greaterThanZero: "{s name="error/greaterthanzero"}Value must be greater than 0.{/s}",
                 numberOfDecimalPlaces: "{s name="error/twodecimalplaces"}Field must have 2 decimal places.{/s}",
-                integer: "{s name="error/integer"}Field must be an integer.{/s}"
+                integer: "{s name="error/integer"}Field must be a positive integer.{/s}"
             };
 
             Packlink.successMsgs = {
