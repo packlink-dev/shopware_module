@@ -9,10 +9,6 @@ use Packlink\Utilities\Response;
 class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends PacklinkOrderDetailsController
 {
     const NOT_LOGGED_IN_STATUS = 'not_logged_in';
-    const DRAFT_CREATION_IN_PROGRESS_STATUSES = [
-      QueueItem::QUEUED,
-      QueueItem::IN_PROGRESS,
-    ];
 
     /**
      * Retrieves send draft task status for particular order.
@@ -32,7 +28,7 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends Pac
         $shipmentDraftService = ServiceRegister::getService(ShipmentDraftService::CLASS_NAME);
         $draftStatus = $shipmentDraftService->getDraftStatus($orderId);
 
-        if (in_array($draftStatus->status, self::DRAFT_CREATION_IN_PROGRESS_STATUSES)) {
+        if ($draftStatus->status === QueueItem::QUEUED) {
             Response::json(['status' => QueueItem::IN_PROGRESS]);
         }
 

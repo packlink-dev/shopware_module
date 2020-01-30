@@ -10,7 +10,6 @@ use Packlink\BusinessLogic\Http\Proxy;
 use Packlink\BusinessLogic\Location\LocationService;
 use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Order\OrderService;
-use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\BusinessLogic\User\UserAccountService;
 use Packlink\Contracts\Services\BusinessLogic\DebugService;
@@ -44,8 +43,6 @@ trait CanInstantiateServices
     protected $shippingMethodRepository;
     /** @var \Packlink\BusinessLogic\Order\OrderService */
     protected $orderService;
-    /** @var \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService */
-    protected $orderShipmentDetailsService;
 
     /**
      * Retrieves configuration service.
@@ -231,19 +228,5 @@ trait CanInstantiateServices
         }
 
         return $this->orderService;
-    }
-
-    /**
-     * Returns order shipment details service.
-     *
-     * @return \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService
-     */
-    protected function getOrderShipmentDetailsService()
-    {
-        if ($this->orderShipmentDetailsService === null) {
-            $this->orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
-        }
-
-        return $this->orderShipmentDetailsService;
     }
 }

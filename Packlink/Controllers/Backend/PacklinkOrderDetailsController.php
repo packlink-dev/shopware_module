@@ -11,6 +11,26 @@ class PacklinkOrderDetailsController extends \Enlight_Controller_Action
     use CanInstantiateServices;
 
     /**
+     * Retrieves order details.
+     *
+     * @param string $orderId
+     *
+     * @return \Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails | null
+     *
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    protected function getOrderDetails($orderId)
+    {
+        $filter = new QueryFilter();
+        $filter->where('orderId', Operators::EQUALS, $orderId);
+        /** @var \Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails $details */
+        $details = $this->getOrderDetailsRepository()->selectOne($filter);
+
+        return $details;
+    }
+
+    /**
      * Retrieves task.
      *
      * @param $taskId

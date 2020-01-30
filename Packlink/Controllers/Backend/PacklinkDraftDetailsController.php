@@ -22,10 +22,14 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
     {
         $orderId = $this->Request()->get('orderId');
 
+        if (empty($orderId)) {
+            Response::json([], 400);
+        }
+
         /** @var \Shopware\Models\Order\Order $order */
         $order = $this->getShopwareOrderRepository()->find((int)$orderId);
-        $orderDetails = $this->getOrderShipmentDetailsService()->getDetailsByOrderId($orderId);
-        if (empty($orderId) || $order === null || $orderDetails === null) {
+        $orderDetails = $this->getOrderDetails($orderId);
+        if ($order === null || $orderDetails === null) {
             Response::json([], 400);
         }
 
