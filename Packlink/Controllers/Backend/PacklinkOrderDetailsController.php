@@ -4,32 +4,11 @@ namespace Packlink\Controllers\Backend;
 
 use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
 use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 
 class PacklinkOrderDetailsController extends \Enlight_Controller_Action
 {
     use CanInstantiateServices;
-
-    /**
-     * @var OrderShipmentDetailsService
-     */
-    private $orderShipmentDetailsService;
-
-    /**
-     * Returns an instance of order shipment details service.
-     *
-     * @return OrderShipmentDetailsService
-     */
-    protected function getOrderShipmentDetailsService()
-    {
-        if ($this->orderShipmentDetailsService === null) {
-            $this->orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
-        }
-
-        return $this->orderShipmentDetailsService;
-    }
 
     /**
      * Retrieves task.

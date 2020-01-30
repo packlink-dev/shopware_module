@@ -52,9 +52,8 @@ class OrderListHandler implements SubscriberInterface
         $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
 
         foreach ($return['data'] as $index => $order) {
-            if (($orderDetails = $orderShipmentDetailsService->getDetailsByOrderId((string)$order['id'])) !== null
-                && $orderDetails->getReference()
-            ) {
+            $orderDetails = $orderShipmentDetailsService->getDetailsByOrderId((string)$order['id']);
+            if ($orderDetails !== null && $orderDetails->getReference()) {
                 $return['data'][$index]['plReferenceUrl'] = Reference::getUrl(
                     $userCountry,
                     $orderDetails->getReference()
