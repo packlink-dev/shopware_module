@@ -11,7 +11,7 @@ use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService as BaseService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Entities\ShippingMethodMap;
-use Packlink\Utilities\CarrierLogo;
+use Packlink\Utilities\Shop;
 use Packlink\Utilities\Translation;
 use Shopware\Components\Model\ModelEntity;
 use Shopware\Models\Dispatch\Dispatch;
@@ -23,11 +23,15 @@ class ShopShippingMethodService implements BaseService
     const WEIGHT = 0;
     const STANDARD_SHIPPING = 0;
     const ALLWAYS_CHARGE = 0;
+    const DEFAULT_CARRIER = 'carrier.jpg';
+    const IMG_DIR = '/Resources/views/backend/_resources/images/carriers/';
     /**
      * @var \Packlink\Repositories\BaseRepository
      */
     protected $baseRepository;
-    /** @var \Packlink\Services\BusinessLogic\ConfigurationService */
+    /**
+     * @var \Packlink\Services\BusinessLogic\ConfigurationService
+     */
     protected $configService;
 
     /**
@@ -127,9 +131,20 @@ class ShopShippingMethodService implements BaseService
         /** @var \Packlink\Services\BusinessLogic\ConfigurationService $configService */
         $configService = ServiceRegister::getService(Configuration::CLASS_NAME);
         $userInfo = $configService->getUserInfo();
-        $country = $userInfo ? $userInfo->country : '';
+        $country = $userInfo ? strtolower($userInfo->country) : '';
 
-        return CarrierLogo::getLogo(strtolower($country), $carrierName);
+        $pluginDir = Shopware()->Container()->getParameter('packlink.plugin_dir');
+
+        $baseDir = $pluginDir . self::IMG_DIR;
+        $image = $baseDir . $country . '/' . strtolower(str_replace(' ', '-', $carrierName)) . '.png';
+
+        if (!file_exists($image)) {
+            $image = $baseDir . self::DEFAULT_CARRIER;
+        }
+
+        $pathResolver = Shopware()->Container()->get('theme_path_resolver');
+
+        return $pathResolver->formatPathToUrl($image, Shop::getDefaultShop());
     }
 
     /**
