@@ -80,7 +80,7 @@ class ShopOrderService implements BaseShopOrderService
     /**
      * @inheritDoc
      */
-    public function handleUpdatedTrackingInfo($orderId, array $trackings)
+    public function updateTrackingInfo($orderId, array $trackings)
     {
         /** @var \Shopware\Models\Order\Order $sourceOrder */
         $sourceOrder = $this->getShopwareOrderRepository()->find($orderId);
@@ -96,6 +96,7 @@ class ShopOrderService implements BaseShopOrderService
 
     /**
      * @inheritDoc
+     * @noinspection PhpUnhandledExceptionInspection
      */
     public function updateShipmentStatus($orderId, $shippingStatus)
     {
@@ -108,6 +109,7 @@ class ShopOrderService implements BaseShopOrderService
         $statusMap = $this->getConfigService()->getOrderStatusMappings();
 
         if (isset($statusMap[$shippingStatus]) && $statusMap[$shippingStatus] !== '') {
+            /** @var \Shopware\Models\Order\Status $status */
             $status = Shopware()->Models()->find('Shopware\Models\Order\Status', $statusMap[$shippingStatus]);
 
             if ($status) {
@@ -321,6 +323,7 @@ class ShopOrderService implements BaseShopOrderService
      * Retrieves Shopware order repository.
      *
      * @return \Shopware\Models\Order\Repository
+     * @noinspection PhpIncompatibleReturnTypeInspection
      */
     private function getShopwareOrderRepository()
     {
@@ -331,6 +334,7 @@ class ShopOrderService implements BaseShopOrderService
      * Retrieves article repository.
      *
      * @return \Shopware\Models\Article\Repository
+     * @noinspection PhpIncompatibleReturnTypeInspection
      */
     private function getShopwareArticleRepository()
     {
