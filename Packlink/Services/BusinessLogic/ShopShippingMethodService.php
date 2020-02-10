@@ -128,15 +128,10 @@ class ShopShippingMethodService implements BaseService
      */
     public function getCarrierLogoFilePath($carrierName)
     {
-        /** @var \Packlink\Services\BusinessLogic\ConfigurationService $configService */
-        $configService = ServiceRegister::getService(Configuration::CLASS_NAME);
-        $userInfo = $configService->getUserInfo();
-        $country = $userInfo ? strtolower($userInfo->country) : '';
-
         $pluginDir = Shopware()->Container()->getParameter('packlink.plugin_dir');
 
         $baseDir = $pluginDir . self::IMG_DIR;
-        $image = $baseDir . $country . '/' . strtolower(str_replace(' ', '-', $carrierName)) . '.png';
+        $image = $baseDir . strtolower(str_replace(' ', '-', $carrierName)) . '.png';
 
         if (!file_exists($image)) {
             $image = $baseDir . self::DEFAULT_CARRIER;
