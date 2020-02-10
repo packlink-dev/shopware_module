@@ -1,22 +1,11 @@
 <?php
 
 use Packlink\Controllers\Common\CanInstantiateServices;
-use Packlink\Utilities\Translation;
 
 class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
-    /**
-     * List of supported countries.
-     *
-     * @var array
-     */
-    protected static $supportedCountries = [
-        'DE',
-        'ES',
-        'FR',
-        'IT',
-    ];
+
     /**
      * List of help URLs for different country codes.
      *
@@ -50,13 +39,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
         $userInfo = $this->getConfigService()->getUserInfo();
 
         $urlKey = 'ES';
-        if ($userInfo && $userInfo->country && in_array($userInfo->country, static::$supportedCountries)) {
-            $this->View()->assign(
-                [
-                    'defaultWarehouse' => Translation::get("configuration/country/{$userInfo->country}"),
-                ]
-            );
-
+        if ($userInfo) {
             $urlKey = $userInfo->country;
         }
 

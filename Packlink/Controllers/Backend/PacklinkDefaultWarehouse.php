@@ -2,10 +2,12 @@
 
 use Logeecom\Infrastructure\Logger\Logger;
 use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\BusinessLogic\Warehouse\WarehouseService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
+use Packlink\Utilities\Translation;
 
 class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Controller_Action
 {
@@ -28,6 +30,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
      * Updates default warehouse.
      *
      * @throws \Packlink\BusinessLogic\DTO\Exceptions\FrontDtoNotRegisteredException
+     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      */
     public function updateAction()
     {
@@ -52,25 +55,34 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
     public function searchAction()
     {
         $input = Request::getPostData();
-        if (empty($input['query'])) {
+        if (empty($input['query']) || empty($input['country'])) {
             Response::json();
         }
 
-        $country = $this->getConfigService()->getUserInfo()->country;
-
         try {
-            $result = $this->getLocationService()->searchLocations($country, $input['query']);
+            $result = $this->getLocationService()->searchLocations($input['country'], $input['query']);
         } catch (Exception $e) {
             $result = [];
 
             Logger::logError("Location search failed because: [{$e->getMessage()}]");
         }
 
-        $arrayResult = [];
-        foreach ($result as $item) {
-            $arrayResult[] = $item->toArray();
+        Response::dtoEntitiesResponse($result);
+    }
+
+    /**
+     * Returns countries supported by Packlink.
+     */
+    public function getCountriesAction()
+    {
+        /** @var \Packlink\BusinessLogic\Country\CountryService $countryService */
+        $countryService = ServiceRegister::getService(CountryService::CLASS_NAME);
+        $supportedCountries = $countryService->getSupportedCountries();
+
+        foreach ($supportedCountries as $country) {
+            $country->name = Translation::get("configuration/country/{$country->code}");
         }
 
-        Response::json($arrayResult);
+        Response::dtoEntitiesResponse($supportedCountries);
     }
 }

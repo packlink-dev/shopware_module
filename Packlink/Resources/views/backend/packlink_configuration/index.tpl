@@ -236,15 +236,13 @@
                             <div class="row">
                                 <div class=" pl-basic-settings-page-form-input-item">
                                     <div class=" pl-form-section-input pl-text-input">
-                                        <input
-                                                type="text"
+                                        <select
                                                 class="pl-warehouse-input"
                                                 id="pl-default-warehouse-country"
-                                                value="{$defaultWarehouse}"
-                                                readonly
                                                 tabindex="-1"
-                                        />
-                                        <span class="pl-text-input-label">
+                                        >
+                                        </select>
+                                        <span class="pl-text-input-label selected">
                                             {s name="configuration/country"}Country{/s}
                                         </span>
                                     </div>
@@ -1183,6 +1181,7 @@
                     defaultParcelGetUrl: "{url controller=PacklinkDefaultParcel action="index" __csrf_token=$csrfToken}",
                     defaultParcelSubmitUrl: "{url controller=PacklinkDefaultParcel action="update" __csrf_token=$csrfToken}",
                     defaultWarehouseGetUrl: "{url controller=PacklinkDefaultWarehouse action="index" __csrf_token=$csrfToken}",
+                    getSupportedCountriesUrl: "{url controller=PacklinkDefaultWarehouse action="getCountries" __csrf_token=$csrfToken}",
                     defaultWarehouseSubmitUrl: "{url controller=PacklinkDefaultWarehouse action="update" __csrf_token=$csrfToken}",
                     defaultWarehouseSearchPostalCodesUrl: "{url controller=PacklinkDefaultWarehouse action="search" __csrf_token=$csrfToken}",
                     shippingMethodsGetAllUrl: "{url controller=PacklinkShippingMethod action="list" __csrf_token=$csrfToken}",
