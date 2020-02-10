@@ -35,30 +35,18 @@
                         {s name="login/country"}Select country to start{/s}
                     </div>
                     <div class="pl-register-country-list-wrapper">
-                        <a href="https://pro.packlink.es/registro" target="_blank">
-                            <div class="pl-country">
-                                <img src="{link file="backend/_resources/images/flags/spain.svg"}">
-                                es
-                            </div>
-                        </a>
-                        <a href="https://pro.packlink.de/registrieren" target="_blank">
-                            <div class="pl-country">
-                                <img src="{link file="backend/_resources/images/flags/germany.svg"}">
-                                de
-                            </div>
-                        </a>
-                        <a href="https://pro.packlink.fr/inscription" target="_blank">
-                            <div class="pl-country">
-                                <img src="{link file="backend/_resources/images/flags/france.svg"}">
-                                fr
-                            </div>
-                        </a>
-                        <a href="https://pro.packlink.it/registro" target="_blank">
-                            <div class="pl-country">
-                                <img src="{link file="backend/_resources/images/flags/france.svg"}">
-                                it
-                            </div>
-                        </a>
+                        {foreach $countries as $country}
+                            <a href="{html_entity_decode($country->registrationLink|escape:'html':'UTF-8')}" target="_blank">
+                                <div class="pl-country">
+                                    <img
+                                            src="{link file="backend/_resources/images/flags/{$country->code}.svg"}"
+                                            class="pl-country-logo"
+                                            alt="{$country->name}"
+                                    >
+                                    <div class="pl-country-name">{$country->name}</div>
+                                </div>
+                            </a>
+                        {/foreach}
                     </div>
                 </div>
             </div>
