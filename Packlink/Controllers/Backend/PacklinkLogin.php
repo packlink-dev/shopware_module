@@ -1,10 +1,7 @@
 <?php
 
 use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\Controllers\Common\CanInstantiateServices;
-use Packlink\Utilities\Translation;
 
 class Shopware_Controllers_Backend_PacklinkLogin extends Enlight_Controller_Action
 {
@@ -34,15 +31,7 @@ class Shopware_Controllers_Backend_PacklinkLogin extends Enlight_Controller_Acti
                 $this->View()->assign(['isLoginFailure' => true]);
             }
         } else {
-            /** @var \Packlink\BusinessLogic\Country\CountryService $countryService */
-            $countryService = ServiceRegister::getService(CountryService::CLASS_NAME);
-            $supportedCountries = $countryService->getSupportedCountries();
-
-            foreach ($supportedCountries as $country) {
-                $country->name = Translation::get("configuration/country/{$country->code}");
-            }
-
-            $this->View()->assign(['countries' => $supportedCountries]);
+            $this->View()->assign(['csrfToken' => $this->container->get('BackendSession')->offsetGet('X-CSRF-Token')]);
         }
     }
 

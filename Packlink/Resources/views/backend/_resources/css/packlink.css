@@ -1193,6 +1193,11 @@ input[type="checkbox"] {
     width: 250px;
     float: right;
     animation: pl-fade-in .5s ease;
+    max-height: calc(100vh - 200px);
+    overflow-x: auto;
+    text-align: justify;
+    z-index: 1;
+    background-color: #f9fafa;
 }
 
 .pl-register-country-title-wrapper {
@@ -1202,9 +1207,7 @@ input[type="checkbox"] {
 
 .pl-register-country-list-wrapper {
     margin-top: 15px;
-    max-height: 205px;
-    overflow-x: auto;
-    text-align: justify;
+    height: 97%;
 }
 
 .pl-register-country-list-wrapper a {
@@ -1213,9 +1216,9 @@ input[type="checkbox"] {
 
 .pl-country {
     display: flex;
-    height: 40px;
+    height: 35px;
     width: 30px;
-    line-height: 40px;
+    line-height: 35px;
     border-radius: 50%;
     text-align: center;
     color: #2095f2;

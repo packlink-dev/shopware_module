@@ -3,6 +3,7 @@
 
 {block name="scripts"}
     <script type="text/javascript" src="{link file="backend/_resources/js/UtilityService.js"}"></script>
+    <script src="{link file="backend/_resources/js/FrontEndAjaxService.js"}"></script>
 {/block}
 
 {block name="content/main"}
@@ -34,19 +35,9 @@
                     <div class="pl-register-country-title-wrapper">
                         {s name="login/country"}Select country to start{/s}
                     </div>
+                    <input type="hidden" id="pl-countries-url" value="{url controller=PacklinkDefaultWarehouse action="getCountries" __csrf_token=$csrfToken}" />
+                    <input type="hidden" id="pl-logo-path" value="{link file="backend/_resources/images/flags/"}" />
                     <div class="pl-register-country-list-wrapper">
-                        {foreach $countries as $country}
-                            <a href="{html_entity_decode($country->registrationLink|escape:'html':'UTF-8')}" target="_blank">
-                                <div class="pl-country">
-                                    <img
-                                            src="{link file="backend/_resources/images/flags/{$country->code}.svg"}"
-                                            class="pl-country-logo"
-                                            alt="{$country->name}"
-                                    >
-                                    <div class="pl-country-name">{$country->name}</div>
-                                </div>
-                            </a>
-                        {/foreach}
                     </div>
                 </div>
             </div>
@@ -92,22 +83,63 @@
 
 {block name="content/javascript"}
     <script>
+        var Packlink = window.Packlink || {};
+
         function initRegisterForm() {
-            let registerBtnClicked = function (event) {
-                event.stopPropagation();
-                let form = document.getElementById('pl-register-form');
-                form.style.display = 'block';
+            let populateCountryList = function (response) {
+                    let countryList = document.getElementsByClassName('pl-register-country-list-wrapper')[0],
+                        logoPath = document.getElementById('pl-logo-path').value;
 
-                let closeBtn = document.getElementById('pl-register-form-close-btn');
-                closeBtn.addEventListener('click', function () {
-                    form.style.display = 'none';
-                });
+                    if (countryList.childElementCount > 0) {
+                        return;
+                    }
 
-                let container = document.querySelector('.pl-login-page-content-wrapper');
-                container.addEventListener('click', function () {
-                    form.style.display = 'none';
-                });
-            };
+                    for (let code in response) {
+                        let supportedCountry = response[code],
+                            linkElement = document.createElement('a'),
+                            countryElement = document.createElement('div'),
+                            imageElement = document.createElement('img'),
+                            nameElement = document.createElement('div');
+
+                        linkElement.href = supportedCountry.registration_link;
+                        linkElement.target = '_blank';
+
+                        countryElement.classList.add('pl-country');
+
+                        imageElement.src = logoPath + supportedCountry.code + '.svg';
+                        imageElement.classList.add('pl-country-logo');
+                        imageElement.alt = supportedCountry.name;
+
+                        countryElement.appendChild(imageElement);
+
+                        nameElement.classList.add('pl-country-name');
+                        nameElement.innerText = supportedCountry.name;
+
+                        countryElement.appendChild(nameElement);
+                        linkElement.appendChild(countryElement);
+                        countryList.appendChild(linkElement);
+                    }
+                },
+                registerBtnClicked = function (event) {
+                    event.stopPropagation();
+                    let form = document.getElementById('pl-register-form');
+                    let ajaxService = Packlink.ajaxService;
+                    form.style.display = 'block';
+
+                    let closeBtn = document.getElementById('pl-register-form-close-btn');
+                    closeBtn.addEventListener('click', function () {
+                        form.style.display = 'none';
+                    });
+
+                    let container = document.querySelector('.pl-login-page-content-wrapper');
+                    container.addEventListener('click', function () {
+                        form.style.display = 'none';
+                    });
+
+                    let supportedCountriesUrl = document.getElementById('pl-countries-url').value;
+
+                    ajaxService.get(supportedCountriesUrl, populateCountryList);
+                };
 
             let btn = document.getElementById('pl-register-btn');
             btn.addEventListener('click', registerBtnClicked, true);
