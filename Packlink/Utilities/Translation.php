@@ -20,7 +20,7 @@ class Translation
             return self::get('error/required');
         }
 
-        if (in_array($field, array('width', 'length', 'height'))) {
+        if (in_array($field, ['width', 'length', 'height'])) {
             return self::get('error/integer');
         }
 

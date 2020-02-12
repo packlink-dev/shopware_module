@@ -11,23 +11,25 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
      *
      * @var array
      */
-    protected static $helpUrls = array(
-        'ES' => 'https://support-pro.packlink.com/hc/es-es/sections/202755109-Prestashop',
-        'DE' => 'https://support-pro.packlink.com/hc/de/sections/202755109-Prestashop',
-        'FR' => 'https://support-pro.packlink.com/hc/fr-fr/sections/202755109-Prestashop',
-        'IT' => 'https://support-pro.packlink.com/hc/it/sections/202755109-Prestashop',
-    );
+    protected static $helpUrls = [
+        'EN' => 'https://support-pro.packlink.com/hc/en-gb',
+        'ES' => 'https://support-pro.packlink.com/hc/es-es',
+        'DE' => 'https://support-pro.packlink.com/hc/de',
+        'FR' => 'https://support-pro.packlink.com/hc/fr-fr',
+        'IT' => 'https://support-pro.packlink.com/hc/it',
+    ];
     /**
      * List of terms and conditions URLs for different country codes.
      *
      * @var array
      */
-    protected static $termsAndConditionsUrls = array(
+    protected static $termsAndConditionsUrls = [
+        'EN' => 'https://support-pro.packlink.com/hc/en-gb/articles/360010011480',
         'ES' => 'https://pro.packlink.es/terminos-y-condiciones/',
         'DE' => 'https://pro.packlink.de/agb/',
         'FR' => 'https://pro.packlink.fr/conditions-generales/',
         'IT' => 'https://pro.packlink.it/termini-condizioni/',
-    );
+    ];
 
     /**
      * Renders configuration page.
@@ -38,8 +40,8 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     {
         $userInfo = $this->getConfigService()->getUserInfo();
 
-        $urlKey = 'ES';
-        if ($userInfo) {
+        $urlKey = 'EN';
+        if ($userInfo && in_array($userInfo->country, ['ES', 'DE', 'FR', 'IT'], true)) {
             $urlKey = $userInfo->country;
         }
 

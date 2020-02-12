@@ -11,7 +11,7 @@ class Response
      */
     public static function dtoEntitiesResponse(array $entities)
     {
-        $response = array();
+        $response = [];
 
         foreach ($entities as $entity) {
             $response[] = $entity->toArray();
@@ -27,7 +27,7 @@ class Response
      */
     public static function validationErrorsResponse(array $errors)
     {
-        $result = array();
+        $result = [];
 
         foreach ($errors as $error) {
             $result[$error->field] = Translation::getValidationErrorTranslation($error->code, $error->field);
