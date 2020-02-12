@@ -41,12 +41,12 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
         $warehouseService = ServiceRegister::getService(WarehouseService::CLASS_NAME);
 
         try {
-            $warehouseService->setWarehouse($data);
+            $warehouse = $warehouseService->updateWarehouseData($data);
+
+            Response::json($warehouse->toArray());
         } catch (\Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException $e) {
             Response::validationErrorsResponse($e->getValidationErrors());
         }
-
-        Response::json($data);
     }
 
     /**
