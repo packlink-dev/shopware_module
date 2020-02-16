@@ -66,9 +66,9 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
             $details = array_merge(
                 $details,
                 [
-                    'shippingMethod' => $shippingMethod->getTitle(),
+                    'shippingMethod' => $shippingMethod ? $shippingMethod->getTitle() : '',
                     'carrier' => $dispatch->getName(),
-                    'logo' => $shippingMethod->getLogoUrl(),
+                    'logo' => $shippingMethod ? $shippingMethod->getLogoUrl() : '',
                 ]
             );
         } catch (Exception $e) {
@@ -118,6 +118,6 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
     {
         $userAccount = $this->getConfigService()->getUserInfo();
 
-        return strtolower($userAccount ? $userAccount->country : 'de');
+        return strtolower($userAccount ? $userAccount->country : 'un');
     }
 }

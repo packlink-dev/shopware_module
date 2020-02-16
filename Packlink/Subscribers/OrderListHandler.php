@@ -85,7 +85,7 @@ class OrderListHandler implements SubscriberInterface
     {
         $userAccount = $this->getConfigService()->getUserInfo();
 
-        return strtolower($userAccount ? $userAccount->country : 'de');
+        return strtolower($userAccount ? $userAccount->country : 'un');
     }
 
     /**
