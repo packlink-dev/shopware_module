@@ -6,12 +6,14 @@ use Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
 use Logeecom\Infrastructure\TaskExecution\QueueItem;
+use Logeecom\Infrastructure\TaskExecution\QueueService;
 use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Scheduler\Models\HourlySchedule;
 use Packlink\BusinessLogic\Scheduler\Models\Schedule;
 use Packlink\BusinessLogic\Scheduler\ScheduleCheckTask;
 use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
 use Packlink\BusinessLogic\Tasks\TaskCleanupTask;
+use Packlink\BusinessLogic\Tasks\UpdateShippingServicesTask;
 use Packlink\Models\BaseEntity;
 use Packlink\Models\PacklinkEntity;
 
@@ -20,6 +22,8 @@ Logger::logInfo('Started executing V0.9.0 update script.');
 Logger::logInfo('Cleaning up completed schedulers.');
 
 $configuration = ServiceRegister::getService(Configuration::CLASS_NAME);
+/** @var QueueService $queueService */
+$queueService = ServiceRegister::getService(QueueService::CLASS_NAME);
 try {
     $repository = RepositoryRegistry::getRepository(Schedule::getClassName());
 
@@ -63,8 +67,13 @@ try {
         }
     }
 
+    if ($queueService->findLatestByType('UpdateShippingServicesTask') !== null) {
+        $queueService->enqueue($configuration->getDefaultQueueName(), new UpdateShippingServicesTask());
+    }
+
     Logger::logInfo('Migration successful');
 } catch (RepositoryNotRegisteredException $e) {
+} catch (\Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException $e) {
     Logger::logError("V0.9.0 update script failed because: {$e->getMessage()}");
 
     return false;
