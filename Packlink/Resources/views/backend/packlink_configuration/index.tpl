@@ -1169,6 +1169,10 @@
                 shippingMethodSaved: '{s name="success/servicesave"}Shipping service successfully saved.{/s}'
             };
 
+            Packlink.labelMsgs = {
+                empty: '{s name="label/empty"}Empty{/s}'
+            };
+
             Packlink.state = new Packlink.StateController(
                 {
                     scrollConfiguration: {

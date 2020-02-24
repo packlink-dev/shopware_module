@@ -126,6 +126,11 @@ var Packlink = window.Packlink || {};
         function constructCountryDropdown(response) {
             countryInput = templateService.getComponent('pl-default-warehouse-country', page);
 
+            let defaultOption = document.createElement('option');
+            defaultOption.value = 'UN';
+            defaultOption.innerText = Packlink.labelMsgs.empty;
+            countryInput.appendChild(defaultOption);
+
             for (let code in response) {
                 let supportedCountry = response[code],
                     optionElement = document.createElement('option');
