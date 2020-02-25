@@ -17,7 +17,7 @@ class Reference
         $domain = 'com';
 
         if (in_array($userCountry, ['es', 'de', 'fr', 'it'], true)) {
-            $domain = strtolower($userCountry);
+            $domain = $userCountry;
         }
 
         return "https://pro.packlink.$domain/private/shipments/$reference";
