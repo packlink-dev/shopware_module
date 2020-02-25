@@ -7,7 +7,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
-use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
+use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 use Shopware\Models\Order\Order;
 use Shopware\Models\Order\Status;
@@ -58,7 +58,7 @@ class OrderModelEventHandler implements EventSubscriber
             return;
         }
 
-        $this->shipmentDraftService->enqueueCreateShipmentDraftTask($model->getId());
+        $this->getShipmentDraftService()->enqueueCreateShipmentDraftTask((string)$model->getId());
     }
 
     /**
@@ -79,7 +79,7 @@ class OrderModelEventHandler implements EventSubscriber
             return;
         }
 
-        $this->shipmentDraftService->enqueueCreateShipmentDraftTask($model->getId());
+        $this->getShipmentDraftService()->enqueueCreateShipmentDraftTask((string)$model->getId());
     }
 
     /**
@@ -153,7 +153,7 @@ class OrderModelEventHandler implements EventSubscriber
     protected function isOrderDetailsCreated($id)
     {
         /** @var \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
-        $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetails::CLASS_NAME);
+        $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
         $details = $orderShipmentDetailsService->getDetailsByOrderId($id);
 
         return $details !== null;
