@@ -8,6 +8,7 @@ use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\Http\DTO\ParcelInfo;
+use Packlink\BusinessLogic\Http\DTO\Shipment;
 use Packlink\BusinessLogic\Order\Exceptions\OrderNotFound;
 use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as BaseShopOrderService;
 use Packlink\BusinessLogic\Order\Objects\Address;
@@ -80,7 +81,7 @@ class ShopOrderService implements BaseShopOrderService
     /**
      * @inheritDoc
      */
-    public function updateTrackingInfo($orderId, array $trackings)
+    public function updateTrackingInfo($orderId, Shipment $shipment, array $trackingHistory)
     {
         /** @var \Shopware\Models\Order\Order $sourceOrder */
         $sourceOrder = $this->getShopwareOrderRepository()->find($orderId);
@@ -88,8 +89,8 @@ class ShopOrderService implements BaseShopOrderService
             throw new OrderNotFound("Source order with id [{$orderId}] not found.");
         }
 
-        if (isset($trackings[0])) {
-            $sourceOrder->setTrackingCode($trackings[0]);
+        if (isset($shipment->trackingCodes) && !empty($shipment->trackingCodes[0])) {
+            $sourceOrder->setTrackingCode($shipment->trackingCodes[0]);
             Shopware()->Models()->flush($sourceOrder);
         }
     }
