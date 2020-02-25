@@ -16,7 +16,7 @@ class Reference
     {
         $domain = 'com';
 
-        if (in_array($userCountry, ['ES', 'DE', 'FR', 'IT'], true)) {
+        if (in_array($userCountry, ['es', 'de', 'fr', 'it'], true)) {
             $domain = strtolower($userCountry);
         }
 
