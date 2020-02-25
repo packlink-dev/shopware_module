@@ -20,7 +20,6 @@
     {include file="frontend/packlink_locationpicker/alert_messages.tpl"}
 
     {$smarty.block.parent}
-
     <script>
         let plTranslations = {
             selectDropoffDescription: '{s name="selectDropoffDescription"}This shipping service supports delivery to pre-defined drop-off locations. Please choose location that suits you the most by clicking on the "Select drop-off location" button.{/s}',
@@ -30,7 +29,7 @@
             selectedAddress: '{s name="selectedAddress"}Package will be delivered to:{/s}'
         };
 
-        let plConfig = JSON.parse('{$plConfig}'.replace(/&quot;/g, '"').replace(/&amp;/g, '&'));
+        let plConfig = JSON.parse('{addslashes($plConfig)}'.replace(/&quot;/g, '"').replace(/&amp;/g, '&'));
         plConfig.currentDispatch = '{$sDispatch.id}';
         plConfig.getLocationsUrl = '{url controller=PacklinkLocations action="list" __csrf_token=$plCsrf}';
         plConfig.updateDropoffUrl = '{url controller=PacklinkDropoff action="update" __csrf_token=$plCsrf}';
