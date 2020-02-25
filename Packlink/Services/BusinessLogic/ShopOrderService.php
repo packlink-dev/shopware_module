@@ -66,11 +66,12 @@ class ShopOrderService implements BaseShopOrderService
         $order->setTotalPrice($sourceOrder->getInvoiceAmount());
         $order->setBasePrice($sourceOrder->getInvoiceAmountNet());
 
-        $this->setDropoffId($order, $orderId);
+        $this->setDropoffId($order, $sourceOrder->getId());
         $dispatch = $sourceOrder->getDispatch();
         if ($dispatch) {
             $this->setShippingMethodId($order, $dispatch->getId());
         }
+
         $order->setShippingAddress($this->getOrderAddress($sourceOrder));
 
         $order->setItems($this->getOrderItems($sourceOrder));
