@@ -185,6 +185,7 @@ class ShopOrderService implements BaseShopOrderService
 
             $totalPrice = $detail->getPrice() / (1 - $detail->getTaxRate() / 100);
             $orderItem->setTotalPrice($totalPrice);
+            $orderItem->setTitle($detail->getArticleName());
             $orderItem->setPrice($detail->getPrice());
             $orderItem->setQuantity($detail->getQuantity());
             $orderItem->setPictureUrl($this->getImageSource($detail->getArticleId()));
