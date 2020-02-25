@@ -1030,7 +1030,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="pending">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
@@ -1044,7 +1044,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="processing">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
@@ -1059,7 +1059,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="readyForShipping">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
@@ -1073,7 +1073,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="inTransit">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
@@ -1087,7 +1087,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="delivered">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
