@@ -94,7 +94,7 @@ class DebugService implements BaseService
         $result['plugin version'] = $config->getModuleVersion();
         $result['webhook_url'] = $config->getWebHookUrl();
 
-        return json_encode($result, JSON_PRETTY_PRINT);
+        return json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -167,7 +167,7 @@ class DebugService implements BaseService
         $result = $config->getUserInfo()->toArray();
         $result['api key'] = $config->getAuthorizationToken();
 
-        return json_encode($result, JSON_PRETTY_PRINT);
+        return json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -207,7 +207,7 @@ class DebugService implements BaseService
         $result['Default parcel'] = $config->getDefaultParcel() ?: [];
         $result['Default warehouse'] = $config->getDefaultWarehouse() ?: [];
 
-        return json_encode($result, JSON_PRETTY_PRINT);
+        return json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -242,6 +242,6 @@ class DebugService implements BaseService
             $result[] = $item->toArray();
         }
 
-        return json_encode($result, JSON_PRETTY_PRINT);
+        return json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 }
