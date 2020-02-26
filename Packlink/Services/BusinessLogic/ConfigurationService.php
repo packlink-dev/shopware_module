@@ -16,7 +16,12 @@ class ConfigurationService extends Configuration
     const DRAFT_SOURCE = 'module_shopware';
     const MAX_TASK_INACTIVITY_PERIOD = 60;
     const MIN_LOG_LEVEL = Logger::WARNING;
-
+    /**
+     * Singleton instance of this class.
+     *
+     * @var static
+     */
+    protected static $instance;
     /**
      * @var string
      */
@@ -56,7 +61,7 @@ class ConfigurationService extends Configuration
     public function getAsyncProcessUrl($guid)
     {
         $params = ['guid' => $guid];
-        if ( $this->isAutoTestMode() ) {
+        if ($this->isAutoTestMode()) {
             $params['auto-test'] = 1;
         }
 
@@ -142,7 +147,8 @@ class ConfigurationService extends Configuration
      *
      * @return int Max task inactivity period in seconds if set; otherwise, self::MAX_TASK_INACTIVITY_PERIOD.
      */
-    public function getMaxTaskInactivityPeriod() {
+    public function getMaxTaskInactivityPeriod()
+    {
         return parent::getMaxTaskInactivityPeriod() ?: self::MAX_TASK_INACTIVITY_PERIOD;
     }
 }
