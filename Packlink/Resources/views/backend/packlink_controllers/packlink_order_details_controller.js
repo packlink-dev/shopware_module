@@ -68,6 +68,9 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                 case 'completed':
                     start(completedStateHandler(), 'completed');
                     break;
+                case 'failed':
+                    start(failedStateHandler(response.message), 'failed');
+                    break;
                 default:
                     start(notQueuedStateHandler(), 'not_queued');
                     break;
@@ -137,23 +140,6 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                         handler: onCreateDraftClicked
                     })
                 ]
-            }
-
-            function onCreateDraftClicked() {
-                ajaxService.post(getCreateDraftUrl(), { orderId: order.id }, createDraftSuccessHandler);
-            }
-
-            function getCreateDraftUrl() {
-                return '{url controller=PacklinkDraftTaskCreateController action="create"}' +
-                    '/__csrf_token/' + Ext.CSRFService.getToken();
-            }
-
-            function createDraftSuccessHandler() {
-                if (currentState !== 'not_created') {
-                    return;
-                }
-
-                start(inProgressStateHandler(), 'in_progress');
             }
 
             this.getCleanupCallbacks = function () {
@@ -576,7 +562,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
              */
             function createRefreshDetailsTask() {
                 return taskRunner.newTask({
-                    run: function() {
+                    run: function () {
                         getDraftDetails();
                     },
                     interval: 5000
@@ -584,6 +570,70 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             }
 
             return this;
+        }
+
+        /**
+         * Failed state handler.
+         */
+        function failedStateHandler(message) {
+            let task = null;
+
+            this.handle = function () {
+                render(message);
+            };
+
+            this.getCleanupCallbacks = function () {
+                return [
+                    function () {
+                        if (task) {
+                            task.stop();
+                        }
+                    }
+                ];
+            };
+
+            function render(message) {
+                tab.add(createShipmentPanel('{s name="shipment/details/tab/title"}Shipment details{/s}', function () {
+                    return getPanelItems(message)
+                }))
+            }
+
+            function getPanelItems(message) {
+                return [
+                    {
+                        xtype: 'displayfield',
+                        value: '{s name="shipment/failed/label"}Previous attempt to create a draft failed. Error: {/s}' + message,
+                        style: {
+                            margin: '10px'
+                        },
+                    },
+                    Ext.create('Ext.Button', {
+                        text: '{s name="shipment/create/draft/label"}Create shipment draft on Packlink PRO{/s}',
+                        cls: 'large primary',
+                        style: {
+                            margin: '10px'
+                        },
+                        handler: onCreateDraftClicked
+                    })
+                ]
+            }
+
+            return this;
+        }
+
+        function onCreateDraftClicked() {
+            ajaxService.post(getCreateDraftUrl(), {orderId: order.id}, createDraftSuccessHandler);
+        }
+
+        function getCreateDraftUrl() {
+            return '{url controller=PacklinkDraftTaskCreateController action="create"}' +
+                '/__csrf_token/' + Ext.CSRFService.getToken();
+        }
+
+        function createDraftSuccessHandler() {
+            if (currentState === 'not_created' || currentState === 'failed') {
+                start(inProgressStateHandler(), 'in_progress');
+            }
         }
 
         /**

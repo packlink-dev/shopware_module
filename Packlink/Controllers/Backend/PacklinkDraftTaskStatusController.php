@@ -32,7 +32,7 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends Pac
             Response::json(['status' => QueueItem::IN_PROGRESS]);
         }
 
-        Response::json(['status' => $draftStatus->status]);
+        Response::json($draftStatus->toArray());
     }
 
     /**
