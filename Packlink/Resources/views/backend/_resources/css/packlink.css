@@ -910,12 +910,12 @@ input[type="checkbox"] {
 
 .pl-footer-copyright-wrapper {
     display: flex;
-    width: 350px;
     justify-content: space-between;
 }
 
 .pl-footer-copyright-wrapper a, .pl-system-info-open-btn {
     color: #2095F2 !important;
+    margin-right: 10px;
 }
 
 .pl-footer-copyright-wrapper p {
