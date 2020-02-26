@@ -14,12 +14,12 @@ class Reference
      */
     public static function getUrl($userCountry, $reference)
     {
-        $domain = 'com';
+        $userCountry = strtolower($userCountry);
 
         if (in_array($userCountry, ['es', 'de', 'fr', 'it'], true)) {
-            $domain = $userCountry;
+            return "https://pro.packlink.$userCountry/private/shipments/$reference";
         }
 
-        return "https://pro.packlink.$domain/private/shipments/$reference";
+        return "https://pro.packlink.com/private/shipments/$reference";
     }
 }
