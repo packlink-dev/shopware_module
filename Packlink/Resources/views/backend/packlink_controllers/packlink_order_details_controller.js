@@ -45,6 +45,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
         let grids = Ext.ComponentQuery.query('order-list-main-window order-list');
 
         init();
+
         function init() {
             tab.removeAll();
             tab.setLoading(true);
@@ -337,7 +338,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
              * @return { Array }
              */
             function getLeftPanel(data) {
-                let text =  [
+                let text = [
                     data.carrier || '',
                     '{s name="shipment/total/charges"}Total shipping charges (EUR):{/s} ' + (data.orderCost || 'n/a'),
                     '{s name="shipment/reference/number"}Packlink reference number:{/s} ' + (data.reference || 'n/a'),
@@ -364,7 +365,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                     })
                 });
 
-                return  [subpanel];
+                return [subpanel];
             }
 
             /**
@@ -622,12 +623,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
         }
 
         function onCreateDraftClicked() {
-            ajaxService.post(getCreateDraftUrl(), {orderId: order.id}, createDraftSuccessHandler);
-        }
-
-        function getCreateDraftUrl() {
-            return '{url controller=PacklinkDraftTaskCreateController action="create"}' +
-                '/__csrf_token/' + Ext.CSRFService.getToken();
+            ajaxService.post(getCreateDraftUrl(), { orderId: order.id }, createDraftSuccessHandler);
         }
 
         function createDraftSuccessHandler() {
@@ -669,7 +665,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
          */
         function createStatusCheckerTask() {
             return taskRunner.newTask({
-                run: function() {
+                run: function () {
                     ajaxService.get(getDraftTaskStatusUrl(order.id), getDraftTaskStatusSuccessHandler);
                 },
                 interval: 1000
