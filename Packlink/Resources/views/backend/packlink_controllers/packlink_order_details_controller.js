@@ -621,6 +621,11 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             ajaxService.post(getCreateDraftUrl(), { orderId: order.id }, createDraftSuccessHandler);
         }
 
+        function getCreateDraftUrl() {
+            return '{url controller=PacklinkDraftTaskCreateController action="create"}' +
+                '/__csrf_token/' + Ext.CSRFService.getToken();
+        }
+
         function createDraftSuccessHandler() {
             if (currentState === 'not_created' || currentState === 'failed') {
                 start(inProgressStateHandler(), 'in_progress');
