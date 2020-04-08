@@ -1,11 +1,12 @@
 <?php
 
+use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 
 class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
-
     /**
      * List of help URLs for different country codes.
      *
@@ -39,9 +40,11 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     public function indexAction()
     {
         $userInfo = $this->getConfigService()->getUserInfo();
+        /** @var \Packlink\BusinessLogic\Country\CountryService $countryService */
+        $countryService = ServiceRegister::getService(CountryService::CLASS_NAME);
 
         $urlKey = 'EN';
-        if ($userInfo && in_array($userInfo->country, ['ES', 'DE', 'FR', 'IT'], true)) {
+        if ($userInfo && $countryService->isBaseCountry($userInfo->country)) {
             $urlKey = $userInfo->country;
         }
 

@@ -1,0 +1,3 @@
+- Updated to the Packlink Integrations Core v2.0.0 (system improvements and code optimization).
+- Added task cleanup.
+- Packlink now supports more countries.

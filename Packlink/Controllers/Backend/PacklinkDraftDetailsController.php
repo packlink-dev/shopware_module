@@ -32,7 +32,6 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
             Response::json([], 400);
         }
 
-        /** @noinspection PhpUndefinedVariableInspection */
         $details = [
             'orderCost' => $order->getInvoiceShipping(),
             'cost' => $orderDetails->getShippingCost(),
@@ -53,10 +52,8 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
             $details['trackingUrl'] = $orderDetails->getCarrierTrackingUrl();
         }
 
-        $country = $this->getUserCountry();
-
         if ($details['reference']) {
-            $details['referenceUrl'] = Reference::getUrl($country, $details['reference']);
+            $details['referenceUrl'] = $orderDetails->getShipmentUrl();
         }
 
         try {
@@ -75,7 +72,6 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
             Logger::logWarning("Failed to retrieve dispatch because: {$e->getMessage()}");
         }
 
-        /** @noinspection PhpUndefinedVariableInspection */
         Response::json($details);
     }
 

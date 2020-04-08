@@ -5,8 +5,10 @@ use Logeecom\Infrastructure\Logger\Logger;
 use Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
 use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
+use Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException;
 use Logeecom\Infrastructure\TaskExecution\QueueItem;
 use Logeecom\Infrastructure\TaskExecution\QueueService;
+use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Scheduler\Models\HourlySchedule;
 use Packlink\BusinessLogic\Scheduler\Models\Schedule;
@@ -51,6 +53,17 @@ try {
         $orderShipmentDetailsRepository = RepositoryRegistry::getRepository(OrderShipmentDetails::getClassName());
         $orderSendDraftRepository = RepositoryRegistry::getRepository(OrderSendDraftTaskMap::getClassName());
 
+        /** @var CountryService $countryService */
+        $countryService = ServiceRegister::getService(CountryService::CLASS_NAME);
+
+        $userInfo = $configuration->getUserInfo();
+        $userDomain = 'com';
+        if ($userInfo && $countryService->isBaseCountry($userInfo->country)) {
+            $userDomain = strtolower($userInfo->country);
+        }
+
+        $baseShipmentUrl = "https://pro.packlink.$userDomain/private/shipments/";
+
         /** @var BaseEntity $entity */
         foreach ($entities as $entity) {
             $orderShipmentData = json_decode($entity->getData(), true);
@@ -63,6 +76,7 @@ try {
             unset($orderShipmentData['taskId']);
             $orderShipmentDetails = OrderShipmentDetails::fromArray($orderShipmentData);
             $orderShipmentDetails->setOrderId((string)$orderShipmentData['orderId']);
+            $orderShipmentDetails->setShipmentUrl($baseShipmentUrl . $orderShipmentDetails->getReference());
             $orderShipmentDetailsRepository->update($orderShipmentDetails);
         }
     }
@@ -73,7 +87,7 @@ try {
 
     Logger::logInfo('Migration successful');
 } catch (RepositoryNotRegisteredException $e) {
-} catch (\Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException $e) {
+} catch (QueueStorageUnavailableException $e) {
     Logger::logError("V0.9.0 update script failed because: {$e->getMessage()}");
 
     return false;

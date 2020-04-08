@@ -8,7 +8,6 @@ use Logeecom\Infrastructure\Configuration\Configuration;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Order\OrderService;
 use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
-use Packlink\Utilities\Reference;
 
 class OrderListHandler implements SubscriberInterface
 {
@@ -45,7 +44,6 @@ class OrderListHandler implements SubscriberInterface
             return;
         }
 
-        $userCountry = $this->getUserCountry();
         $return = $args->getReturn();
 
         /** @var \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
@@ -54,11 +52,7 @@ class OrderListHandler implements SubscriberInterface
         foreach ($return['data'] as $index => $order) {
             $orderDetails = $orderShipmentDetailsService->getDetailsByOrderId((string)$order['id']);
             if ($orderDetails !== null && $orderDetails->getReference()) {
-                $return['data'][$index]['plReferenceUrl'] = Reference::getUrl(
-                    $userCountry,
-                    $orderDetails->getReference()
-                );
-
+                $return['data'][$index]['plReferenceUrl'] = $orderDetails->getShipmentUrl();
                 $return['data'][$index]['plIsDeleted'] = $orderDetails->isDeleted();
 
                 $orderService = $this->getOrderService();
