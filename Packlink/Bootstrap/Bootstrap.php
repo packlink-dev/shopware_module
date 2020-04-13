@@ -15,8 +15,10 @@ use Logeecom\Infrastructure\ServiceRegister;
 use Logeecom\Infrastructure\TaskExecution\Process;
 use Logeecom\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\BootstrapComponent;
-use Packlink\BusinessLogic\Order\Interfaces\OrderRepository as OrderRepositoryInterface;
-use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
+use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
+use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
+use Packlink\Services\BusinessLogic\ShopOrderService;
+use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Scheduler\Models\Schedule;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
@@ -24,7 +26,6 @@ use Packlink\Contracts\Services\BusinessLogic\DebugService;
 use Packlink\Entities\OrderDropoffMap;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Repositories\BaseRepository;
-use Packlink\Repositories\OrderRepository;
 use Packlink\Repositories\QueueItemRepository;
 use Packlink\Services\BusinessLogic\ConfigurationService;
 use Packlink\Services\Infrastructure\LoggerService;
@@ -68,9 +69,9 @@ class Bootstrap extends BootstrapComponent
         );
 
         ServiceRegister::registerService(
-            OrderRepositoryInterface::CLASS_NAME,
+            ShopOrderServiceInterface::CLASS_NAME,
             function () {
-                return new OrderRepository();
+                return new ShopOrderService();
             }
         );
 
@@ -107,5 +108,6 @@ class Bootstrap extends BootstrapComponent
         RepositoryRegistry::registerRepository(ShippingMethod::getClassName(), BaseRepository::getClassName());
         RepositoryRegistry::registerRepository(OrderDropoffMap::getClassName(), BaseRepository::getClassName());
         RepositoryRegistry::registerRepository(LogData::CLASS_NAME, BaseRepository::getClassName());
+        RepositoryRegistry::registerRepository(OrderSendDraftTaskMap::getClassName(), BaseRepository::getClassName());
     }
 }

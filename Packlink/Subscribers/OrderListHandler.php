@@ -5,13 +5,9 @@ namespace Packlink\Subscribers;
 use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
 use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
 use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Order\OrderService;
-use Packlink\Utilities\Reference;
+use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 
 class OrderListHandler implements SubscriberInterface
 {
@@ -19,10 +15,6 @@ class OrderListHandler implements SubscriberInterface
      * @var \Packlink\Services\BusinessLogic\ConfigurationService
      */
     protected $configService;
-    /**
-     * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
-     */
-    protected $orderDetailsRepository;
     /**
      * @var \Packlink\BusinessLogic\Order\OrderService
      */
@@ -52,16 +44,15 @@ class OrderListHandler implements SubscriberInterface
             return;
         }
 
-        $userCountry = $this->getUserCountry();
         $return = $args->getReturn();
 
-        foreach ($return['data'] as $index => $order) {
-            if (($orderDetails = $this->getOrderDetails($order['id'])) !== null && $orderDetails->getReference()) {
-                $return['data'][$index]['plReferenceUrl'] = Reference::getUrl(
-                    $userCountry,
-                    $orderDetails->getReference()
-                );
+        /** @var \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
+        $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
 
+        foreach ($return['data'] as $index => $order) {
+            $orderDetails = $orderShipmentDetailsService->getDetailsByOrderId((string)$order['id']);
+            if ($orderDetails !== null && $orderDetails->getReference()) {
+                $return['data'][$index]['plReferenceUrl'] = $orderDetails->getShipmentUrl();
                 $return['data'][$index]['plIsDeleted'] = $orderDetails->isDeleted();
 
                 $orderService = $this->getOrderService();
@@ -88,7 +79,7 @@ class OrderListHandler implements SubscriberInterface
     {
         $userAccount = $this->getConfigService()->getUserInfo();
 
-        return strtolower($userAccount ? $userAccount->country : 'de');
+        return strtolower($userAccount ? $userAccount->country : 'un');
     }
 
     /**
@@ -115,42 +106,6 @@ class OrderListHandler implements SubscriberInterface
         }
 
         return $this->configService;
-    }
-
-    /**
-     * Retrieves order details.
-     *
-     * @param $orderId
-     *
-     * @return \Packlink\BusinessLogic\Order\Models\OrderShipmentDetails
-     *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     */
-    protected function getOrderDetails($orderId)
-    {
-        $query = new QueryFilter();
-        $query->where('orderId', Operators::EQUALS, $orderId);
-        /** @var \Packlink\BusinessLogic\Order\Models\OrderShipmentDetails $details | null */
-        $details = $this->getOrderDetailsRepository()->selectOne($query);
-
-        return $details;
-    }
-
-    /**
-     * Retrieves order details repository.
-     *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
-     *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     */
-    protected function getOrderDetailsRepository()
-    {
-        if ($this->orderDetailsRepository === null) {
-            $this->orderDetailsRepository = RepositoryRegistry::getRepository(OrderShipmentDetails::getClassName());
-        }
-
-        return $this->orderDetailsRepository;
     }
 
     /**

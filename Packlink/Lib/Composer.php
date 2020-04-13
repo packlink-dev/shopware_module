@@ -6,20 +6,17 @@ use RuntimeException;
 
 class Composer
 {
-    protected static $formBase = __DIR__ . '/../vendor/packlink/integration-core/src/BusinessLogic/Resources/';
+    protected static $fromBase = __DIR__ . '/../vendor/packlink/integration-core/src/BusinessLogic/Resources/';
     protected static $toBase = __DIR__ . '/../Resources/views/backend/_resources/';
 
 
     public static function postUpdate()
     {
         $map = [
-            static::$formBase . 'js' => static::$toBase . 'js',
-            static::$formBase . 'LocationPicker/js' => static::$toBase . 'js/location',
-            static::$formBase . 'LocationPicker/css' => static::$toBase . 'css/location',
-            static::$formBase . 'img/carriers/de' => static::$toBase . 'images/carriers/de',
-            static::$formBase . 'img/carriers/fr' => static::$toBase . 'images/carriers/fr',
-            static::$formBase . 'img/carriers/it' => static::$toBase . 'images/carriers/it',
-            static::$formBase . 'img/carriers/es' => static::$toBase . 'images/carriers/es',
+            static::$fromBase . 'js' => static::$toBase . 'js',
+            static::$fromBase . 'LocationPicker/js' => static::$toBase . 'js/location',
+            static::$fromBase . 'LocationPicker/css' => static::$toBase . 'css/location',
+            static::$fromBase . 'img/carriers' => static::$toBase . 'images/carriers',
         ];
 
         foreach ($map as $from => $to) {

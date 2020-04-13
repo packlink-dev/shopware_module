@@ -1,5 +1,6 @@
 <?php
 
+use Packlink\BusinessLogic\Tax\TaxClass;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
 use Shopware\Models\Tax\Tax;
@@ -11,22 +12,26 @@ class Shopware_Controllers_Backend_PacklinkTax extends Enlight_Controller_Action
      */
     public function listAction()
     {
-        $result[] = [
-            'value' => 0,
-            'label' => Translation::get('configuration/defaulttax'),
-        ];
+        $result = [];
+
+        $result[] = TaxClass::fromArray(
+            [
+                'value' => 0,
+                'label' => Translation::get('configuration/defaulttax'),
+            ]
+        );
 
         $availableTaxes = $this->getTaxRepository()->queryAll()->execute();
 
         /** @var Tax $tax */
         foreach ($availableTaxes as $tax) {
-            $result[] = [
+            $result[] = TaxClass::fromArray([
                 'value' => $tax->getId(),
                 'label' => $tax->getName(),
-            ];
+            ]);
         }
 
-        Response::json($result);
+        Response::dtoEntitiesResponse($result);
     }
 
     /**

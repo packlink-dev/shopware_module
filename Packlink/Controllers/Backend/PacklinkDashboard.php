@@ -12,6 +12,7 @@ class Shopware_Controllers_Backend_PacklinkDashboard extends Enlight_Controller_
     {
         $controller = new DashboardController();
 
-        Response::json($controller->getStatus()->toArray());
+        $status = $controller->getStatus();
+        Response::json($status->toArray());
     }
 }

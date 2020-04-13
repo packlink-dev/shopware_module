@@ -12,6 +12,12 @@ use Logeecom\Infrastructure\Singleton;
 class LoggerService extends Singleton implements ShopLoggerAdapter
 {
     /**
+     * Singleton instance of this class.
+     *
+     * @var self
+     */
+    protected static $instance;
+    /**
      * Log level names for corresponding log level codes.
      *
      * @var array
@@ -22,7 +28,6 @@ class LoggerService extends Singleton implements ShopLoggerAdapter
         Logger::INFO => 'INFO',
         Logger::DEBUG => 'DEBUG',
     );
-
     /**
      * @var \Shopware\Components\Logger
      */

@@ -1,22 +1,22 @@
 <?php
 
+use Logeecom\Infrastructure\ServiceRegister;
 use Logeecom\Infrastructure\TaskExecution\QueueItem;
+use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Utilities\Response;
 
 class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends PacklinkOrderDetailsController
 {
+    const NOT_LOGGED_IN_STATUS = 'not_logged_in';
+
     /**
      * Retrieves send draft task status for particular order.
-     *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function indexAction()
     {
         if (!$this->isLoggedIn()) {
-            Response::json(['status' => 'not_logged_in']);
+            Response::json(['status' => static::NOT_LOGGED_IN_STATUS]);
         }
 
         $orderId = $this->Request()->get('orderId');
@@ -24,28 +24,15 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends Pac
             Response::json([], 400);
         }
 
-        if (($orderDetails = $this->getOrderDetails((int)$orderId)) === null ||
-            $orderDetails->getTaskId() === null ||
-            ($task = $this->getTask($orderDetails->getTaskId())) === null
-        ) {
-            Response::json(['status' => 'not_created']);
+        /** @var ShipmentDraftService $shipmentDraftService */
+        $shipmentDraftService = ServiceRegister::getService(ShipmentDraftService::CLASS_NAME);
+        $draftStatus = $shipmentDraftService->getDraftStatus($orderId);
+
+        if ($draftStatus->status === QueueItem::QUEUED) {
+            Response::json(['status' => QueueItem::IN_PROGRESS]);
         }
 
-        /** @noinspection PhpUndefinedVariableInspection */
-        switch ($task->getStatus()) {
-            case QueueItem::CREATED:
-            case QueueItem::QUEUED:
-            case QueueItem::IN_PROGRESS:
-                $status = 'in_progress';
-                break;
-            case QueueItem::COMPLETED:
-                $status = 'completed';
-                break;
-            default:
-                $status = 'failed';
-        }
-
-        Response::json(['status' => $status]);
+        Response::json($draftStatus->toArray());
     }
 
     /**
@@ -59,5 +46,4 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends Pac
 
         return !empty($authToken);
     }
-
 }

@@ -8,7 +8,7 @@ use Logeecom\Infrastructure\ServiceRegister;
 use Logeecom\Infrastructure\TaskExecution\QueueService;
 use Packlink\BusinessLogic\Http\Proxy;
 use Packlink\BusinessLogic\Location\LocationService;
-use Packlink\BusinessLogic\Order\Models\OrderShipmentDetails;
+use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Order\OrderService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\BusinessLogic\User\UserAccountService;

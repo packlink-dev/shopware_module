@@ -236,15 +236,13 @@
                             <div class="row">
                                 <div class=" pl-basic-settings-page-form-input-item">
                                     <div class=" pl-form-section-input pl-text-input">
-                                        <input
-                                                type="text"
+                                        <select
                                                 class="pl-warehouse-input"
                                                 id="pl-default-warehouse-country"
-                                                value="{$defaultWarehouse}"
-                                                readonly
                                                 tabindex="-1"
-                                        />
-                                        <span class="pl-text-input-label">
+                                        >
+                                        </select>
+                                        <span class="pl-text-input-label selected">
                                             {s name="configuration/country"}Country{/s}
                                         </span>
                                     </div>
@@ -1032,7 +1030,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="pending">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
@@ -1046,7 +1044,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="processing">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
@@ -1061,7 +1059,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="readyForShipping">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
@@ -1075,7 +1073,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="inTransit">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
@@ -1089,7 +1087,7 @@
                     <div class="pl-mapping-page-wrapper-equals">
                         =
                     </div>
-                    <div class="pl-mapping-page-select-section">
+                    <div class="pl-mapping-page-select-section form-group pl-form-section-input">
                         <select data-pl-status="delivered">
                             <option value="" selected>({s name="configuration/none"}None{/s})</option>
                         </select>
@@ -1164,7 +1162,7 @@
                 phone: "{s name="error/phone"}Field must be valid phone number.{/s}",
                 greaterThanZero: "{s name="error/greaterthanzero"}Value must be greater than 0.{/s}",
                 numberOfDecimalPlaces: "{s name="error/twodecimalplaces"}Field must have 2 decimal places.{/s}",
-                integer: "{s name="error/integer"}Field must be an integer.{/s}"
+                integer: "{s name="error/integer"}Field must be a positive integer.{/s}"
             };
 
             Packlink.successMsgs = {
@@ -1183,6 +1181,7 @@
                     defaultParcelGetUrl: "{url controller=PacklinkDefaultParcel action="index" __csrf_token=$csrfToken}",
                     defaultParcelSubmitUrl: "{url controller=PacklinkDefaultParcel action="update" __csrf_token=$csrfToken}",
                     defaultWarehouseGetUrl: "{url controller=PacklinkDefaultWarehouse action="index" __csrf_token=$csrfToken}",
+                    getSupportedCountriesUrl: "{url controller=PacklinkDefaultWarehouse action="getCountries" __csrf_token=$csrfToken}",
                     defaultWarehouseSubmitUrl: "{url controller=PacklinkDefaultWarehouse action="update" __csrf_token=$csrfToken}",
                     defaultWarehouseSearchPostalCodesUrl: "{url controller=PacklinkDefaultWarehouse action="search" __csrf_token=$csrfToken}",
                     shippingMethodsGetAllUrl: "{url controller=PacklinkShippingMethod action="list" __csrf_token=$csrfToken}",

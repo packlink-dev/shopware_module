@@ -5,7 +5,7 @@ namespace Packlink\Tests;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Packlink\Tests\TestComponents\BaseQueueItemRepositoryTestAdapter;
-use Shopware\Components\Test\Plugin\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class QueueItemRepositoryWrapperTest extends TestCase
 {
@@ -38,7 +38,7 @@ class QueueItemRepositoryWrapperTest extends TestCase
      */
     public function __call($name, $arguments)
     {
-        if (method_exists($this->baseTest, $name) && is_callable([$this->baseTest, $name])) {
+        if (is_callable([$this->baseTest, $name])) {
             $this->baseTest->$name(...$arguments);
         }
     }
@@ -191,6 +191,7 @@ class QueueItemRepositoryWrapperTest extends TestCase
      * @inheritDoc
      *
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     protected function setUp()
     {

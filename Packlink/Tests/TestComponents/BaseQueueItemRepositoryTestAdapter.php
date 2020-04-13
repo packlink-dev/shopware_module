@@ -3,8 +3,8 @@
 namespace Packlink\Tests\TestComponents;
 
 use Doctrine\ORM\EntityManager;
-use Logeecom\Infrastructure\BootstrapComponent;
 use Logeecom\Tests\Infrastructure\ORM\AbstractGenericQueueItemRepositoryTest;
+use Packlink\Bootstrap\Bootstrap;
 use Packlink\Tests\TestComponents\Components\TestDatabase;
 use Packlink\Tests\TestComponents\Components\TestQueueItemRepository;
 
@@ -34,7 +34,7 @@ class BaseQueueItemRepositoryTestAdapter extends AbstractGenericQueueItemReposit
         $database = new TestDatabase($this->entityManager);
         $database->install();
 
-        BootstrapComponent::init();
+        Bootstrap::init();
 
         parent::setUp();
     }
@@ -58,6 +58,7 @@ class BaseQueueItemRepositoryTestAdapter extends AbstractGenericQueueItemReposit
     /**
      * Cleans up all storage services used by repositories
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
     public function cleanUpStorage()
     {

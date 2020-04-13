@@ -6,8 +6,8 @@ use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
 use Logeecom\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
 use Packlink\Utilities\Cache;
-use Packlink\Utilities\CarrierLogo;
 
 class CarrierLogoHandler implements SubscriberInterface
 {
@@ -41,32 +41,25 @@ class CarrierLogoHandler implements SubscriberInterface
 
         $carriers = $args->getReturn();
         $map = Cache::getCarrierMaps();
-        $country = $this->getUserCountry();
+        /** @var \Packlink\Services\BusinessLogic\ShopShippingMethodService $shopShippingMethodService */
+        $shopShippingMethodService = ServiceRegister::getService(ShopShippingMethodService::CLASS_NAME);
         foreach ($carriers as $index => $carrier) {
             $id = (int) $carrier['id'];
             $isBackup = $this->isBackupCarrier((int) $carrier['id']);
             if ($isBackup) {
                 $carriers[$index]['isPlLogoEnabled'] = true;
-                $carriers[$index]['plLogo'] = CarrierLogo::getLogo($country, 'backup');
-            } else if (isset($map[$id]) && ($service = Cache::getService($map[$id])) && $service->isDisplayLogo()) {
-                $carriers[$index]['isPlLogoEnabled'] = true;
-                $carriers[$index]['plLogo'] = CarrierLogo::getLogo($country, $service->getCarrierName());
+                $carriers[$index]['plLogo'] = $shopShippingMethodService->getCarrierLogoFilePath('backup');
+            } else if (isset($map[$id])) {
+                $service = Cache::getService($map[$id]);
+
+                if ($service && $service->isDisplayLogo()) {
+                    $carriers[$index]['isPlLogoEnabled'] = true;
+                    $carriers[$index]['plLogo'] = $service->getLogoUrl();
+                }
             }
         }
 
         $args->setReturn($carriers);
-    }
-
-    /**
-     * Retrieves user country. Fallback is de.
-     *
-     * @return string
-     */
-    protected function getUserCountry()
-    {
-        $userAccount = $this->getConfigService()->getUserInfo();
-
-        return strtolower($userAccount ? $userAccount->country : 'de');
     }
 
     /**

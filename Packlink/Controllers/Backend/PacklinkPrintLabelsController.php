@@ -22,14 +22,13 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
             $orderService = $this->getOrderService();
 
             foreach ($orderIds as $id) {
-                if (($dts = $this->getOrderDetails((int)$id)) !== null
-                    && $orderService->isReadyToFetchShipmentLabels($dts->getStatus())
-                ) {
-                    $labels = $dts->getShipmentLabels();
+                $orderDetails = $this->getOrderDetails((string)$id);
+                if ($orderDetails !== null && $orderService->isReadyToFetchShipmentLabels($orderDetails->getStatus())) {
+                    $labels = $orderDetails->getShipmentLabels();
 
                     if (empty($labels)) {
-                        $labels = $orderService->getShipmentLabels($dts->getReference());
-                        $dts->setShipmentLabels($labels);
+                        $labels = $orderService->getShipmentLabels($orderDetails->getReference());
+                        $orderDetails->setShipmentLabels($labels);
                     }
 
                     /** @var \Packlink\BusinessLogic\Http\DTO\ShipmentLabel $label */
@@ -40,7 +39,7 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
                         }
                     }
 
-                    $this->getOrderDetailsRepository()->update($dts);
+                    $this->getOrderDetailsRepository()->update($orderDetails);
                 }
             }
 

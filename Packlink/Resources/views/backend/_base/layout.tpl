@@ -9,7 +9,7 @@
     {block name="styles"}{/block}
     {block name="scripts"}{/block}
 </head>
-<body role="document" style="padding-top: 17px">
+<body role="document" style="padding-top: 17px; margin: 0; overflow: hidden">
 
 
 <div class="container-fluid pl-main-wrapper" id="pl-main-page-holder">

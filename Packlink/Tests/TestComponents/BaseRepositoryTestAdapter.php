@@ -4,10 +4,11 @@ namespace Packlink\Tests\TestComponents;
 
 use Doctrine\ORM\EntityManager;
 use Logeecom\Tests\Infrastructure\ORM\AbstractGenericStudentRepositoryTest;
+use Packlink\Bootstrap\Bootstrap;
 use Packlink\Tests\TestComponents\Components\TestBaseRepository;
 use Packlink\Tests\TestComponents\Components\TestDatabase;
 
-class BaseRepositoryTestAddatper extends AbstractGenericStudentRepositoryTest
+class BaseRepositoryTestAdapter extends AbstractGenericStudentRepositoryTest
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -31,6 +32,8 @@ class BaseRepositoryTestAddatper extends AbstractGenericStudentRepositoryTest
     {
         $database = new TestDatabase($this->entityManager);
         $database->install();
+
+        Bootstrap::init();
 
         parent::setUp();
     }

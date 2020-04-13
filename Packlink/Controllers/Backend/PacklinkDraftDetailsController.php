@@ -4,7 +4,6 @@ use Logeecom\Infrastructure\Logger\Logger;
 use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
 use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
-use Packlink\Utilities\CarrierLogo;
 use Packlink\Utilities\Reference;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
@@ -22,15 +21,17 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
     {
         $orderId = $this->Request()->get('orderId');
 
-        /** @var \Shopware\Models\Order\Order $order | null */
-        if (empty($orderId) ||
-            ($orderDetails = $this->getOrderDetails((int)$orderId)) === null ||
-            ($order = $this->getShopwareOrderRepository()->find((int)$orderId)) === null
-        ) {
+        if (empty($orderId)) {
             Response::json([], 400);
         }
 
-        /** @noinspection PhpUndefinedVariableInspection */
+        /** @var \Shopware\Models\Order\Order $order */
+        $order = $this->getShopwareOrderRepository()->find((int)$orderId);
+        $orderDetails = $this->getOrderDetails($orderId);
+        if ($order === null || $orderDetails === null) {
+            Response::json([], 400);
+        }
+
         $details = [
             'orderCost' => $order->getInvoiceShipping(),
             'cost' => $orderDetails->getShippingCost(),
@@ -51,43 +52,40 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
             $details['trackingUrl'] = $orderDetails->getCarrierTrackingUrl();
         }
 
-        $country = $this->getUserCountry();
-
         if ($details['reference']) {
-            $details['referenceUrl'] = Reference::getUrl($country, $details['reference']);
+            $details['referenceUrl'] = $orderDetails->getShipmentUrl();
         }
 
         try {
             $dispatch = $order->getDispatch();
-            $shippingMethodName = $this->getShippingMethodName($dispatch->getId());
+            $shippingMethod = $this->getShippingMethod($dispatch->getId());
 
             $details = array_merge(
                 $details,
                 [
-                    'shippingMethod' => $shippingMethodName,
+                    'shippingMethod' => $shippingMethod ? $shippingMethod->getTitle() : '',
                     'carrier' => $dispatch->getName(),
-                    'logo' => CarrierLogo::getLogo($country, $shippingMethodName),
+                    'logo' => $shippingMethod ? $shippingMethod->getLogoUrl() : '',
                 ]
             );
         } catch (Exception $e) {
             Logger::logWarning("Failed to retrieve dispatch because: {$e->getMessage()}");
         }
 
-        /** @noinspection PhpUndefinedVariableInspection */
         Response::json($details);
     }
 
     /**
-     * Retrieves carrier name.
+     * Retrieves shipping method by provided ID.
      *
      * @param $shopwareCarrierId
      *
-     * @return string
+     * @return \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod
      *
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
-    protected function getShippingMethodName($shopwareCarrierId)
+    protected function getShippingMethod($shopwareCarrierId)
     {
         $filter = new QueryFilter();
         $filter->where('shopwareCarrierId', Operators::EQUALS, $shopwareCarrierId);
@@ -95,7 +93,7 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
         $map = $this->getShippingMethodMapRepository()->selectOne($filter);
 
         if ($map === null) {
-            return '';
+            return null;
         }
 
         $filter = new QueryFilter();
@@ -104,7 +102,7 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
         /** @var \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $method */
         $method = $this->getShippingMethodRepository()->selectOne($filter);
 
-        return $method !== null ? $method->getCarrierName() : '';
+        return $method;
     }
 
     /**
@@ -116,6 +114,6 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
     {
         $userAccount = $this->getConfigService()->getUserInfo();
 
-        return strtolower($userAccount ? $userAccount->country : 'de');
+        return strtolower($userAccount ? $userAccount->country : 'un');
     }
 }

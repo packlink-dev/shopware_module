@@ -13,9 +13,9 @@ class PacklinkOrderDetailsController extends \Enlight_Controller_Action
     /**
      * Retrieves order details.
      *
-     * @param int $orderId
+     * @param string $orderId
      *
-     * @return \Packlink\BusinessLogic\Order\Models\OrderShipmentDetails | null
+     * @return \Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails | null
      *
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
@@ -24,7 +24,7 @@ class PacklinkOrderDetailsController extends \Enlight_Controller_Action
     {
         $filter = new QueryFilter();
         $filter->where('orderId', Operators::EQUALS, $orderId);
-        /** @var \Packlink\BusinessLogic\Order\Models\OrderShipmentDetails $details */
+        /** @var \Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails $details */
         $details = $this->getOrderDetailsRepository()->selectOne($filter);
 
         return $details;

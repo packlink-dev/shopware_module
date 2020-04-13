@@ -30,6 +30,8 @@ class Shopware_Controllers_Backend_PacklinkLogin extends Enlight_Controller_Acti
                 /** @noinspection NullPointerExceptionInspection */
                 $this->View()->assign(['isLoginFailure' => true]);
             }
+        } else {
+            $this->View()->assign(['csrfToken' => $this->container->get('BackendSession')->offsetGet('X-CSRF-Token')]);
         }
     }
 

@@ -58,6 +58,7 @@ Ext.define('Shopware.apps.Packlink.view.Order.List', {
             header: '{s name="order/packlink/pro"}Packlink PRO{/s}',
             dataIndex: 'plReferenceUrl',
             flex:2,
+            sortable:false,
             renderer: renderPacklinkProColumn
         });
 
@@ -65,6 +66,7 @@ Ext.define('Shopware.apps.Packlink.view.Order.List', {
             header: '{s name="order/print/labels"}Labels{/s}',
             dataIndex: 'plHasLabel',
             flex:1,
+            sortable:false,
             renderer: renderPrintLabelsColumn
         });
 

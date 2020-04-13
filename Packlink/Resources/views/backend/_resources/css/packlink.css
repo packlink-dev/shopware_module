@@ -1,7 +1,7 @@
 /**
  * @package    Packlink_PacklinkPro
  * @author     Packlink Shipping S.L.
- * @copyright  2019 Packlink
+ * @copyright  2020 Packlink
  */
 
 @font-face {
@@ -72,7 +72,7 @@ input[type="checkbox"] {
     clear: both;
     padding: 0 !important;
     margin: -20px 0 0;
-    height: calc(100% - 5px);
+    height: 100%;
 }
 
 .pl-header-wrapper {
@@ -134,7 +134,7 @@ input[type="checkbox"] {
 }
 
 .pl-content-wrapper-panel {
-    padding: 0 0 0 20px;
+    padding: 0 10px 0 20px;
     height: 100%;
     position: relative;
     box-sizing: border-box;
@@ -236,10 +236,6 @@ input[type="checkbox"] {
     color: #2095F2;
 }
 
-#pl-default-warehouse-country {
-    background-color: #dcdcdc !important;
-}
-
 .pl-filter-wrapper {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 16.66667%;
@@ -321,7 +317,6 @@ input[type="checkbox"] {
     padding: 0 !important;
     height: 60px;
     line-height: 60px;
-    border-bottom: 1px solid #dcdcdc;
     color: #5d5d5d;
     font-size: 12px;
 }
@@ -340,14 +335,12 @@ input[type="checkbox"] {
 
 .pl-table-wrapper {
     padding: 0 !important;
-    height: calc(100% - 94px);
+    height: calc(100% - 100px);
     overflow-x: hidden;
     overflow-y: auto;
 }
 
 .pl-table {
-    margin: 0 !important;
-    padding: 0 !important;
     width: 100%;
     border-spacing: unset !important;
 }
@@ -373,6 +366,7 @@ input[type="checkbox"] {
     word-break: break-word;
     text-transform: uppercase;
     text-align: left;
+    border-bottom: 1px solid #dcdcdc;
 }
 
 .pl-table-row-wrapper {
@@ -380,7 +374,7 @@ input[type="checkbox"] {
     box-sizing: border-box;
 }
 
-.pl-table-row-wrapper td {
+.pl-table-row-wrapper td, .pl-table-header-wrapper th {
     border-top: 1px solid #dcdcdc !important;
 }
 
@@ -419,8 +413,12 @@ input[type="checkbox"] {
     text-align: center !important;
 }
 
-.pl-tbody tr:last-child td {
+.pl-tbody tr.pl-table-row-wrapper:last-child td {
     border-bottom: 1px solid #dcdcdc !important;
+}
+
+.pl-tbody tr:first-child td {
+    border-top: none !important;
 }
 
 .pl-tbody tr,
@@ -438,7 +436,7 @@ input[type="checkbox"] {
 
 .pl-method-logo {
     max-height: 40px;
-    max-width: 130px;
+    max-width: 100px;
 }
 
 .pl-method-pudo-icon-wrapper {
@@ -515,7 +513,7 @@ input[type="checkbox"] {
 .pl-disable-methods-modal {
     position: absolute;
     max-width: 550px;
-    height: 230px;
+    height: auto;
     border-radius: 5px;
     border: 1px #d5d5d5 solid;
     box-sizing: border-box;
@@ -808,7 +806,6 @@ input[type="checkbox"] {
     width: 100%;
 }
 
-
 .pl-form-section-input input:focus {
     border: 1px solid #2095F2 !important;
 }
@@ -821,6 +818,13 @@ input[type="checkbox"] {
     color: #5d5d5d;
     font-size: 12px;
     width: 100%;
+}
+
+.pl-form-section-input #pl-default-warehouse-country {
+    padding: 17px 0 0 10px;
+    font-size: 14px;
+    border: 1px solid #dcdcdc;
+    margin-bottom: 0;
 }
 
 .pl-form-section-input-checkbox-label {
@@ -884,12 +888,15 @@ input[type="checkbox"] {
     padding-left: 8px;
 }
 
+#pl-footer-extension-point {
+    border: 1px solid #dfdfdf;
+}
+
 .pl-footer-row {
     margin: 1px -1px 0;
     padding: 0 10px;
     background-color: #f5f5f5;
     position: relative;
-    border: 1px solid #dfdfdf;
     border-top: none;
 }
 
@@ -904,12 +911,12 @@ input[type="checkbox"] {
 
 .pl-footer-copyright-wrapper {
     display: flex;
-    width: 300px;
     justify-content: space-between;
 }
 
 .pl-footer-copyright-wrapper a, .pl-system-info-open-btn {
     color: #2095F2 !important;
+    margin-right: 10px;
 }
 
 .pl-footer-copyright-wrapper p {
@@ -1105,8 +1112,8 @@ input[type="checkbox"] {
 
 .pl-login-page {
     padding: 0;
-    margin: 0;
-    width: 100%;
+    margin: 10px;
+    width: 99%;
     height: 100%;
     display: flex;
 }
@@ -1191,6 +1198,11 @@ input[type="checkbox"] {
     width: 300px;
     float: right;
     animation: pl-fade-in .5s ease;
+    max-height: calc(100vh - 200px);
+    overflow-x: auto;
+    text-align: justify;
+    z-index: 1;
+    background-color: #f9fafa;
 }
 
 .pl-register-country-title-wrapper {
@@ -1200,8 +1212,7 @@ input[type="checkbox"] {
 
 .pl-register-country-list-wrapper {
     margin-top: 15px;
-    display: flex;
-    justify-content: space-evenly;
+    height: 97%;
 }
 
 .pl-register-country-list-wrapper a {
@@ -1209,13 +1220,26 @@ input[type="checkbox"] {
 }
 
 .pl-country {
+    display: flex;
+    height: 35px;
     width: 30px;
-    line-height: 30px;
+    line-height: 35px;
     border-radius: 50%;
     text-align: center;
     color: #2095f2;
     font-size: 14px;
     text-transform: uppercase;
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.pl-country-logo {
+    width: 60px;
+}
+
+.pl-country-name {
+    white-space: nowrap;
+    margin-left: 15px;
 }
 
 .pl-register-form-close-btn {
@@ -1251,6 +1275,7 @@ input[type="checkbox"] {
     align-items: center;
     text-align: center;
     font-size: 14px;
+    margin-right: 10px;
 }
 
 .pl-mapping-page-select-section input {
@@ -1260,12 +1285,13 @@ input[type="checkbox"] {
 
 .pl-mapping-page-select-section select {
     width: inherit;
-    padding: 5px;
+    padding: 8px;
     height: unset;
+    border: 1px solid #dcdcdc;
 }
 
 .pl-mapping-page-wrapper-equals {
-    width: 50px;
+    width: 80px;
     line-height: 50px;
     text-align: center;
 }
@@ -1844,11 +1870,6 @@ body {
     font-size: 0.96em;
     line-height: 18px;
     color: #5d5d5d;
-}
-
-.pl-shipping-modal-row {
-    position: absolute;
-    bottom: 20px;
 }
 
 #pl-main-page-holder .button.pl-shipping-modal-btn {

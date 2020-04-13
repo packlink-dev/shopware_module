@@ -5,16 +5,14 @@ use Logeecom\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\Controllers\DTO\ShippingMethodConfiguration;
 use Packlink\BusinessLogic\Controllers\ShippingMethodController;
 use Packlink\BusinessLogic\Controllers\UpdateShippingServicesTaskStatusController;
-use Packlink\Controllers\Common\CanFormatResponse;
 use Packlink\Controllers\Common\CanInstantiateServices;
-use Packlink\Utilities\CarrierLogo;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
 
 class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Controller_Action
 {
-    use CanInstantiateServices, CanFormatResponse;
+    use CanInstantiateServices;
     /** @var \Packlink\BusinessLogic\Controllers\ShippingMethodController */
     protected $controller;
 
@@ -45,16 +43,9 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
      */
     public function listAction()
     {
-        $data = $this->controller->getAll();
+        $shippingMethods = $this->controller->getAll();
 
-        $result = [];
-        $country = $this->getUserCountry();
-        foreach ($data as $item) {
-            $item->logoUrl = CarrierLogo::getLogo($country, $item->carrierName);
-            $result[] = $this->formatResponse($item);
-        }
-
-        Response::json($result);
+        Response::dtoEntitiesResponse($shippingMethods);
     }
 
     /**
@@ -103,9 +94,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
             $model->selected = $this->controller->activate($model->id);
         }
 
-        $model->logoUrl = CarrierLogo::getLogo($this->getUserCountry(), $model->carrierName);
-
-        Response::json($this->formatResponse($model));
+        Response::json($model->toArray());
     }
 
     /**
