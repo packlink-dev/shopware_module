@@ -57,32 +57,43 @@ Ext.define('Shopware.apps.Packlink.view.Order.List', {
         columns.splice(++i, 0, {
             header: '{s name="order/packlink/pro"}Packlink PRO{/s}',
             dataIndex: 'plReferenceUrl',
-            flex:2,
-            sortable:false,
+            flex: 4,
+            sortable: false,
             renderer: renderPacklinkProColumn
         });
 
         columns.splice(columns.length - 1, 0, {
             header: '{s name="order/print/labels"}Labels{/s}',
             dataIndex: 'plHasLabel',
-            flex:1,
-            sortable:false,
+            flex: 1,
+            sortable: false,
             renderer: renderPrintLabelsColumn
         });
 
         return columns;
 
         function renderPacklinkProColumn(value, meta, model) {
-            if (value) {
-                let img = '<img width="16px" src="{link file="backend/_resources/images/logo.png"}" />';
+            let img = '<img class="pl-image" width="16px" src="{link file="backend/_resources/images/logo.png"}" />';
 
-                if (model.get('plIsDeleted')) {
-                    return img;
-                }
-
-                return '<a href="' +
-                    value +
-                    '" target="_blank">' + img + '</a>';
+            switch (model.get('plDraftStatus')) {
+                case 'completed':
+                    return '<a class="pl-draft-button" href="' + value + '"'
+                        + (model.get('plIsDeleted') ? ' disabled' : ' target="_blank"')
+                        + ' style="display: flex; line-height: 16px;"'
+                        + '">'
+                        + img
+                        + '<span>View on Packlink</span></a>';
+                case 'in_progress':
+                case 'queued':
+                    return '<div class="pl-draft-in-progress" data-order-id="' + model.get('id') + '">'
+                        + 'Draft is currently being created.'
+                        + '</div>';
+                case 'aborted':
+                    return 'Previous attempt to create a draft was aborted. ' + model.get('plMessage');
+                default:
+                    return '<a class="pl-create-draft-button" data-order-id="' + model.get('id') + '"'
+                        + ' style="display: flex; line-height: 16px;">'
+                        + img + '<span>Send with Packlink</span></a>';
             }
         }
 
