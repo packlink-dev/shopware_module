@@ -77,23 +77,22 @@ Ext.define('Shopware.apps.Packlink.view.Order.List', {
                 case 'completed':
                     return '<a class="pl-draft-button" href="' + value + '"'
                         + (model.get('plIsDeleted') ? ' disabled' : ' target="_blank"')
-                        + ' style="display: flex; line-height: 16px;"'
-                        + '">'
-                        + '<img class="pl-image" width="16px" src="{link file="backend/_resources/images/logo.png"}" />'
-                        + '<span>View on Packlink</span></a>';
+                        + ' style="display: flex; line-height: 16px;">'
+                        + '<img class="pl-image" width="16px" height="16px" src="{link file="backend/_resources/images/logo.png"}" />'
+                        + '<span>{s name="shipment/view"}View on Packlink{/s}</span></a>';
                 case 'in_progress':
                 case 'queued':
-                    return '<div class="pl-draft-in-progress" data-pl-order-id="' + model.get('id') + '">'
-                        + 'Draft is currently being created.'
-                        + '</div>';
+                    return '<span class="pl-draft-in-progress" data-pl-order-id="' + model.get('id') + '">'
+                        + '{s name="shipment/inprogress/label"}Draft is currently being created.{/s}'
+                        + '</span>';
                 case 'aborted':
-                    return 'Previous attempt to create a draft was aborted. ' + model.get('plMessage');
+                    return '{s name="shipment/aborted/label"}Previous attempt to create a draft was aborted.{/s}' + ' ' + model.get('plMessage');
                 default:
                     return '<a class="pl-create-draft-button" data-pl-order-id="' + model.get('id') + '"'
                         + ' style="display: flex; line-height: 16px; cursor: pointer;">'
                         + '<img class="pl-image" data-pl-order-id="' + model.get('id')
-                        + '" width="16px" src="{link file="backend/_resources/images/logo.png"}" />'
-                        + '<span data-pl-order-id="' + model.get('id') + '">Send with Packlink</span></a>';
+                        + '" width="16px" height="16px" src="{link file="backend/_resources/images/logo.png"}" />'
+                        + '<span data-pl-order-id="' + model.get('id') + '">{s name="shipment/send"}Send with Packlink{/s}</span></a>';
             }
         }
 

@@ -99,7 +99,9 @@ Ext.define('Shopware.apps.Packlink.controller.OrderListController', {
             orderId = createDraftButton.getAttribute('data-pl-order-id');
 
         parent.removeChild(createDraftButton);
-        parent.innerText = 'Draft is currently being created.';
+        parent.innerHTML = '<span class="pl-draft-in-progress">'
+            + '{s name="shipment/inprogress/label"}Draft is currently being created.{/s}'
+            + '</span>';
 
         Packlink.ajaxService.post(
             me.getCreateDraftUrl(),
@@ -123,12 +125,13 @@ Ext.define('Shopware.apps.Packlink.controller.OrderListController', {
             if (response.status === 'completed') {
                 me.displayViewButton(parent, response.shipmentUrl);
             } else if (response.status === 'failed') {
-                parent.innerText = 'Previous attempt to create a draft failed.';
+                parent.innerText = '{s name="shipment/failed_no_error/label"}Previous attempt to create a draft failed.{/s}';
                 setTimeout(function () {
                     me.displayCreateDraftButton(parent, orderId)
                 }, 5000)
             } else if (response.status === 'aborted') {
-                parent.innerText = 'Previous attempt to create a draft was aborted.' + ' ' + response.message;
+                parent.innerText = '{s name="shipment/aborted/label"}Previous attempt to create a draft was aborted.{/s}'
+                    + ' ' + response.message;
             } else {
                 setTimeout(function () {
                     me.checkDraftStatus(parent, orderId)
@@ -148,7 +151,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderListController', {
         viewDraftButton.style.lineHeight = '16px';
 
         let viewOnPacklink = document.createElement('span');
-        viewOnPacklink.innerText = 'View on Packlink';
+        viewOnPacklink.innerText = '{s name="shipment/view"}View on Packlink{/s}';
 
         viewDraftButton.appendChild(me.getImageElement());
         viewDraftButton.appendChild(viewOnPacklink);
@@ -173,7 +176,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderListController', {
         createDraftButton.style.cursor = 'pointer';
 
         let sendWithPacklink = document.createElement('span');
-        sendWithPacklink.innerText = 'Send with Packlink';
+        sendWithPacklink.innerText = '{s name="shipment/send"}Send with Packlink{/s}';
 
         createDraftButton.appendChild(me.getImageElement());
         createDraftButton.appendChild(sendWithPacklink);
@@ -192,6 +195,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderListController', {
         img.src = '{link file="backend/_resources/images/logo.png"}';
         img.classList.add('pl-image');
         img.style.width = '16px';
+        img.style.height = '16px';
 
         return img;
     },
