@@ -73,33 +73,33 @@ Ext.define('Shopware.apps.Packlink.view.Order.List', {
         return columns;
 
         function renderPacklinkProColumn(value, meta, model) {
-            let img = '<img class="pl-image" width="16px" src="{link file="backend/_resources/images/logo.png"}" />';
-
             switch (model.get('plDraftStatus')) {
                 case 'completed':
                     return '<a class="pl-draft-button" href="' + value + '"'
                         + (model.get('plIsDeleted') ? ' disabled' : ' target="_blank"')
                         + ' style="display: flex; line-height: 16px;"'
                         + '">'
-                        + img
+                        + '<img class="pl-image" width="16px" src="{link file="backend/_resources/images/logo.png"}" />'
                         + '<span>View on Packlink</span></a>';
                 case 'in_progress':
                 case 'queued':
-                    return '<div class="pl-draft-in-progress" data-order-id="' + model.get('id') + '">'
+                    return '<div class="pl-draft-in-progress" data-pl-order-id="' + model.get('id') + '">'
                         + 'Draft is currently being created.'
                         + '</div>';
                 case 'aborted':
                     return 'Previous attempt to create a draft was aborted. ' + model.get('plMessage');
                 default:
-                    return '<a class="pl-create-draft-button" data-order-id="' + model.get('id') + '"'
-                        + ' style="display: flex; line-height: 16px;">'
-                        + img + '<span>Send with Packlink</span></a>';
+                    return '<a class="pl-create-draft-button" data-pl-order-id="' + model.get('id') + '"'
+                        + ' style="display: flex; line-height: 16px; cursor: pointer;">'
+                        + '<img class="pl-image" data-pl-order-id="' + model.get('id')
+                        + '" width="16px" src="{link file="backend/_resources/images/logo.png"}" />'
+                        + '<span data-pl-order-id="' + model.get('id') + '">Send with Packlink</span></a>';
             }
         }
 
         function renderPrintLabelsColumn(value, meta, model) {
             if (value) {
-                let sprite = model.get('plIsLabelPrinted') ? 'sprite-tag-label-black': 'sprite-tag';
+                let sprite = model.get('plIsLabelPrinted') ? 'sprite-tag-label-black' : 'sprite-tag';
                 return '<div data-pl-label="' + model.get('id') + '" class="' + sprite + '" style="width: 16px !important; height: 16px !important; cursor: pointer;"><div/>';
             }
         }
