@@ -2,6 +2,8 @@
 
 use Logeecom\Infrastructure\ServiceRegister;
 use Logeecom\Infrastructure\TaskExecution\QueueItem;
+use Packlink\BusinessLogic\OrderShipmentDetails\Exceptions\OrderShipmentDetailsNotFound;
+use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Utilities\Response;
@@ -12,6 +14,8 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends Pac
 
     /**
      * Retrieves send draft task status for particular order.
+     *
+     * @throws \Packlink\BusinessLogic\OrderShipmentDetails\Exceptions\OrderShipmentDetailsNotFound
      */
     public function indexAction()
     {
@@ -27,12 +31,25 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends Pac
         /** @var ShipmentDraftService $shipmentDraftService */
         $shipmentDraftService = ServiceRegister::getService(ShipmentDraftService::CLASS_NAME);
         $draftStatus = $shipmentDraftService->getDraftStatus($orderId);
-
         if ($draftStatus->status === QueueItem::QUEUED) {
             Response::json(['status' => QueueItem::IN_PROGRESS]);
         }
 
-        Response::json($draftStatus->toArray());
+        $response = $draftStatus->toArray();
+
+        if ($draftStatus->status === QueueItem::COMPLETED) {
+            /** @var OrderShipmentDetailsService $orderShipmentDetailsService */
+            $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
+            $shipmentDetails = $orderShipmentDetailsService->getDetailsByOrderId($orderId);
+
+            if ($shipmentDetails === null) {
+                throw new OrderShipmentDetailsNotFound('Order details not found.');
+            }
+
+            $response['shipmentUrl'] = $shipmentDetails->getShipmentUrl();
+        }
+
+        Response::json($response);
     }
 
     /**

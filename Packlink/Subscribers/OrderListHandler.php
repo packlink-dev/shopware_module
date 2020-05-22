@@ -58,7 +58,7 @@ class OrderListHandler implements SubscriberInterface
             $draftStatus = $draftService->getDraftStatus((string)$order['id']);
             $draftCreated = $draftStatus->status === QueueItem::COMPLETED && $orderDetails;
             $return['data'][$index]['plDraftStatus'] = $draftStatus->status;
-            $return['data'][$index]['plReferenceUrl'] = $draftCreated ? $orderDetails->getShipmentUrl() : 'blank';
+            $return['data'][$index]['plReferenceUrl'] = $draftCreated ? $orderDetails->getShipmentUrl() : '#';
             $return['data'][$index]['plIsDeleted'] = $draftCreated ? $orderDetails->isDeleted() : false;
             $return['data'][$index]['plMessage'] = $draftStatus->status === QueueItem::ABORTED ? $draftStatus->message
                 : '';
