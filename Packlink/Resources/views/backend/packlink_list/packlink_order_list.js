@@ -85,8 +85,6 @@ Ext.define('Shopware.apps.Packlink.view.Order.List', {
                     return '<span class="pl-draft-in-progress" data-pl-order-id="' + model.get('id') + '">'
                         + '{s name="shipment/inprogress/label"}Draft is currently being created.{/s}'
                         + '</span>';
-                case 'aborted':
-                    return '{s name="shipment/aborted/label"}Previous attempt to create a draft was aborted.{/s}' + ' ' + model.get('plMessage');
                 default:
                     return '<a class="pl-create-draft-button" data-pl-order-id="' + model.get('id') + '"'
                         + ' style="display: flex; line-height: 16px; cursor: pointer;">'

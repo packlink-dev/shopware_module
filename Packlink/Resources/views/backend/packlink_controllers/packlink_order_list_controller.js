@@ -124,14 +124,11 @@ Ext.define('Shopware.apps.Packlink.controller.OrderListController', {
         Packlink.ajaxService.get(me.getDraftTaskStatusUrl(orderId), function (response) {
             if (response.status === 'completed') {
                 me.displayViewButton(parent, response.shipmentUrl);
-            } else if (response.status === 'failed') {
+            } else if (['failed', 'aborted'].includes(response.status)) {
                 parent.innerText = '{s name="shipment/failed_no_error/label"}Previous attempt to create a draft failed.{/s}';
                 setTimeout(function () {
                     me.displayCreateDraftButton(parent, orderId)
-                }, 5000)
-            } else if (response.status === 'aborted') {
-                parent.innerText = '{s name="shipment/aborted/label"}Previous attempt to create a draft was aborted.{/s}'
-                    + ' ' + response.message;
+                }, 5000);
             } else {
                 setTimeout(function () {
                     me.checkDraftStatus(parent, orderId)
