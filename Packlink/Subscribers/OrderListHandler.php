@@ -6,8 +6,10 @@ use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
 use Logeecom\Infrastructure\Configuration\Configuration;
 use Logeecom\Infrastructure\ServiceRegister;
+use Logeecom\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\Order\OrderService;
 use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
+use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 
 class OrderListHandler implements SubscriberInterface
 {
@@ -48,13 +50,18 @@ class OrderListHandler implements SubscriberInterface
 
         /** @var \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
         $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
+        /** @var ShipmentDraftService $draftService */
+        $draftService = ServiceRegister::getService(ShipmentDraftService::CLASS_NAME);
 
         foreach ($return['data'] as $index => $order) {
             $orderDetails = $orderShipmentDetailsService->getDetailsByOrderId((string)$order['id']);
-            if ($orderDetails !== null && $orderDetails->getReference()) {
-                $return['data'][$index]['plReferenceUrl'] = $orderDetails->getShipmentUrl();
-                $return['data'][$index]['plIsDeleted'] = $orderDetails->isDeleted();
+            $draftStatus = $draftService->getDraftStatus((string)$order['id']);
+            $draftCreated = $draftStatus->status === QueueItem::COMPLETED && $orderDetails;
+            $return['data'][$index]['plDraftStatus'] = $draftStatus->status;
+            $return['data'][$index]['plReferenceUrl'] = $draftCreated ? $orderDetails->getShipmentUrl() : '#';
+            $return['data'][$index]['plIsDeleted'] = $draftCreated ? $orderDetails->isDeleted() : false;
 
+            if ($orderDetails !== null && $orderDetails->getReference()) {
                 $orderService = $this->getOrderService();
                 $isLabelsAvailable = $orderService->isReadyToFetchShipmentLabels($orderDetails->getStatus());
 

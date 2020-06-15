@@ -187,7 +187,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                 return [
                     {
                         xtype: 'displayfield',
-                        value: '{s name="shipment/inprogress/label"}Draft is currently being created in Packlink PRO{/s}',
+                        value: '{s name="shipment/inprogress/label"}Draft is currently being created.{/s}',
                         style: {
                             margin: '10px'
                         },
@@ -389,7 +389,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                  */
                 function getViewOnPacklinkButton() {
                     return Ext.create('Ext.Button', {
-                        text: '{s name="shipment/view"}View on Packlink PRO{/s}',
+                        text: '{s name="shipment/view"}View on Packlink{/s}',
                         cls: 'large primary',
                         disabled: !data.referenceUrl || data.isDeleted,
                         border: true,
