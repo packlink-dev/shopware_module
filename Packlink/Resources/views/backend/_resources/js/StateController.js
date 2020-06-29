@@ -109,7 +109,7 @@ var Packlink = window.Packlink || {};
         };
 
         if (typeof configuration.pageConfiguration !== 'undefined') {
-            pageConfiguration = { ...pageConfiguration, ...configuration.pageConfiguration };
+            pageConfiguration = {...pageConfiguration, ...configuration.pageConfiguration};
         }
 
         if (typeof pageConfiguration.initialPage !== 'undefined') {
