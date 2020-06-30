@@ -73,6 +73,12 @@ abstract class BaseEntity extends ModelEntity
      */
     protected $index_7;
     /**
+     * @var string $index_8
+     *
+     * @ORM\Column(name="index_8", type="string", length=255, nullable=true)
+     */
+    protected $index_8;
+    /**
      * @var string $data
      *
      * @ORM\Column(name="data", type="text", nullable=false)
@@ -213,6 +219,22 @@ abstract class BaseEntity extends ModelEntity
     public function setIndex_7($index_7)
     {
         $this->index_7 = $index_7;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIndex_8()
+    {
+        return $this->index_8;
+    }
+
+    /**
+     * @param string $index_8
+     */
+    public function setIndex_8($index_8)
+    {
+        $this->index_8 = $index_8;
     }
 
     /**

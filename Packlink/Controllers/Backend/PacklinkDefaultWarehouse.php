@@ -80,6 +80,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
         $supportedCountries = $countryService->getSupportedCountries();
 
         foreach ($supportedCountries as $country) {
+            $country->registrationLink = str_replace('shopware', 'pro', $country->registrationLink);
             $country->name = Translation::get("configuration/country/{$country->code}");
         }
 
