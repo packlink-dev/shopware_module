@@ -2,7 +2,7 @@
 
 namespace Packlink\Utilities;
 
-use Logeecom\Infrastructure\Logger\Logger;
+use Packlink\Core\Infrastructure\Logger\Logger;
 
 class UpdateScriptsRunner
 {

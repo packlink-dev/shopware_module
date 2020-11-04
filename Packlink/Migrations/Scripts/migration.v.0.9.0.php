@@ -1,21 +1,21 @@
 <?php
 
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
-use Logeecom\Infrastructure\TaskExecution\QueueService;
-use Packlink\BusinessLogic\Country\CountryService;
-use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
-use Packlink\BusinessLogic\Scheduler\Models\HourlySchedule;
-use Packlink\BusinessLogic\Scheduler\Models\Schedule;
-use Packlink\BusinessLogic\Scheduler\ScheduleCheckTask;
-use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
-use Packlink\BusinessLogic\Tasks\TaskCleanupTask;
-use Packlink\BusinessLogic\Tasks\UpdateShippingServicesTask;
+use Packlink\Core\Infrastructure\Configuration\Configuration;
+use Packlink\Core\Infrastructure\Logger\Logger;
+use Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
+use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException;
+use Packlink\Core\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Core\Infrastructure\TaskExecution\QueueService;
+use Packlink\Core\BusinessLogic\Country\CountryService;
+use Packlink\Core\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
+use Packlink\Core\BusinessLogic\Scheduler\Models\HourlySchedule;
+use Packlink\Core\BusinessLogic\Scheduler\Models\Schedule;
+use Packlink\Core\BusinessLogic\Scheduler\ScheduleCheckTask;
+use Packlink\Core\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
+use Packlink\Core\BusinessLogic\Tasks\TaskCleanupTask;
+use Packlink\Core\BusinessLogic\Tasks\UpdateShippingServicesTask;
 use Packlink\Models\BaseEntity;
 use Packlink\Models\PacklinkEntity;
 

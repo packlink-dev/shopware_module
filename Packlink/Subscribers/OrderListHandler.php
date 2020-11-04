@@ -4,12 +4,12 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
-use Packlink\BusinessLogic\Order\OrderService;
-use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
-use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
+use Packlink\Core\Infrastructure\Configuration\Configuration;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Core\BusinessLogic\Order\OrderService;
+use Packlink\Core\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
+use Packlink\Core\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 
 class OrderListHandler implements SubscriberInterface
 {
@@ -18,7 +18,7 @@ class OrderListHandler implements SubscriberInterface
      */
     protected $configService;
     /**
-     * @var \Packlink\BusinessLogic\Order\OrderService
+     * @var \Packlink\Core\BusinessLogic\Order\OrderService
      */
     protected $orderService;
 
@@ -37,8 +37,8 @@ class OrderListHandler implements SubscriberInterface
      *
      * @param \Enlight_Hook_HookArgs $args
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function extendOrderList(Enlight_Hook_HookArgs $args)
     {
@@ -48,7 +48,7 @@ class OrderListHandler implements SubscriberInterface
 
         $return = $args->getReturn();
 
-        /** @var \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
+        /** @var \Packlink\Core\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
         $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
         /** @var ShipmentDraftService $draftService */
         $draftService = ServiceRegister::getService(ShipmentDraftService::CLASS_NAME);
@@ -118,7 +118,7 @@ class OrderListHandler implements SubscriberInterface
     /**
      * Retrieves order service.
      *
-     * @return \Packlink\BusinessLogic\Order\OrderService
+     * @return \Packlink\Core\BusinessLogic\Order\OrderService
      */
     protected function getOrderService()
     {

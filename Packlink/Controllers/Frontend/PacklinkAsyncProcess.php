@@ -1,9 +1,9 @@
 <?php
 
-use Logeecom\Infrastructure\AutoTest\AutoTestService;
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\Interfaces\AsyncProcessService;
+use Packlink\Core\Infrastructure\AutoTest\AutoTestService;
+use Packlink\Core\Infrastructure\Logger\Logger;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\Infrastructure\TaskExecution\Interfaces\AsyncProcessService;
 use Packlink\Utilities\Response;
 use Shopware\Components\CSRFWhitelistAware;
 

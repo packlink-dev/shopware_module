@@ -2,8 +2,8 @@
 
 namespace Packlink\Controllers\Backend;
 
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Core\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Controllers\Common\CanInstantiateServices;
 
 class PacklinkOrderDetailsController extends \Enlight_Controller_Action
@@ -15,16 +15,16 @@ class PacklinkOrderDetailsController extends \Enlight_Controller_Action
      *
      * @param string $orderId
      *
-     * @return \Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails | null
+     * @return \Packlink\Core\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails | null
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getOrderDetails($orderId)
     {
         $filter = new QueryFilter();
         $filter->where('orderId', Operators::EQUALS, $orderId);
-        /** @var \Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails $details */
+        /** @var \Packlink\Core\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails $details */
         $details = $this->getOrderDetailsRepository()->selectOne($filter);
 
         return $details;
@@ -35,17 +35,17 @@ class PacklinkOrderDetailsController extends \Enlight_Controller_Action
      *
      * @param $taskId
      *
-     * @return \Logeecom\Infrastructure\TaskExecution\QueueItem
+     * @return \Packlink\Core\Infrastructure\TaskExecution\QueueItem
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getTask($taskId)
     {
         $filter = new QueryFilter();
         $filter->where('id', Operators::EQUALS, $taskId);
-        /** @var \Logeecom\Infrastructure\TaskExecution\QueueItem $item */
+        /** @var \Packlink\Core\Infrastructure\TaskExecution\QueueItem $item */
         $item = $this->getQueueItemRepository()->selectOne($filter);
 
         return $item;

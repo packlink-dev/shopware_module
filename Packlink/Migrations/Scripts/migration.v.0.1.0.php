@@ -1,15 +1,15 @@
 <?php
 
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Scheduler\Models\DailySchedule;
-use Packlink\BusinessLogic\Scheduler\Models\HourlySchedule;
-use Packlink\BusinessLogic\Scheduler\Models\Schedule;
-use Packlink\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
-use Packlink\BusinessLogic\Tasks\UpdateShipmentDataTask;
+use Packlink\Core\Infrastructure\Configuration\Configuration;
+use Packlink\Core\Infrastructure\Logger\Logger;
+use Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
+use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\BusinessLogic\Scheduler\Models\DailySchedule;
+use Packlink\Core\BusinessLogic\Scheduler\Models\HourlySchedule;
+use Packlink\Core\BusinessLogic\Scheduler\Models\Schedule;
+use Packlink\Core\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
+use Packlink\Core\BusinessLogic\Tasks\UpdateShipmentDataTask;
 
 Logger::logInfo('Started executing V0.1.0 update script.');
 

@@ -1,10 +1,10 @@
 <?php
 
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
-use Packlink\BusinessLogic\OrderShipmentDetails\Exceptions\OrderShipmentDetailsNotFound;
-use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
-use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Core\BusinessLogic\OrderShipmentDetails\Exceptions\OrderShipmentDetailsNotFound;
+use Packlink\Core\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
+use Packlink\Core\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Utilities\Response;
 
@@ -15,7 +15,7 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends Pac
     /**
      * Retrieves send draft task status for particular order.
      *
-     * @throws \Packlink\BusinessLogic\OrderShipmentDetails\Exceptions\OrderShipmentDetailsNotFound
+     * @throws \Packlink\Core\BusinessLogic\OrderShipmentDetails\Exceptions\OrderShipmentDetailsNotFound
      */
     public function indexAction()
     {

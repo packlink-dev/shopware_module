@@ -2,12 +2,12 @@
 
 namespace Packlink\Services\Infrastructure;
 
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
-use Logeecom\Infrastructure\Logger\LogData;
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\Singleton;
+use Packlink\Core\Infrastructure\Configuration\Configuration;
+use Packlink\Core\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
+use Packlink\Core\Infrastructure\Logger\LogData;
+use Packlink\Core\Infrastructure\Logger\Logger;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\Infrastructure\Singleton;
 
 class LoggerService extends Singleton implements ShopLoggerAdapter
 {

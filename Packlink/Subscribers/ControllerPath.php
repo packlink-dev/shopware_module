@@ -4,12 +4,12 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup;
 
 class ControllerPath implements SubscriberInterface
 {
-    /** @var \Logeecom\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup */
+    /** @var \Packlink\Core\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup */
     protected $wakeupService;
     /**
      * @var string
@@ -73,7 +73,7 @@ class ControllerPath implements SubscriberInterface
     /**
      * Retrieves wakeup service;
      *
-     * @return \Logeecom\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup|object
+     * @return \Packlink\Core\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup|object
      */
     protected function getWakeupService()
     {

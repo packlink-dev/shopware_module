@@ -4,8 +4,8 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs;
-use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Configuration;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\BusinessLogic\Configuration;
 
 class DropoffMailHandler implements SubscriberInterface
 {

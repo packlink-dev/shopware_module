@@ -4,11 +4,11 @@ namespace Packlink\Bootstrap;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Configuration;
-use Packlink\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
+use Packlink\Core\Infrastructure\Logger\Logger;
+use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\BusinessLogic\Configuration;
+use Packlink\Core\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Models\PacklinkEntity;
 use Packlink\Utilities\VersionedFileReader;
@@ -42,7 +42,7 @@ class Database
     /**
      * Installs all registered ORM classes
      *
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     public function install()
     {
@@ -54,7 +54,7 @@ class Database
     /**
      * Drops created tables and removes residual data.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function uninstall()
     {
@@ -66,7 +66,7 @@ class Database
     /**
      * Performs activation logic.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function activate()
     {
@@ -108,7 +108,7 @@ class Database
     /**
      * Performs deactivation logic.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function deactivate()
     {
@@ -118,7 +118,7 @@ class Database
     /**
      * Sets default data.
      *
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     protected function setDefaultData()
     {
@@ -134,7 +134,7 @@ class Database
     /**
      * Removes plugin data from Shopware.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function removeData()
     {
@@ -146,7 +146,7 @@ class Database
      *
      * @param boolean $isActive
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function setPacklinkCarriersStatus($isActive)
     {
@@ -180,7 +180,7 @@ class Database
     /**
      * Initializes task runner.
      *
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     protected function initializeTaskRunner()
     {
@@ -190,7 +190,7 @@ class Database
     /**
      * Removes creates shipping methods during install.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function removeCreatedShippingMethods()
     {
@@ -235,7 +235,7 @@ class Database
      *
      * @return array
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getPacklinkCarrierIds()
     {

@@ -2,16 +2,16 @@
 
 namespace Packlink\Controllers\Common;
 
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\QueueService;
-use Packlink\BusinessLogic\Http\Proxy;
-use Packlink\BusinessLogic\Location\LocationService;
-use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
-use Packlink\BusinessLogic\Order\OrderService;
-use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
-use Packlink\BusinessLogic\User\UserAccountService;
+use Packlink\Core\Infrastructure\Configuration\Configuration;
+use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\Infrastructure\TaskExecution\QueueService;
+use Packlink\Core\BusinessLogic\Http\Proxy;
+use Packlink\Core\BusinessLogic\Location\LocationService;
+use Packlink\Core\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
+use Packlink\Core\BusinessLogic\Order\OrderService;
+use Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\Core\BusinessLogic\User\UserAccountService;
 use Packlink\Contracts\Services\BusinessLogic\DebugService;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Services\BusinessLogic\CheckoutService;
@@ -21,27 +21,27 @@ trait CanInstantiateServices
 {
     /** @var \Packlink\Services\BusinessLogic\ConfigurationService */
     protected $configService;
-    /** @var \Packlink\BusinessLogic\User\UserAccountService */
+    /** @var \Packlink\Core\BusinessLogic\User\UserAccountService */
     protected $userAccountService;
-    /** @var \Packlink\BusinessLogic\Location\LocationService */
+    /** @var \Packlink\Core\BusinessLogic\Location\LocationService */
     protected $locationService;
-    /** @var \Packlink\BusinessLogic\Http\Proxy */
+    /** @var \Packlink\Core\BusinessLogic\Http\Proxy */
     protected $proxy;
     /** @var \Packlink\Contracts\Services\BusinessLogic\DebugService */
     protected $debugService;
     /** @var CheckoutService */
     protected $checkoutService;
-    /** @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface */
+    /** @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface */
     protected $orderDetailsRepository;
     /** @var \Packlink\Repositories\QueueItemRepository */
     protected $queueItemRepository;
     /** @var QueueService */
     protected $queueService;
-    /** @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface */
+    /** @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface */
     protected $shippingMethodMapRepository;
-    /** @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface */
+    /** @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface */
     protected $shippingMethodRepository;
-    /** @var \Packlink\BusinessLogic\Order\OrderService */
+    /** @var \Packlink\Core\BusinessLogic\Order\OrderService */
     protected $orderService;
 
     /**
@@ -61,7 +61,7 @@ trait CanInstantiateServices
     /**
      * Retrieves user account service.
      *
-     * @return \Packlink\BusinessLogic\User\UserAccountService
+     * @return \Packlink\Core\BusinessLogic\User\UserAccountService
      */
     protected function getUserAccountService()
     {
@@ -75,7 +75,7 @@ trait CanInstantiateServices
     /**
      * Retrieves location service.
      *
-     * @return \Packlink\BusinessLogic\Location\LocationService
+     * @return \Packlink\Core\BusinessLogic\Location\LocationService
      */
     protected function getLocationService()
     {
@@ -89,7 +89,7 @@ trait CanInstantiateServices
     /**
      * Retrieves proxy.
      *
-     * @return \Packlink\BusinessLogic\Http\Proxy
+     * @return \Packlink\Core\BusinessLogic\Http\Proxy
      */
     protected function getProxy()
     {
@@ -131,9 +131,9 @@ trait CanInstantiateServices
     /**
      * Retrieves order repository interface.
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @return \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getOrderDetailsRepository()
     {
@@ -149,8 +149,8 @@ trait CanInstantiateServices
      *
      * @return \Packlink\Repositories\QueueItemRepository
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getQueueItemRepository()
     {
@@ -164,7 +164,7 @@ trait CanInstantiateServices
     /**
      * Retrieves queue service.
      *
-     * @return \Logeecom\Infrastructure\TaskExecution\QueueService
+     * @return \Packlink\Core\Infrastructure\TaskExecution\QueueService
      */
     protected function getQueueService()
     {
@@ -188,9 +188,9 @@ trait CanInstantiateServices
     /**
      * Retrieves shipping method map repository.
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @return \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethodMapRepository()
     {
@@ -204,8 +204,8 @@ trait CanInstantiateServices
     /**
      * Retrieves shipping method repository.
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @return \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethodRepository()
     {
@@ -219,7 +219,7 @@ trait CanInstantiateServices
     /**
      * Retrieves order service.
      *
-     * @return \Packlink\BusinessLogic\Order\OrderService
+     * @return \Packlink\Core\BusinessLogic\Order\OrderService
      */
     protected function getOrderService()
     {

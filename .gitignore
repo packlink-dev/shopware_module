@@ -8,3 +8,8 @@ vendor
 *.log
 *.zip
 !PluginInstallation/**/*.zip
+
+build/*
+Packlink.zip
+Packlink/Core
+Packlink/Tests/Core

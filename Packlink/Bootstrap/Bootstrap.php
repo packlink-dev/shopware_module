@@ -2,26 +2,26 @@
 
 namespace Packlink\Bootstrap;
 
-use Logeecom\Infrastructure\Configuration\ConfigEntity;
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\Http\CurlHttpClient;
-use Logeecom\Infrastructure\Http\HttpClient;
-use Logeecom\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
-use Logeecom\Infrastructure\Logger\LogData;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\Serializer\Concrete\NativeSerializer;
-use Logeecom\Infrastructure\Serializer\Serializer;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\Process;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
-use Packlink\BusinessLogic\BootstrapComponent;
-use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
-use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
+use Packlink\Core\Infrastructure\Configuration\ConfigEntity;
+use Packlink\Core\Infrastructure\Configuration\Configuration;
+use Packlink\Core\Infrastructure\Http\CurlHttpClient;
+use Packlink\Core\Infrastructure\Http\HttpClient;
+use Packlink\Core\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
+use Packlink\Core\Infrastructure\Logger\LogData;
+use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Core\Infrastructure\Serializer\Concrete\NativeSerializer;
+use Packlink\Core\Infrastructure\Serializer\Serializer;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\Infrastructure\TaskExecution\Process;
+use Packlink\Core\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Core\BusinessLogic\BootstrapComponent;
+use Packlink\Core\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
+use Packlink\Core\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
 use Packlink\Services\BusinessLogic\ShopOrderService;
-use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
-use Packlink\BusinessLogic\Scheduler\Models\Schedule;
-use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
-use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\Core\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
+use Packlink\Core\BusinessLogic\Scheduler\Models\Schedule;
+use Packlink\Core\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
+use Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Contracts\Services\BusinessLogic\DebugService;
 use Packlink\Entities\OrderDropoffMap;
 use Packlink\Entities\ShippingMethodMap;
@@ -93,7 +93,7 @@ class Bootstrap extends BootstrapComponent
     /**
      * @inheritDoc
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
      */
     protected static function initRepositories()
     {

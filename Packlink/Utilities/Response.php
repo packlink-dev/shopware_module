@@ -7,7 +7,7 @@ class Response
     /**
      * Converts DTOs to array and returns a JSON response.
      *
-     * @param \Packlink\BusinessLogic\DTO\BaseDto[] $entities
+     * @param \Packlink\Core\BusinessLogic\DTO\BaseDto[] $entities
      */
     public static function dtoEntitiesResponse(array $entities)
     {
@@ -23,7 +23,7 @@ class Response
     /**
      * Returns 400 response with validation errors.
      *
-     * @param \Packlink\BusinessLogic\DTO\ValidationError[] $errors
+     * @param \Packlink\Core\BusinessLogic\DTO\ValidationError[] $errors
      */
     public static function validationErrorsResponse(array $errors)
     {

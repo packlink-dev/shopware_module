@@ -1,6 +1,6 @@
 <?php
 
-use Packlink\BusinessLogic\Tax\TaxClass;
+use Packlink\Core\BusinessLogic\Tax\TaxClass;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
 use Shopware\Models\Tax\Tax;

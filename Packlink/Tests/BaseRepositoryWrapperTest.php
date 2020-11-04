@@ -1,6 +1,6 @@
 <?php
 
-namespace Packlink;
+namespace Packlink\Tests;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -44,7 +44,7 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testRegisteredRepositories()
     {
@@ -52,7 +52,7 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testStudentMassInsert()
     {
@@ -60,8 +60,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testStudentUpdate()
     {
@@ -69,7 +69,7 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryAllStudents()
     {
@@ -77,8 +77,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersString()
     {
@@ -86,8 +86,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersInt()
     {
@@ -95,8 +95,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithOr()
     {
@@ -104,8 +104,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithAndAndOr()
     {
@@ -113,8 +113,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithNotEquals()
     {
@@ -122,8 +122,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithGreaterThan()
     {
@@ -131,8 +131,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithLessThan()
     {
@@ -140,8 +140,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithGreaterEqualThan()
     {
@@ -149,8 +149,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithLessOrEqualThan()
     {
@@ -158,8 +158,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithCombinedComparisonOperators()
     {
@@ -167,8 +167,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithInOperator()
     {
@@ -176,8 +176,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithNotInOperator()
     {
@@ -185,8 +185,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithLikeOperator()
     {
@@ -194,8 +194,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersAndSort()
     {
@@ -203,8 +203,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithUnknownFieldSort()
     {
@@ -212,8 +212,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithUnIndexedFieldSort()
     {
@@ -221,8 +221,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithIdFieldSort()
     {
@@ -230,8 +230,8 @@ class BaseRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersAndLimit()
     {
@@ -241,7 +241,7 @@ class BaseRepositoryWrapperTest extends TestCase
     /**
      * @inheritDoc
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
      */
     protected function setUp()
     {

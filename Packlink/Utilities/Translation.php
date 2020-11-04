@@ -2,7 +2,7 @@
 
 namespace Packlink\Utilities;
 
-use Packlink\BusinessLogic\DTO\ValidationError;
+use Packlink\Core\BusinessLogic\DTO\ValidationError;
 
 class Translation
 {

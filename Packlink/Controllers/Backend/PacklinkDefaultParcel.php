@@ -1,6 +1,6 @@
 <?php
 
-use Packlink\BusinessLogic\Http\DTO\ParcelInfo;
+use Packlink\Core\BusinessLogic\Http\DTO\ParcelInfo;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
@@ -35,7 +35,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultParcel extends Enlight_Control
             $parcelInfo = ParcelInfo::fromArray($data);
             $this->getConfigService()->setDefaultParcel($parcelInfo);
             Response::json($parcelInfo->toArray());
-        } catch (\Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException $e) {
+        } catch (\Packlink\Core\BusinessLogic\DTO\Exceptions\FrontDtoValidationException $e) {
             Response::validationErrorsResponse($e->getValidationErrors());
         }
     }

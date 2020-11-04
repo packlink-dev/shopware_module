@@ -6,9 +6,9 @@ use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_ActionEventArgs;
 use Enlight_Event_EventArgs;
 use Exception;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Configuration;
+use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\BusinessLogic\Configuration;
 use Packlink\Entities\OrderDropoffMap;
 use Packlink\Services\BusinessLogic\CheckoutService;
 use Packlink\Services\BusinessLogic\DropoffService;
@@ -66,8 +66,8 @@ class DropoffHandler implements SubscriberInterface
      *
      * @param \Enlight_Controller_ActionEventArgs $args
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function onCheckoutPostDispatch(Enlight_Controller_ActionEventArgs $args)
     {
@@ -101,7 +101,7 @@ class DropoffHandler implements SubscriberInterface
      *
      * @return array|null
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function saveDropoff(Enlight_Event_EventArgs $args)
     {
@@ -125,8 +125,8 @@ class DropoffHandler implements SubscriberInterface
      *
      * @return array
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getViewData()
     {
@@ -322,7 +322,7 @@ class DropoffHandler implements SubscriberInterface
      * @param int $id
      * @param array $plDropoff
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function doLinkOrderAndDropoff($id, array $plDropoff)
     {
@@ -335,8 +335,8 @@ class DropoffHandler implements SubscriberInterface
     /**
      * Retrieves order dropoff map repository.
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @return \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getOrderDropoffMapRepository()
     {

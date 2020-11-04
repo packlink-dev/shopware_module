@@ -1,6 +1,6 @@
 <?php
 
-use Packlink\BusinessLogic\WebHook\WebHookEventHandler;
+use Packlink\Core\BusinessLogic\WebHook\WebHookEventHandler;
 use Packlink\Utilities\Response;
 use Shopware\Components\CSRFWhitelistAware;
 

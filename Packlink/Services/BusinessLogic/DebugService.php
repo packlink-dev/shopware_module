@@ -2,16 +2,16 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
-use Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException;
-use Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
-use Packlink\BusinessLogic\Configuration;
-use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
+use Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException;
+use Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
+use Packlink\Core\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Core\BusinessLogic\Configuration;
+use Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Contracts\Services\BusinessLogic\DebugService as BaseService;
 use Shopware\Models\Shop\Shop;
 use ZipArchive;

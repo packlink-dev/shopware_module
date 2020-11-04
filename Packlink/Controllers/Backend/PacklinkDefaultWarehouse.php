@@ -1,9 +1,9 @@
 <?php
 
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Country\CountryService;
-use Packlink\BusinessLogic\Warehouse\WarehouseService;
+use Packlink\Core\Infrastructure\Logger\Logger;
+use Packlink\Core\Infrastructure\ServiceRegister;
+use Packlink\Core\BusinessLogic\Country\CountryService;
+use Packlink\Core\BusinessLogic\Warehouse\WarehouseService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
@@ -29,8 +29,8 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
     /**
      * Updates default warehouse.
      *
-     * @throws \Packlink\BusinessLogic\DTO\Exceptions\FrontDtoNotRegisteredException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\Core\BusinessLogic\DTO\Exceptions\FrontDtoNotRegisteredException
+     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      */
     public function updateAction()
     {
@@ -44,7 +44,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
             $warehouse = $warehouseService->updateWarehouseData($data);
 
             Response::json($warehouse->toArray());
-        } catch (\Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException $e) {
+        } catch (\Packlink\Core\BusinessLogic\DTO\Exceptions\FrontDtoValidationException $e) {
             Response::validationErrorsResponse($e->getValidationErrors());
         }
     }
@@ -75,7 +75,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
      */
     public function getCountriesAction()
     {
-        /** @var \Packlink\BusinessLogic\Country\CountryService $countryService */
+        /** @var \Packlink\Core\BusinessLogic\Country\CountryService $countryService */
         $countryService = ServiceRegister::getService(CountryService::CLASS_NAME);
         $supportedCountries = $countryService->getSupportedCountries();
 
