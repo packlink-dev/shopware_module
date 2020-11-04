@@ -2,7 +2,7 @@
 
 namespace Packlink\Utilities;
 
-use Packlink\Core\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\Logger\Logger;
 
 class UpdateScriptsRunner
 {

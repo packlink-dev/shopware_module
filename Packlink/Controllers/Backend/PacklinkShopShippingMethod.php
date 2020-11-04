@@ -1,7 +1,7 @@
 <?php
 
-use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
-use Packlink\Core\BusinessLogic\Controllers\AnalyticsController;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\BusinessLogic\Controllers\AnalyticsController;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Utilities\Response;
@@ -27,7 +27,7 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
      *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function countAction()
     {
@@ -48,7 +48,7 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
      * Deactivates shop shipping methods.
      *
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function deactivateAction()
     {
@@ -92,7 +92,7 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
      *
      * @return array
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getPacklinkShippingMethods()
     {

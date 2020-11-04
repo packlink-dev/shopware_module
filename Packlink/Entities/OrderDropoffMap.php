@@ -2,9 +2,9 @@
 
 namespace Packlink\Entities;
 
-use Packlink\Core\Infrastructure\ORM\Configuration\EntityConfiguration;
-use Packlink\Core\Infrastructure\ORM\Configuration\IndexMap;
-use Packlink\Core\Infrastructure\ORM\Entity;
+use Packlink\Infrastructure\ORM\Configuration\EntityConfiguration;
+use Packlink\Infrastructure\ORM\Configuration\IndexMap;
+use Packlink\Infrastructure\ORM\Entity;
 
 class OrderDropoffMap extends Entity
 {

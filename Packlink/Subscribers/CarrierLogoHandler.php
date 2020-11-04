@@ -4,9 +4,9 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Configuration;
-use Packlink\Core\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
 use Packlink\Utilities\Cache;
 
 class CarrierLogoHandler implements SubscriberInterface
@@ -29,8 +29,8 @@ class CarrierLogoHandler implements SubscriberInterface
     /**
      * @param \Enlight_Hook_HookArgs $args
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Exception
      */
     public function onAfterSGetPremiumDispatches(Enlight_Hook_HookArgs $args)

@@ -5,9 +5,9 @@ namespace Packlink\Subscribers;
 use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
 use Exception;
-use Packlink\Core\Infrastructure\Logger\Logger;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Configuration;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Configuration;
 use Packlink\Services\BusinessLogic\CheckoutService;
 use Packlink\Utilities\Cache;
 
@@ -37,7 +37,7 @@ class ShippingMethodListHandler implements SubscriberInterface
      *
      * @param \Enlight_Hook_HookArgs $args
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function onAfterSGetPremiumDispatches(Enlight_Hook_HookArgs $args)
     {

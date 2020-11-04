@@ -2,17 +2,17 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Packlink\Core\Infrastructure\ORM\QueryFilter\Operators;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
 use Packlink\Entities\ShippingMethodMap;
 
 class DropoffService
 {
-    /** @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface */
+    /** @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface */
     protected $shippingMethodRepository;
     /**
-     * @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $shippingMethodMapRepository;
 
@@ -25,8 +25,8 @@ class DropoffService
      *
      * @return array
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function getDropoffCarriers()
     {
@@ -46,9 +46,9 @@ class DropoffService
     /**
      * Retrieves shipping method map repository.
      *
-     * @return \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethodMapRepository()
     {

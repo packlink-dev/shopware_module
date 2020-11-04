@@ -5,13 +5,13 @@ namespace Packlink\Repositories;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
-use Packlink\Core\Infrastructure\ORM\Entity;
-use Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
-use Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\Operators;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryCondition;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Packlink\Core\Infrastructure\ORM\Utility\IndexHelper;
+use Packlink\Infrastructure\ORM\Entity;
+use Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
+use Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryCondition;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\Utility\IndexHelper;
 use Packlink\Models\BaseEntity;
 use Packlink\Models\PacklinkEntity;
 use function count;
@@ -72,7 +72,7 @@ class BaseRepository implements RepositoryInterface
      *
      * @return Entity[] A list of found entities ot empty array.
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      */
     public function select(QueryFilter $filter = null)
     {
@@ -88,7 +88,7 @@ class BaseRepository implements RepositoryInterface
      *
      * @return Entity | null First found entity or NULL.
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      */
     public function selectOne(QueryFilter $filter = null)
     {
@@ -176,7 +176,7 @@ class BaseRepository implements RepositoryInterface
      * @return int Number of records that match filter criteria.
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      */
     public function count(QueryFilter $filter = null)
     {
@@ -194,7 +194,7 @@ class BaseRepository implements RepositoryInterface
      *
      * @return array Array of condition groups..
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      */
     protected function buildConditionGroups(QueryFilter $filter, array $fieldIndexMap)
     {
@@ -220,12 +220,12 @@ class BaseRepository implements RepositoryInterface
     /**
      * Retrieves doctrine query.
      *
-     * @param \Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter|null $filter
+     * @param \Packlink\Infrastructure\ORM\QueryFilter\QueryFilter|null $filter
      *
      * @param bool $isCount
      *
      * @return \Doctrine\ORM\QueryBuilder
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      */
     protected function getBaseDoctrineQuery(QueryFilter $filter = null, $isCount = false)
     {
@@ -288,7 +288,7 @@ class BaseRepository implements RepositoryInterface
     /**
      * Retrieves query part.
      *
-     * @param \Packlink\Core\Infrastructure\ORM\QueryFilter\QueryCondition $condition
+     * @param \Packlink\Infrastructure\ORM\QueryFilter\QueryCondition $condition
      * @param array $indexMap
      * @param string $alias
      *
@@ -367,7 +367,7 @@ class BaseRepository implements RepositoryInterface
      *
      * @param string $data
      *
-     * @return \Packlink\Core\Infrastructure\ORM\Entity
+     * @return \Packlink\Infrastructure\ORM\Entity
      */
     protected function unserializeEntity($data)
     {
@@ -387,7 +387,7 @@ class BaseRepository implements RepositoryInterface
     /**
      * Persists entity.
      *
-     * @param \Packlink\Core\Infrastructure\ORM\Entity $entity
+     * @param \Packlink\Infrastructure\ORM\Entity $entity
      * @param \Packlink\Models\BaseEntity $persistedEntity
      *
      * @return int
@@ -447,7 +447,7 @@ class BaseRepository implements RepositoryInterface
     /**
      * Sets limit.
      *
-     * @param \Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter $filter
+     * @param \Packlink\Infrastructure\ORM\QueryFilter\QueryFilter $filter
      * @param \Doctrine\ORM\QueryBuilder $query
      */
     protected function setLimit(QueryFilter $filter, QueryBuilder $query)
@@ -460,7 +460,7 @@ class BaseRepository implements RepositoryInterface
     /**
      * Sets order by.
      *
-     * @param \Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter $filter
+     * @param \Packlink\Infrastructure\ORM\QueryFilter\QueryFilter $filter
      * @param array $indexMap
      * @param $alias
      * @param \Doctrine\ORM\QueryBuilder $query

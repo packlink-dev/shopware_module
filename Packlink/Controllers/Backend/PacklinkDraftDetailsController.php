@@ -1,8 +1,8 @@
 <?php
 
-use Packlink\Core\Infrastructure\Logger\Logger;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\Operators;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Utilities\Reference;
 use Packlink\Utilities\Response;
@@ -13,8 +13,8 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
     /**
      * Retrieves order details.
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Exception
      */
     public function indexAction()
@@ -80,10 +80,10 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
      *
      * @param $shopwareCarrierId
      *
-     * @return \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod
+     * @return \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethod($shopwareCarrierId)
     {
@@ -99,7 +99,7 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
         $filter = new QueryFilter();
         $filter->where('id', Operators::EQUALS, $map->shippingMethodId);
 
-        /** @var \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod $method */
+        /** @var \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $method */
         $method = $this->getShippingMethodRepository()->selectOne($filter);
 
         return $method;

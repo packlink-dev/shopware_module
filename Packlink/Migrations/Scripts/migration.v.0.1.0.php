@@ -1,15 +1,15 @@
 <?php
 
-use Packlink\Core\Infrastructure\Configuration\Configuration;
-use Packlink\Core\Infrastructure\Logger\Logger;
-use Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
-use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Scheduler\Models\DailySchedule;
-use Packlink\Core\BusinessLogic\Scheduler\Models\HourlySchedule;
-use Packlink\Core\BusinessLogic\Scheduler\Models\Schedule;
-use Packlink\Core\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
-use Packlink\Core\BusinessLogic\Tasks\UpdateShipmentDataTask;
+use Packlink\Infrastructure\Configuration\Configuration;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Scheduler\Models\DailySchedule;
+use Packlink\BusinessLogic\Scheduler\Models\HourlySchedule;
+use Packlink\BusinessLogic\Scheduler\Models\Schedule;
+use Packlink\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
+use Packlink\BusinessLogic\Tasks\UpdateShipmentDataTask;
 
 Logger::logInfo('Started executing V0.1.0 update script.');
 

@@ -3,13 +3,13 @@
 namespace Packlink\Repositories;
 
 use Exception;
-use Packlink\Core\Infrastructure\ORM\Interfaces\QueueItemRepository as BaseQueueItemRepository;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\Operators;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Packlink\Core\Infrastructure\ORM\Utility\IndexHelper;
-use Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException;
-use Packlink\Core\Infrastructure\TaskExecution\Interfaces\Priority;
-use Packlink\Core\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Infrastructure\ORM\Interfaces\QueueItemRepository as BaseQueueItemRepository;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\Utility\IndexHelper;
+use Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException;
+use Packlink\Infrastructure\TaskExecution\Interfaces\Priority;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
 
 class QueueItemRepository extends BaseRepository implements BaseQueueItemRepository
 {
@@ -58,8 +58,8 @@ class QueueItemRepository extends BaseRepository implements BaseQueueItemReposit
      * @return int Id of saved queue item
      *
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException if queue item could not be saved
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException if queue item could not be saved
      */
     public function saveWithCondition(QueueItem $queueItem, array $additionalWhere = array())
     {
@@ -114,12 +114,12 @@ class QueueItemRepository extends BaseRepository implements BaseQueueItemReposit
     /**
      * Updates queue item.
      *
-     * @param \Packlink\Core\Infrastructure\TaskExecution\QueueItem $queueItem
+     * @param \Packlink\Infrastructure\TaskExecution\QueueItem $queueItem
      * @param array $additionalWhere
      *
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      */
     protected function updateQueueItem(QueueItem $queueItem, array $additionalWhere)
     {

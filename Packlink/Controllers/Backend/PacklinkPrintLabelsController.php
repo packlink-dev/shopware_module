@@ -9,8 +9,8 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
     /**
      * Prints labels.
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \iio\libmergepdf\Exception
      */
     public function printAction()
@@ -31,7 +31,7 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
                         $orderDetails->setShipmentLabels($labels);
                     }
 
-                    /** @var \Packlink\Core\BusinessLogic\Http\DTO\ShipmentLabel $label */
+                    /** @var \Packlink\BusinessLogic\Http\DTO\ShipmentLabel $label */
                     foreach ($labels as $label) {
                         $label->setPrinted(true);
                         if ($label->getLink() && $file = $this->downloadPdf($label->getLink())) {

@@ -44,8 +44,8 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testRegisteredRepositories()
     {
@@ -55,8 +55,8 @@ class QueueItemRepositoryWrapperTest extends TestCase
     /**
      * @depends testRegisteredRepositories
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueueItemMassInsert()
     {
@@ -64,9 +64,9 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testUpdate()
     {
@@ -76,8 +76,8 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryAllQueueItems()
     {
@@ -87,9 +87,9 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersString()
     {
@@ -99,9 +99,9 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersInt()
     {
@@ -111,9 +111,9 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersAndSort()
     {
@@ -123,9 +123,9 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersAndLimit()
     {
@@ -135,8 +135,8 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testFindOldestQueuedItems()
     {
@@ -146,12 +146,12 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @expectedException \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @expectedException \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      */
     public function testSaveWithCondition()
     {
@@ -161,12 +161,12 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @expectedException \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @expectedException \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      */
     public function testSaveWithConditionWithNull()
     {
@@ -176,11 +176,11 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @expectedException \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @expectedException \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testInvalidQueryFilter()
     {
@@ -190,8 +190,8 @@ class QueueItemRepositoryWrapperTest extends TestCase
     /**
      * @inheritDoc
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     protected function setUp()
     {

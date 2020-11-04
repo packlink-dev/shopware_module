@@ -5,10 +5,10 @@ namespace Packlink\Subscribers;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Configuration;
-use Packlink\Core\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
-use Packlink\Core\BusinessLogic\ShipmentDraft\ShipmentDraftService;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
+use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 use Shopware\Models\Order\Order;
 use Shopware\Models\Order\Status;
 
@@ -19,11 +19,11 @@ class OrderModelEventHandler implements EventSubscriber
      */
     protected $configService;
     /**
-     * @var \Packlink\Core\BusinessLogic\ShipmentDraft\ShipmentDraftService
+     * @var \Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService
      */
     protected $shipmentDraftService;
     /**
-     * @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $orderDetailsRepository;
 
@@ -45,11 +45,11 @@ class OrderModelEventHandler implements EventSubscriber
      *
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
-     * @throws \Packlink\Core\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapExists
-     * @throws \Packlink\Core\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapNotFound
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapExists
+     * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapNotFound
      */
     public function postPersist(LifecycleEventArgs $args)
     {
@@ -66,11 +66,11 @@ class OrderModelEventHandler implements EventSubscriber
      *
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
-     * @throws \Packlink\Core\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapExists
-     * @throws \Packlink\Core\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapNotFound
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapExists
+     * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapNotFound
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
@@ -89,8 +89,8 @@ class OrderModelEventHandler implements EventSubscriber
      *
      * @return bool
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function shouldHandle($model)
     {
@@ -129,7 +129,7 @@ class OrderModelEventHandler implements EventSubscriber
     /**
      * Retrieves shipment draft service.
      *
-     * @return \Packlink\Core\BusinessLogic\ShipmentDraft\ShipmentDraftService
+     * @return \Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService
      */
     protected function getShipmentDraftService()
     {
@@ -147,12 +147,12 @@ class OrderModelEventHandler implements EventSubscriber
      *
      * @return bool
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function isOrderDetailsCreated($id)
     {
-        /** @var \Packlink\Core\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
+        /** @var \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
         $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);
         $details = $orderShipmentDetailsService->getDetailsByOrderId($id);
 

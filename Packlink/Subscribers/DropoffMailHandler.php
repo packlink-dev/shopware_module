@@ -4,8 +4,8 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Configuration;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Configuration;
 
 class DropoffMailHandler implements SubscriberInterface
 {

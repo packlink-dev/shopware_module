@@ -3,7 +3,7 @@
 namespace Packlink\Tests\TestComponents;
 
 use Doctrine\ORM\EntityManager;
-use Packlink\Tests\Core\Infrastructure\ORM\AbstractGenericQueueItemRepositoryTest;
+use Logeecom\Tests\Infrastructure\ORM\AbstractGenericQueueItemRepositoryTest;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Tests\TestComponents\Components\TestDatabase;
 use Packlink\Tests\TestComponents\Components\TestQueueItemRepository;
@@ -27,7 +27,7 @@ class BaseQueueItemRepositoryTestAdapter extends AbstractGenericQueueItemReposit
 
     /**
      * @inheritDoc
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     public function setUp()
     {
@@ -57,7 +57,7 @@ class BaseQueueItemRepositoryTestAdapter extends AbstractGenericQueueItemReposit
 
     /**
      * Cleans up all storage services used by repositories
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
     public function cleanUpStorage()

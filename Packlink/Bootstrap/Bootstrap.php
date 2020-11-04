@@ -2,26 +2,26 @@
 
 namespace Packlink\Bootstrap;
 
-use Packlink\Core\Infrastructure\Configuration\ConfigEntity;
-use Packlink\Core\Infrastructure\Configuration\Configuration;
-use Packlink\Core\Infrastructure\Http\CurlHttpClient;
-use Packlink\Core\Infrastructure\Http\HttpClient;
-use Packlink\Core\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
-use Packlink\Core\Infrastructure\Logger\LogData;
-use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
-use Packlink\Core\Infrastructure\Serializer\Concrete\NativeSerializer;
-use Packlink\Core\Infrastructure\Serializer\Serializer;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\Infrastructure\TaskExecution\Process;
-use Packlink\Core\Infrastructure\TaskExecution\QueueItem;
-use Packlink\Core\BusinessLogic\BootstrapComponent;
-use Packlink\Core\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
-use Packlink\Core\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
+use Packlink\Infrastructure\Configuration\ConfigEntity;
+use Packlink\Infrastructure\Configuration\Configuration;
+use Packlink\Infrastructure\Http\CurlHttpClient;
+use Packlink\Infrastructure\Http\HttpClient;
+use Packlink\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
+use Packlink\Infrastructure\Logger\LogData;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\Serializer\Concrete\NativeSerializer;
+use Packlink\Infrastructure\Serializer\Serializer;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\TaskExecution\Process;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
+use Packlink\BusinessLogic\BootstrapComponent;
+use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
+use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
 use Packlink\Services\BusinessLogic\ShopOrderService;
-use Packlink\Core\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
-use Packlink\Core\BusinessLogic\Scheduler\Models\Schedule;
-use Packlink\Core\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
-use Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
+use Packlink\BusinessLogic\Scheduler\Models\Schedule;
+use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
+use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Contracts\Services\BusinessLogic\DebugService;
 use Packlink\Entities\OrderDropoffMap;
 use Packlink\Entities\ShippingMethodMap;
@@ -93,7 +93,7 @@ class Bootstrap extends BootstrapComponent
     /**
      * @inheritDoc
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
      */
     protected static function initRepositories()
     {

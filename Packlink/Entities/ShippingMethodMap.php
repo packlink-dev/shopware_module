@@ -2,9 +2,9 @@
 
 namespace Packlink\Entities;
 
-use Packlink\Core\Infrastructure\ORM\Configuration\EntityConfiguration;
-use Packlink\Core\Infrastructure\ORM\Configuration\IndexMap;
-use Packlink\Core\Infrastructure\ORM\Entity;
+use Packlink\Infrastructure\ORM\Configuration\EntityConfiguration;
+use Packlink\Infrastructure\ORM\Configuration\IndexMap;
+use Packlink\Infrastructure\ORM\Entity;
 
 class ShippingMethodMap extends Entity
 {
@@ -36,7 +36,7 @@ class ShippingMethodMap extends Entity
     /**
      * Returns entity configuration object.
      *
-     * @return \Packlink\Core\Infrastructure\ORM\Configuration\EntityConfiguration Configuration object.
+     * @return \Packlink\Infrastructure\ORM\Configuration\EntityConfiguration Configuration object.
      */
     public function getConfig()
     {

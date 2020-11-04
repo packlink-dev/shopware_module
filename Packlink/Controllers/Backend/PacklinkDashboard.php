@@ -1,6 +1,6 @@
 <?php
 
-use Packlink\Core\BusinessLogic\Controllers\DashboardController;
+use Packlink\BusinessLogic\Controllers\DashboardController;
 use Packlink\Utilities\Response;
 
 class Shopware_Controllers_Backend_PacklinkDashboard extends Enlight_Controller_Action

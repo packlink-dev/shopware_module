@@ -2,12 +2,12 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Configuration;
-use Packlink\Core\BusinessLogic\Http\DTO\Package;
-use Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod;
-use Packlink\Core\BusinessLogic\ShippingMethod\ShippingCostCalculator;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\Http\DTO\Package;
+use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\BusinessLogic\ShippingMethod\ShippingCostCalculator;
 use Packlink\Exceptions\FailedToRetrieveCheckoutAddressException;
 use Packlink\Exceptions\FailedToRetrieveDefaultUserAddressException;
 use Packlink\Utilities\Cache;
@@ -21,7 +21,7 @@ class CheckoutService
      */
     protected $configService;
     /**
-     * @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $shippingMethodRepository;
 
@@ -113,7 +113,7 @@ class CheckoutService
     /**
      * Retrieves default warehouse.
      *
-     * @return \Packlink\Core\BusinessLogic\Warehouse\Warehouse
+     * @return \Packlink\BusinessLogic\Warehouse\Warehouse
      */
     protected function getDefaultWarehouse()
     {
@@ -129,7 +129,7 @@ class CheckoutService
     /**
      * Retrieves default parcel.
      *
-     * @return \Packlink\Core\BusinessLogic\Http\DTO\ParcelInfo
+     * @return \Packlink\BusinessLogic\Http\DTO\ParcelInfo
      */
     protected function getDefaultParcel()
     {
@@ -214,7 +214,7 @@ class CheckoutService
      *
      * @param string $sessionId
      *
-     * @return \Packlink\Core\BusinessLogic\Http\DTO\Package[]
+     * @return \Packlink\BusinessLogic\Http\DTO\Package[]
      *
      * @throws \Exception
      */
@@ -321,8 +321,8 @@ class CheckoutService
     /**
      * Retrieves shipping method repository.
      *
-     * @return \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethodRepository()
     {

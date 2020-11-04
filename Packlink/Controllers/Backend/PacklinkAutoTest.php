@@ -1,8 +1,8 @@
 <?php
 
-use Packlink\Core\Infrastructure\AutoTest\AutoTestLogger;
-use Packlink\Core\Infrastructure\AutoTest\AutoTestService;
-use Packlink\Core\Infrastructure\Exceptions\StorageNotAccessibleException;
+use Packlink\Infrastructure\AutoTest\AutoTestLogger;
+use Packlink\Infrastructure\AutoTest\AutoTestService;
+use Packlink\Infrastructure\Exceptions\StorageNotAccessibleException;
 use Packlink\Services\Infrastructure\LoggerService;
 use Packlink\Utilities\Response;
 use Shopware\Components\CSRFWhitelistAware;
@@ -36,9 +36,9 @@ class Shopware_Controllers_Backend_PacklinkAutoTest extends Enlight_Controller_A
     /**
      * Handles check auto test status action.
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function statusAction()
     {
@@ -66,7 +66,7 @@ class Shopware_Controllers_Backend_PacklinkAutoTest extends Enlight_Controller_A
     /**
      * Starts auto-test.
      *
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      */
     public function startAction()
     {
@@ -90,7 +90,7 @@ class Shopware_Controllers_Backend_PacklinkAutoTest extends Enlight_Controller_A
     /**
      * Retrieves auto-test logs.
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function logsAction()
     {

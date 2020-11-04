@@ -4,15 +4,15 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\Operators;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
 use Packlink\Entities\OrderDropoffMap;
 
 class OrderDropoffDisplayHandler implements SubscriberInterface
 {
     /**
-     * @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $orderDropoffMapRepository;
 
@@ -31,8 +31,8 @@ class OrderDropoffDisplayHandler implements SubscriberInterface
      *
      * @return array
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function displayDropoffInformation(Enlight_Event_EventArgs $args)
     {
@@ -58,9 +58,9 @@ class OrderDropoffDisplayHandler implements SubscriberInterface
     /**
      * Retrieves order dropoff map repository.
      *
-     * @return \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getOrderDropoffMapRepository()
     {

@@ -5,7 +5,7 @@ namespace Packlink;
 require_once __DIR__ . '/CSRFWhitelistAware.php';
 
 use Doctrine\ORM\EntityManager;
-use Packlink\Core\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\Logger\Logger;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Bootstrap\Database;
 use Packlink\Utilities\ObsoleteFilesRemover;
@@ -40,7 +40,7 @@ class Packlink extends Plugin
      *
      * @param InstallContext $context
      *
-     * @throws \Packlink\Core\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      * @throws \Exception
      */
     public function install(InstallContext $context)
@@ -64,7 +64,7 @@ class Packlink extends Plugin
      *
      * @param \Shopware\Components\Plugin\Context\UninstallContext $context
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function uninstall(UninstallContext $context)
     {
@@ -85,7 +85,7 @@ class Packlink extends Plugin
      *
      * @param \Shopware\Components\Plugin\Context\ActivateContext $context
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function activate(ActivateContext $context)
     {
@@ -104,7 +104,7 @@ class Packlink extends Plugin
      *
      * @param \Shopware\Components\Plugin\Context\DeactivateContext $context
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function deactivate(DeactivateContext $context)
     {

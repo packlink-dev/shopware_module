@@ -2,12 +2,12 @@
 
 namespace Packlink\Services\Infrastructure;
 
-use Packlink\Core\Infrastructure\Configuration\Configuration;
-use Packlink\Core\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
-use Packlink\Core\Infrastructure\Logger\LogData;
-use Packlink\Core\Infrastructure\Logger\Logger;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\Infrastructure\Singleton;
+use Packlink\Infrastructure\Configuration\Configuration;
+use Packlink\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
+use Packlink\Infrastructure\Logger\LogData;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\Singleton;
 
 class LoggerService extends Singleton implements ShopLoggerAdapter
 {

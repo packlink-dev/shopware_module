@@ -4,12 +4,12 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup;
 
 class ControllerPath implements SubscriberInterface
 {
-    /** @var \Packlink\Core\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup */
+    /** @var \Packlink\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup */
     protected $wakeupService;
     /**
      * @var string
@@ -73,7 +73,7 @@ class ControllerPath implements SubscriberInterface
     /**
      * Retrieves wakeup service;
      *
-     * @return \Packlink\Core\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup|object
+     * @return \Packlink\Infrastructure\TaskExecution\Interfaces\TaskRunnerWakeup|object
      */
     protected function getWakeupService()
     {

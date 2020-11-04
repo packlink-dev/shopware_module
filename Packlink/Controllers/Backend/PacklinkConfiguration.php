@@ -1,7 +1,7 @@
 <?php
 
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Country\CountryService;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 
 class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Controller_Action
@@ -40,7 +40,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     public function indexAction()
     {
         $userInfo = $this->getConfigService()->getUserInfo();
-        /** @var \Packlink\Core\BusinessLogic\Country\CountryService $countryService */
+        /** @var \Packlink\BusinessLogic\Country\CountryService $countryService */
         $countryService = ServiceRegister::getService(CountryService::CLASS_NAME);
 
         $urlKey = 'EN';

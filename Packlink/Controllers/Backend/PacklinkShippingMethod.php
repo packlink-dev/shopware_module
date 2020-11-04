@@ -1,10 +1,10 @@
 <?php
 
-use Packlink\Core\Infrastructure\Exceptions\BaseException;
-use Packlink\Core\Infrastructure\TaskExecution\QueueItem;
-use Packlink\Core\BusinessLogic\Controllers\DTO\ShippingMethodConfiguration;
-use Packlink\Core\BusinessLogic\Controllers\ShippingMethodController;
-use Packlink\Core\BusinessLogic\Controllers\UpdateShippingServicesTaskStatusController;
+use Packlink\Infrastructure\Exceptions\BaseException;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
+use Packlink\BusinessLogic\Controllers\DTO\ShippingMethodConfiguration;
+use Packlink\BusinessLogic\Controllers\ShippingMethodController;
+use Packlink\BusinessLogic\Controllers\UpdateShippingServicesTaskStatusController;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
@@ -13,7 +13,7 @@ use Packlink\Utilities\Translation;
 class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
-    /** @var \Packlink\Core\BusinessLogic\Controllers\ShippingMethodController */
+    /** @var \Packlink\BusinessLogic\Controllers\ShippingMethodController */
     protected $controller;
 
     /**
@@ -142,7 +142,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
      *
      * @param array $data
      *
-     * @return \Packlink\Core\BusinessLogic\Controllers\DTO\ShippingMethodConfiguration
+     * @return \Packlink\BusinessLogic\Controllers\DTO\ShippingMethodConfiguration
      */
     protected function transformShippingMethodForSaving(array $data)
     {

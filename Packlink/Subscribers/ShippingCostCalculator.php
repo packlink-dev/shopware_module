@@ -5,9 +5,9 @@ namespace Packlink\Subscribers;
 use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
 use Exception;
-use Packlink\Core\Infrastructure\Logger\Logger;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Configuration;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Configuration;
 use Packlink\Services\BusinessLogic\CheckoutService;
 use Packlink\Utilities\Cache;
 use Shopware\Models\Dispatch\Dispatch;
@@ -38,7 +38,7 @@ class ShippingCostCalculator implements SubscriberInterface
      *
      * @param \Enlight_Hook_HookArgs $args
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function onBeforeSGetPremiumShippingcosts(Enlight_Hook_HookArgs $args)
@@ -85,7 +85,7 @@ class ShippingCostCalculator implements SubscriberInterface
      * @param string | null $shippingId
      *
      * @return bool
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function shouldHandle($userId, $sessionId, $carrierId, $shippingId)
     {
@@ -103,7 +103,7 @@ class ShippingCostCalculator implements SubscriberInterface
      * @param int $carrierId
      *
      * @return bool
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function isPacklinkCarrier($carrierId)
     {

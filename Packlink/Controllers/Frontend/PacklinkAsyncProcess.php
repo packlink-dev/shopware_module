@@ -1,9 +1,9 @@
 <?php
 
-use Packlink\Core\Infrastructure\AutoTest\AutoTestService;
-use Packlink\Core\Infrastructure\Logger\Logger;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\Infrastructure\TaskExecution\Interfaces\AsyncProcessService;
+use Packlink\Infrastructure\AutoTest\AutoTestService;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\TaskExecution\Interfaces\AsyncProcessService;
 use Packlink\Utilities\Response;
 use Shopware\Components\CSRFWhitelistAware;
 

@@ -2,18 +2,18 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Packlink\Core\Infrastructure\ORM\QueryFilter\Operators;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Configuration;
-use Packlink\Core\BusinessLogic\Http\DTO\ParcelInfo;
-use Packlink\Core\BusinessLogic\Http\DTO\Shipment;
-use Packlink\Core\BusinessLogic\Order\Exceptions\OrderNotFound;
-use Packlink\Core\BusinessLogic\Order\Interfaces\ShopOrderService as BaseShopOrderService;
-use Packlink\Core\BusinessLogic\Order\Objects\Address;
-use Packlink\Core\BusinessLogic\Order\Objects\Item;
-use Packlink\Core\BusinessLogic\Order\Objects\Order;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\Http\DTO\ParcelInfo;
+use Packlink\BusinessLogic\Http\DTO\Shipment;
+use Packlink\BusinessLogic\Order\Exceptions\OrderNotFound;
+use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as BaseShopOrderService;
+use Packlink\BusinessLogic\Order\Objects\Address;
+use Packlink\BusinessLogic\Order\Objects\Item;
+use Packlink\BusinessLogic\Order\Objects\Order;
 use Packlink\Entities\OrderDropoffMap;
 use Packlink\Entities\ShippingMethodMap;
 use Shopware\Models\Article\Article;
@@ -21,19 +21,19 @@ use Shopware\Models\Article\Article;
 class ShopOrderService implements BaseShopOrderService
 {
     /**
-     * @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $orderDetailsRepository;
     /**
-     * @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $orderDropoffRepository;
     /**
-     * @var \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $shippingMethodMapRepository;
     /**
-     * @var \Packlink\Core\BusinessLogic\Configuration
+     * @var \Packlink\BusinessLogic\Configuration
      */
     protected $configService;
 
@@ -44,9 +44,9 @@ class ShopOrderService implements BaseShopOrderService
      *
      * @return Order Order object.
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Packlink\Core\BusinessLogic\Order\Exceptions\OrderNotFound When order with provided id is not found.
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\BusinessLogic\Order\Exceptions\OrderNotFound When order with provided id is not found.
      */
     public function getOrderAndShippingData($orderId)
     {
@@ -126,7 +126,7 @@ class ShopOrderService implements BaseShopOrderService
      *
      * @param \Shopware\Models\Order\Order $sourceOrder
      *
-     * @return \Packlink\Core\BusinessLogic\Order\Objects\Address
+     * @return \Packlink\BusinessLogic\Order\Objects\Address
      */
     protected function getOrderAddress(\Shopware\Models\Order\Order $sourceOrder)
     {
@@ -252,11 +252,11 @@ class ShopOrderService implements BaseShopOrderService
     /**
      * Sets dropoff id if dropoff has been used for order.
      *
-     * @param \Packlink\Core\BusinessLogic\Order\Objects\Order $order
+     * @param \Packlink\BusinessLogic\Order\Objects\Order $order
      * @param int $orderId
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function setDropoffId(Order $order, $orderId)
     {
@@ -272,11 +272,11 @@ class ShopOrderService implements BaseShopOrderService
     /**
      * Sets shipping method id if shipping method is packlink carrier.
      *
-     * @param \Packlink\Core\BusinessLogic\Order\Objects\Order $order
+     * @param \Packlink\BusinessLogic\Order\Objects\Order $order
      * @param int $carrierId
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function setShippingMethodId(Order $order, $carrierId)
     {
@@ -294,8 +294,8 @@ class ShopOrderService implements BaseShopOrderService
     /**
      * Retrieves shipping method map repository.
      *
-     * @return \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     private function getShippingMethodMapRepository()
     {
@@ -309,9 +309,9 @@ class ShopOrderService implements BaseShopOrderService
     /**
      * Retrieves order dropoff map repository.
      *
-     * @return \Packlink\Core\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     private function getOrderDropoffRepository()
     {
@@ -347,7 +347,7 @@ class ShopOrderService implements BaseShopOrderService
     /**
      * Retrieves config service.
      *
-     * @return \Packlink\Core\BusinessLogic\Configuration
+     * @return \Packlink\BusinessLogic\Configuration
      */
     private function getConfigService()
     {

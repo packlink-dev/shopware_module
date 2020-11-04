@@ -1,6 +1,6 @@
 <?php
 
-use Packlink\Core\BusinessLogic\Controllers\AutoConfigurationController;
+use Packlink\BusinessLogic\Controllers\AutoConfigurationController;
 use Packlink\Utilities\Response;
 
 class Shopware_Controllers_Backend_PacklinkAutoConfigure extends Enlight_Controller_Action

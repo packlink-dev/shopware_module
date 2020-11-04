@@ -3,13 +3,13 @@
 namespace Packlink\Services\BusinessLogic;
 
 use Doctrine\ORM\OptimisticLockException;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\Operators;
-use Packlink\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Packlink\Core\Infrastructure\ORM\RepositoryRegistry;
-use Packlink\Core\Infrastructure\ServiceRegister;
-use Packlink\Core\BusinessLogic\Configuration;
-use Packlink\Core\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService as BaseService;
-use Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService as BaseService;
+use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Entities\ShippingMethodMap;
 use Packlink\Utilities\Shop;
 use Packlink\Utilities\Translation;
@@ -42,7 +42,7 @@ class ShopShippingMethodService implements BaseService
      * @return bool TRUE if activation succeeded; otherwise, FALSE.
      *
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function add(ShippingMethod $shippingMethod)
     {
@@ -63,8 +63,8 @@ class ShopShippingMethodService implements BaseService
      * @param ShippingMethod $shippingMethod Shipping method.
      *
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function update(ShippingMethod $shippingMethod)
     {
@@ -83,8 +83,8 @@ class ShopShippingMethodService implements BaseService
      *
      * @return bool TRUE if deletion succeeded; otherwise, FALSE.
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function delete(ShippingMethod $shippingMethod)
     {
@@ -165,7 +165,7 @@ class ShopShippingMethodService implements BaseService
      * Sets variable carrier parameters.
      *
      * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
      *
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -188,7 +188,7 @@ class ShopShippingMethodService implements BaseService
      * Sets carrier price.
      *
      * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
      *
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -212,7 +212,7 @@ class ShopShippingMethodService implements BaseService
      * Creates cost based on packlink price.
      *
      * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
      *
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -233,7 +233,7 @@ class ShopShippingMethodService implements BaseService
      * Creates cost based on weight.
      *
      * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
      *
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -249,7 +249,7 @@ class ShopShippingMethodService implements BaseService
      * Creates cost based on value
      *
      * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
      *
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -264,7 +264,7 @@ class ShopShippingMethodService implements BaseService
     /**
      * Retrieves minimal cost for a shipping method.
      *
-     * @param \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
      *
      * @return float
      */
@@ -319,12 +319,12 @@ class ShopShippingMethodService implements BaseService
     /**
      * Retrieves shipping method map.
      *
-     * @param \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
      *
      * @return \Packlink\Entities\ShippingMethodMap|null
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethodMap(ShippingMethod $shippingMethod)
     {
@@ -352,7 +352,7 @@ class ShopShippingMethodService implements BaseService
      *
      * @return \Packlink\Repositories\BaseRepository
      *
-     * @throws \Packlink\Core\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getBaseRepository()
     {
@@ -392,7 +392,7 @@ class ShopShippingMethodService implements BaseService
     /**
      * Creates shipping method.
      *
-     * @param \Packlink\Core\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
      *
      * @return \Shopware\Models\Dispatch\Dispatch
      *

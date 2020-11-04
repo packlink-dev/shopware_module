@@ -2,8 +2,8 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Packlink\Core\Infrastructure\Logger\Logger;
-use Packlink\Core\BusinessLogic\Configuration;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\BusinessLogic\Configuration;
 use Packlink\Utilities\Plugin;
 use Packlink\Utilities\Shop;
 use Packlink\Utilities\Url;
