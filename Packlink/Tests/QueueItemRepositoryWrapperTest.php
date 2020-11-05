@@ -2,8 +2,6 @@
 
 namespace Packlink\Tests;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use Packlink\Tests\TestComponents\BaseQueueItemRepositoryTestAdapter;
 use PHPUnit\Framework\TestCase;
 
@@ -193,7 +191,7 @@ class QueueItemRepositoryWrapperTest extends TestCase
      * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
      * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
-    protected function setUp()
+    public function setUp()
     {
         $this->baseTest->setUp();
     }
@@ -201,7 +199,7 @@ class QueueItemRepositoryWrapperTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function tearDown()
+    public function tearDown()
     {
         $this->baseTest->tearDown();
     }

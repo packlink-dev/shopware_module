@@ -3,7 +3,7 @@
 namespace Packlink\Tests\TestComponents;
 
 use Doctrine\ORM\EntityManager;
-use Logeecom\Tests\Infrastructure\ORM\AbstractGenericStudentRepositoryTest;
+use Packlink\Tests\Core\Infrastructure\ORM\AbstractGenericStudentRepositoryTest;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Tests\TestComponents\Components\TestBaseRepository;
 use Packlink\Tests\TestComponents\Components\TestDatabase;

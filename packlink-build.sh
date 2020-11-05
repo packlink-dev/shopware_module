@@ -26,7 +26,7 @@ rm -rf build/Packlink/Lib
 rm -rf build/Packlink/Tests
 rm -rf build/Packlink/phpunit.xml
 # Core is now part of the integration
-rm -rf build/Packlink/vendor/
+rm -rf build/Packlink/vendor/packlink
 rm -rf build/Packlink/composer.json
 rm -rf build/Packlink/composer.lock
 rm -rf build/Packlink/integrate-core.sh

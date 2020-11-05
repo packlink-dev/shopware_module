@@ -21,10 +21,6 @@
     "iio/libmergepdf": "3.0.0",
     "ext-simplexml": "*"
   },
-  "require-dev": {
-    "phpunit/phpunit": "^4.8",
-    "codacy/coverage": "dev-master"
-  },
   "autoload": {
     "psr-4": {
       "Packlink\\Lib\\": "Lib"

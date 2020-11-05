@@ -2,8 +2,6 @@
 
 namespace Packlink;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use Packlink\Tests\TestComponents\BaseRepositoryTestAdapter;
 use PHPUnit\Framework\TestCase;
 
@@ -243,7 +241,7 @@ class BaseRepositoryWrapperTest extends TestCase
      *
      * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
      */
-    protected function setUp()
+    public function setUp()
     {
         $this->baseTest->setUp();
     }
@@ -251,7 +249,7 @@ class BaseRepositoryWrapperTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function tearDown()
+    public function tearDown()
     {
         $this->baseTest->tearDown();
     }
