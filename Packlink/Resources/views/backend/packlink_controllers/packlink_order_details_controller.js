@@ -125,7 +125,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             };
 
             function render() {
-                let panel = createShipmentPanel('{s name="shipment/details/tab/title"}Shipment details{/s}', getPanelItems);
+                let panel = createShipmentPanel("{s name="shipment/details/tab/title"}Shipment details{/s}", getPanelItems);
                 tab.add(panel);
             }
 
@@ -180,7 +180,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             };
 
             function render() {
-                tab.add(createShipmentPanel('{s name="shipment/details/tab/title"}Shipment details{/s}', getPanelItems))
+                tab.add(createShipmentPanel("{s name="shipment/details/tab/title"}Shipment details{/s}", getPanelItems))
             }
 
             function getPanelItems() {
@@ -223,7 +223,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             };
 
             function render() {
-                tab.add(createShipmentPanel('{s name="shipment/details/tab/title"}Shipment details{/s}', getPanelItems))
+                tab.add(createShipmentPanel("{s name="shipment/details/tab/title"}Shipment details{/s}", getPanelItems))
             }
 
             function getPanelItems() {
@@ -306,7 +306,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             function getPanels(data) {
                 return [
                     createShipmentPanel(
-                        '{s name="shipment/details/tab/title"}Shipment details{/s}',
+                        "{s name="shipment/details/tab/title"}Shipment details{/s}",
                         function () {
                             return getLeftPanel(data);
                         },
@@ -335,7 +335,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             function getLeftPanel(data) {
                 let text = [
                     data.carrier || '',
-                    '{s name="shipment/total/charges"}Total shipping charges (EUR):{/s} ' + (data.orderCost || 'n/a'),
+                    "{s name="shipment/total/charges"}Total shipping charges (EUR):{/s} " + (data.orderCost || 'n/a'),
                     '{s name="shipment/reference/number"}Packlink reference number:{/s} ' + (data.reference || 'n/a'),
                     '{s name="shipment/packlink/price"}Packlink shipping price (EUR):{/s} ' + (data.cost || 'n/a'),
                 ];
@@ -589,7 +589,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             };
 
             function render(message) {
-                tab.add(createShipmentPanel('{s name="shipment/details/tab/title"}Shipment details{/s}', function () {
+                tab.add(createShipmentPanel("{s name="shipment/details/tab/title"}Shipment details{/s}", function () {
                     return getPanelItems(message)
                 }))
             }
@@ -598,7 +598,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
                 return [
                     {
                         xtype: 'displayfield',
-                        value: '{s name="shipment/failed/label"}Previous attempt to create a draft failed. Error: {/s}' + message,
+                        value: "{s name="shipment/failed/label"}Previous attempt to create a draft failed. Error: {/s}" + message,
                         style: {
                             margin: '10px'
                         },
