@@ -36,7 +36,7 @@ Once development Shopware instance is running, go and install Packlink plugin us
 To ensure that test cases are present copy complete ./Packlink folder to Shopware installation
 custom/plugins/Packlink folder.
 
-Remove the vendor directory from copied Packlink folder.
+Remove the `vendor/packlink` directory from copied Packlink folder.
 
 If you haven't already done so, you can setup unit tests in PHPStorm.
 To do so, first go to `File > Settings > Languages & Frameworks > PHP > Test Frameworks` and 

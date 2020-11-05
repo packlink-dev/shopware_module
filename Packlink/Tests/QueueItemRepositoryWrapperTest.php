@@ -79,8 +79,6 @@ class QueueItemRepositoryWrapperTest extends TestCase
      */
     public function testQueryAllQueueItems()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryAllQueueItems();
     }
 
@@ -91,8 +89,6 @@ class QueueItemRepositoryWrapperTest extends TestCase
      */
     public function testQueryWithFiltersString()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryWithFiltersString();
     }
 
@@ -103,8 +99,6 @@ class QueueItemRepositoryWrapperTest extends TestCase
      */
     public function testQueryWithFiltersInt()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryWithFiltersInt();
     }
 
@@ -115,8 +109,6 @@ class QueueItemRepositoryWrapperTest extends TestCase
      */
     public function testQueryWithFiltersAndSort()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryWithFiltersAndSort();
     }
 
@@ -127,8 +119,6 @@ class QueueItemRepositoryWrapperTest extends TestCase
      */
     public function testQueryWithFiltersAndLimit()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryWithFiltersAndLimit();
     }
 
@@ -138,8 +128,6 @@ class QueueItemRepositoryWrapperTest extends TestCase
      */
     public function testFindOldestQueuedItems()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testFindOldestQueuedItems();
     }
 
@@ -153,8 +141,6 @@ class QueueItemRepositoryWrapperTest extends TestCase
      */
     public function testSaveWithCondition()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testSaveWithCondition();
     }
 
@@ -168,8 +154,6 @@ class QueueItemRepositoryWrapperTest extends TestCase
      */
     public function testSaveWithConditionWithNull()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testSaveWithConditionWithNull();
     }
 

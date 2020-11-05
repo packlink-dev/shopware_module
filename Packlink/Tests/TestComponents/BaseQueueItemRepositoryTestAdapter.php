@@ -3,6 +3,8 @@
 namespace Packlink\Tests\TestComponents;
 
 use Doctrine\ORM\EntityManager;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\TaskExecution\Interfaces\Priority;
 use Packlink\Tests\Core\Infrastructure\ORM\AbstractGenericQueueItemRepositoryTest;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Tests\TestComponents\Components\TestDatabase;
@@ -23,6 +25,20 @@ class BaseQueueItemRepositoryTestAdapter extends AbstractGenericQueueItemReposit
     public function setEntityManager(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * This test has been reimplemented in integration because the integration only supports NORMAL priority.
+     *
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testFindOldestQueuedItems()
+    {
+        $this->insertQueueItems();
+        $repository = RepositoryRegistry::getQueueItemRepository();
+
+        $this->assertCount(2, $repository->findOldestQueuedItems(Priority::NORMAL));
     }
 
     /**

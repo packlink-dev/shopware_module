@@ -28,3 +28,4 @@ grep -rl 'Logeecom\\Infrastructure' Infrastructure | xargs sed -i s^'Logeecom\\I
 grep -rl 'Logeecom\\Infrastructure' Tests/Core | xargs sed -i s^'Logeecom\\Infrastructure'^'Packlink\\Infrastructure'^g
 grep -rl 'Logeecom\\Tests' Tests/Core | xargs sed -i s^'Logeecom\\Tests'^'Packlink\\Tests\\Core'^g
 grep -rl 'Logeecom' Tests/Core | xargs sed -i s^'Logeecom'^'Packlink'^g
+grep -rl 'Packlink\\\\Tests' Tests/Core | xargs sed -i s^'Packlink\\\\Tests'^'Packlink\\\\Tests\\\\Core'^g
