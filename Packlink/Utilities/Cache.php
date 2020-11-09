@@ -2,9 +2,9 @@
 
 namespace Packlink\Utilities;
 
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
 use Packlink\BusinessLogic\Http\DTO\ParcelInfo;
 use Packlink\BusinessLogic\Warehouse\Warehouse;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
@@ -17,7 +17,7 @@ class Cache
     protected static $carrierMaps = [];
     /** @var Warehouse */
     protected static $defaultWarehouse;
-    /** @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface */
+    /** @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface */
     protected static $shippingMapRepository;
     /**
      * @var \Packlink\BusinessLogic\Http\DTO\ParcelInfo
@@ -35,7 +35,7 @@ class Cache
      * @var array
      */
     private static $services = [];
-    /** @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface */
+    /** @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface */
     protected static $shippingServicesRepository;
 
     /**
@@ -43,7 +43,7 @@ class Cache
      *
      * @return array
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public static function getCarrierMaps()
     {
@@ -63,7 +63,7 @@ class Cache
      *
      * @return array
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public static function getPacklinkCarriers()
     {
@@ -182,8 +182,8 @@ class Cache
      *
      * @return ShippingMethod | null
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public static function getService($id)
     {
@@ -199,9 +199,9 @@ class Cache
     /**
      * Retrieves shipping map repository;
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected static function getShippingMapRepository()
     {
@@ -215,8 +215,8 @@ class Cache
     /**
      * Retrieves shipping method repository.
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected static function getShippingServicesRepository()
     {

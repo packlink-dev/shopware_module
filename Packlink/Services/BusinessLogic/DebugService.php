@@ -2,14 +2,14 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
-use Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException;
-use Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
+use Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException;
+use Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Contracts\Services\BusinessLogic\DebugService as BaseService;

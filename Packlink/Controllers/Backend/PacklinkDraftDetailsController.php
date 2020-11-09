@@ -1,8 +1,8 @@
 <?php
 
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Utilities\Reference;
 use Packlink\Utilities\Response;
@@ -13,8 +13,8 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
     /**
      * Retrieves order details.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Exception
      */
     public function indexAction()
@@ -82,8 +82,8 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
      *
      * @return \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethod($shopwareCarrierId)
     {

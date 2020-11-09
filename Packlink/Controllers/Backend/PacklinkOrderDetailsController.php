@@ -2,8 +2,8 @@
 
 namespace Packlink\Controllers\Backend;
 
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Controllers\Common\CanInstantiateServices;
 
 class PacklinkOrderDetailsController extends \Enlight_Controller_Action
@@ -17,8 +17,8 @@ class PacklinkOrderDetailsController extends \Enlight_Controller_Action
      *
      * @return \Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails | null
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getOrderDetails($orderId)
     {
@@ -35,17 +35,17 @@ class PacklinkOrderDetailsController extends \Enlight_Controller_Action
      *
      * @param $taskId
      *
-     * @return \Logeecom\Infrastructure\TaskExecution\QueueItem
+     * @return \Packlink\Infrastructure\TaskExecution\QueueItem
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getTask($taskId)
     {
         $filter = new QueryFilter();
         $filter->where('id', Operators::EQUALS, $taskId);
-        /** @var \Logeecom\Infrastructure\TaskExecution\QueueItem $item */
+        /** @var \Packlink\Infrastructure\TaskExecution\QueueItem $item */
         $item = $this->getQueueItemRepository()->selectOne($filter);
 
         return $item;

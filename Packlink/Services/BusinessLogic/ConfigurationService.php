@@ -2,7 +2,7 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Logeecom\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\Logger\Logger;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\Utilities\Plugin;
 use Packlink\Utilities\Shop;

@@ -1,10 +1,10 @@
 <?php
 
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\Configuration\Configuration;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Scheduler\Models\DailySchedule;
 use Packlink\BusinessLogic\Scheduler\Models\HourlySchedule;
 use Packlink\BusinessLogic\Scheduler\Models\Schedule;

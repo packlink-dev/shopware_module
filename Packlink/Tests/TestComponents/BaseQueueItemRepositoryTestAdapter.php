@@ -3,7 +3,9 @@
 namespace Packlink\Tests\TestComponents;
 
 use Doctrine\ORM\EntityManager;
-use Logeecom\Tests\Infrastructure\ORM\AbstractGenericQueueItemRepositoryTest;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\TaskExecution\Interfaces\Priority;
+use Packlink\Tests\Core\Infrastructure\ORM\AbstractGenericQueueItemRepositoryTest;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Tests\TestComponents\Components\TestDatabase;
 use Packlink\Tests\TestComponents\Components\TestQueueItemRepository;
@@ -26,8 +28,22 @@ class BaseQueueItemRepositoryTestAdapter extends AbstractGenericQueueItemReposit
     }
 
     /**
+     * This test has been reimplemented in integration because the integration only supports NORMAL priority.
+     *
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     */
+    public function testFindOldestQueuedItems()
+    {
+        $this->insertQueueItems();
+        $repository = RepositoryRegistry::getQueueItemRepository();
+
+        $this->assertCount(2, $repository->findOldestQueuedItems(Priority::NORMAL));
+    }
+
+    /**
      * @inheritDoc
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     public function setUp()
     {
@@ -57,7 +73,7 @@ class BaseQueueItemRepositoryTestAdapter extends AbstractGenericQueueItemReposit
 
     /**
      * Cleans up all storage services used by repositories
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
     public function cleanUpStorage()

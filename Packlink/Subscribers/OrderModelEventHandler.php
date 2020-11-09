@@ -5,7 +5,7 @@ namespace Packlink\Subscribers;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
@@ -23,7 +23,7 @@ class OrderModelEventHandler implements EventSubscriber
      */
     protected $shipmentDraftService;
     /**
-     * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $orderDetailsRepository;
 
@@ -45,9 +45,9 @@ class OrderModelEventHandler implements EventSubscriber
      *
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapExists
      * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapNotFound
      */
@@ -66,9 +66,9 @@ class OrderModelEventHandler implements EventSubscriber
      *
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapExists
      * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapNotFound
      */
@@ -89,8 +89,8 @@ class OrderModelEventHandler implements EventSubscriber
      *
      * @return bool
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function shouldHandle($model)
     {
@@ -147,8 +147,8 @@ class OrderModelEventHandler implements EventSubscriber
      *
      * @return bool
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function isOrderDetailsCreated($id)
     {

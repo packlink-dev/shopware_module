@@ -2,17 +2,17 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
 use Packlink\Entities\ShippingMethodMap;
 
 class DropoffService
 {
-    /** @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface */
+    /** @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface */
     protected $shippingMethodRepository;
     /**
-     * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $shippingMethodMapRepository;
 
@@ -25,8 +25,8 @@ class DropoffService
      *
      * @return array
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function getDropoffCarriers()
     {
@@ -46,9 +46,9 @@ class DropoffService
     /**
      * Retrieves shipping method map repository.
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethodMapRepository()
     {

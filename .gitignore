@@ -8,3 +8,9 @@ vendor
 *.log
 *.zip
 !PluginInstallation/**/*.zip
+
+build
+./Packlink.zip
+Packlink/Infrastructure
+Packlink/BusinessLogic
+Packlink/Tests/Core

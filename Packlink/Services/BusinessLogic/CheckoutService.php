@@ -2,8 +2,8 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\Http\DTO\Package;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
@@ -21,7 +21,7 @@ class CheckoutService
      */
     protected $configService;
     /**
-     * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $shippingMethodRepository;
 
@@ -321,8 +321,8 @@ class CheckoutService
     /**
      * Retrieves shipping method repository.
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethodRepository()
     {

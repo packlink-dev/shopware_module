@@ -1,6 +1,6 @@
 <?php
 
-use Logeecom\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\Logger\Logger;
 use Packlink\Controllers\Common\CanInstantiateServices;
 
 class Shopware_Controllers_Backend_PacklinkLogin extends Enlight_Controller_Action

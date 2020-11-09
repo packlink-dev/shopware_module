@@ -1,7 +1,7 @@
 <?php
 
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\OrderShipmentDetails\Exceptions\OrderShipmentDetailsNotFound;
 use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;

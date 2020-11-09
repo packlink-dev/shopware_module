@@ -3,13 +3,13 @@
 namespace Packlink\Repositories;
 
 use Exception;
-use Logeecom\Infrastructure\ORM\Interfaces\QueueItemRepository as BaseQueueItemRepository;
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ORM\Utility\IndexHelper;
-use Logeecom\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException;
-use Logeecom\Infrastructure\TaskExecution\Interfaces\Priority;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Infrastructure\ORM\Interfaces\QueueItemRepository as BaseQueueItemRepository;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\Utility\IndexHelper;
+use Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException;
+use Packlink\Infrastructure\TaskExecution\Interfaces\Priority;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
 
 class QueueItemRepository extends BaseRepository implements BaseQueueItemRepository
 {
@@ -58,8 +58,8 @@ class QueueItemRepository extends BaseRepository implements BaseQueueItemReposit
      * @return int Id of saved queue item
      *
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException if queue item could not be saved
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException if queue item could not be saved
      */
     public function saveWithCondition(QueueItem $queueItem, array $additionalWhere = array())
     {
@@ -114,12 +114,12 @@ class QueueItemRepository extends BaseRepository implements BaseQueueItemReposit
     /**
      * Updates queue item.
      *
-     * @param \Logeecom\Infrastructure\TaskExecution\QueueItem $queueItem
+     * @param \Packlink\Infrastructure\TaskExecution\QueueItem $queueItem
      * @param array $additionalWhere
      *
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      */
     protected function updateQueueItem(QueueItem $queueItem, array $additionalWhere)
     {

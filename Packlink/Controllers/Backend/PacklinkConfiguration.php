@@ -1,6 +1,6 @@
 <?php
 
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 

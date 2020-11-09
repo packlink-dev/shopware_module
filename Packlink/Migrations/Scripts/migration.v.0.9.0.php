@@ -1,13 +1,13 @@
 <?php
 
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
-use Logeecom\Infrastructure\TaskExecution\QueueService;
+use Packlink\Infrastructure\Configuration\Configuration;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Infrastructure\TaskExecution\QueueService;
 use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Scheduler\Models\HourlySchedule;

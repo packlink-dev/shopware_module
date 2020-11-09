@@ -4,9 +4,9 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Infrastructure\Configuration\Configuration;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\Order\OrderService;
 use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
@@ -37,8 +37,8 @@ class OrderListHandler implements SubscriberInterface
      *
      * @param \Enlight_Hook_HookArgs $args
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function extendOrderList(Enlight_Hook_HookArgs $args)
     {

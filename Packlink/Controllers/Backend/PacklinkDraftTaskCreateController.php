@@ -1,6 +1,6 @@
 <?php
 
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Controllers\Common\CanInstantiateServices;
@@ -14,11 +14,11 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskCreateController extends Pac
     /**
      * Creates send draft if necessary task.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapExists
      * @throws \Packlink\BusinessLogic\ShipmentDraft\Exceptions\DraftTaskMapNotFound
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      */
     public function createAction()
     {

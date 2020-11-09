@@ -2,7 +2,7 @@
   "name": "packlink/shopware",
   "description": "Packlink Shipping Shopware plugin",
   "type": "library",
-  "version": "0.11.0",
+  "version": "1.0.0",
   "repositories": [
     {
       "type": "vcs",
@@ -21,21 +21,20 @@
     "iio/libmergepdf": "3.0.0",
     "ext-simplexml": "*"
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Packlink\\TestComponents\\": "TestComponents",
-      "Packlink\\Tests\\": "Tests",
-      "Logeecom\\Tests\\": "vendor/packlink/integration-core/tests"
-    }
-  },
   "autoload": {
     "psr-4": {
       "Packlink\\Lib\\": "Lib"
     }
   },
   "scripts": {
-    "post-update-cmd": "Packlink\\Lib\\Composer::postUpdate",
-    "post-install-cmd": "Packlink\\Lib\\Composer::postUpdate"
+    "post-update-cmd": [
+      "Packlink\\Lib\\Composer::postUpdate",
+      "./integrate-core.sh"
+    ],
+    "post-install-cmd": [
+      "Packlink\\Lib\\Composer::postUpdate",
+      "./integrate-core.sh"
+    ]
   },
   "config": {
     "platform": {

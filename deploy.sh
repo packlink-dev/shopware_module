@@ -1,44 +1,35 @@
 #!/bin/bash
+set -e
 
-echo
-echo -e "\e[48;5;124m ALWAYS RUN UNIT TESTS BEFORE CREATING DEPLOYMENT PACKAGE! \e[0m"
-echo
-sleep 2
+GREEN='\033[0;32m'
+NOCOLOR='\033[0m'
 
 # Cleanup any leftovers
-echo -e "\e[32mCleaning up...\e[0m"
-rm -f ./bin/Packlink.zip
-rm -fR ./deploy
+echo -e "${GREEN}Cleaning up...${NOCOLOR}"
+rm -rf ./Packlink.zip
+rm -rf ./deploy
 
 # Create deployment source
-echo -e "\e[32mSTEP 1:\e[0m Copying plugin source..."
-mkdir ./deploy
+echo -e "${GREEN}STEP 1:${NOCOLOR} Copying plugin source..."
+mkdir deploy
 cp -R ./Packlink ./deploy/Packlink
 
-# Ensure proper composer dependencies
-echo -e "\e[32mSTEP 2:\e[0m Installing composer dependencies..."
+echo -e "${GREEN}STEP 2:${NOCOLOR} Installing composer dependencies..."
 cd deploy/Packlink
-# remove resources that will be copied from the core in the post-install script
 rm -rf vendor
-
 composer install --no-dev
-
-rm -rf Lib
-
 cd ../..
 
 # Remove unnecessary files from final release archive
-echo -e "\e[32mSTEP 3:\e[0m Removing unnecessary files from final release archive..."
-rm -rf deploy/Packlink/lib
+echo -e "${GREEN}STEP 3:${NOCOLOR} Removing unnecessary files from final release archive..."
+rm -rf deploy/Packlink/Lib
 rm -rf deploy/Packlink/Tests
 rm -rf deploy/Packlink/phpunit.xml
-rm -rf deploy/Packlink/vendor/packlink/integration-core/.git
-rm -rf deploy/Packlink/vendor/packlink/integration-core/.gitignore
-rm -rf deploy/Packlink/vendor/packlink/integration-core/.idea
-rm -rf deploy/Packlink/vendor/packlink/integration-core/tests
-rm -rf deploy/Packlink/vendor/packlink/integration-core/README.md
-rm -rf deploy/Packlink/vendor/setasign/fpdf/doc/
-rm -rf deploy/Packlink/vendor/setasign/fpdf/tutorial/
+# Core is now part of the integration
+rm -rf build/Packlink/vendor/packlink
+rm -rf deploy/Packlink/composer.json
+rm -rf deploy/Packlink/composer.lock
+rm -rf deploy/Packlink/integrate-core.sh
 
 # get plugin version
 echo -e "\e[32mSTEP 4:\e[0m Reading module version..."

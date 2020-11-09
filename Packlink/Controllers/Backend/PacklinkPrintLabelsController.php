@@ -9,8 +9,8 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
     /**
      * Prints labels.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \iio\libmergepdf\Exception
      */
     public function printAction()

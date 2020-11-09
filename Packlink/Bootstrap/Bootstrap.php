@@ -2,18 +2,18 @@
 
 namespace Packlink\Bootstrap;
 
-use Logeecom\Infrastructure\Configuration\ConfigEntity;
-use Logeecom\Infrastructure\Configuration\Configuration;
-use Logeecom\Infrastructure\Http\CurlHttpClient;
-use Logeecom\Infrastructure\Http\HttpClient;
-use Logeecom\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
-use Logeecom\Infrastructure\Logger\LogData;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\Serializer\Concrete\NativeSerializer;
-use Logeecom\Infrastructure\Serializer\Serializer;
-use Logeecom\Infrastructure\ServiceRegister;
-use Logeecom\Infrastructure\TaskExecution\Process;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Infrastructure\Configuration\ConfigEntity;
+use Packlink\Infrastructure\Configuration\Configuration;
+use Packlink\Infrastructure\Http\CurlHttpClient;
+use Packlink\Infrastructure\Http\HttpClient;
+use Packlink\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
+use Packlink\Infrastructure\Logger\LogData;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\Serializer\Concrete\NativeSerializer;
+use Packlink\Infrastructure\Serializer\Serializer;
+use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\TaskExecution\Process;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\BootstrapComponent;
 use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
 use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
@@ -93,7 +93,7 @@ class Bootstrap extends BootstrapComponent
     /**
      * @inheritDoc
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
      */
     protected static function initRepositories()
     {

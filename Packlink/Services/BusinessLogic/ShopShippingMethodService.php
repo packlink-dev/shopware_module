@@ -3,10 +3,10 @@
 namespace Packlink\Services\BusinessLogic;
 
 use Doctrine\ORM\OptimisticLockException;
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService as BaseService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
@@ -42,7 +42,7 @@ class ShopShippingMethodService implements BaseService
      * @return bool TRUE if activation succeeded; otherwise, FALSE.
      *
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function add(ShippingMethod $shippingMethod)
     {
@@ -63,8 +63,8 @@ class ShopShippingMethodService implements BaseService
      * @param ShippingMethod $shippingMethod Shipping method.
      *
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function update(ShippingMethod $shippingMethod)
     {
@@ -83,8 +83,8 @@ class ShopShippingMethodService implements BaseService
      *
      * @return bool TRUE if deletion succeeded; otherwise, FALSE.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function delete(ShippingMethod $shippingMethod)
     {
@@ -323,8 +323,8 @@ class ShopShippingMethodService implements BaseService
      *
      * @return \Packlink\Entities\ShippingMethodMap|null
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getShippingMethodMap(ShippingMethod $shippingMethod)
     {
@@ -352,7 +352,7 @@ class ShopShippingMethodService implements BaseService
      *
      * @return \Packlink\Repositories\BaseRepository
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function getBaseRepository()
     {

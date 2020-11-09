@@ -125,7 +125,7 @@ Ext.define('Shopware.apps.Packlink.controller.OrderListController', {
             if (response.status === 'completed') {
                 me.displayViewButton(parent, response.shipmentUrl);
             } else if (['failed', 'aborted'].includes(response.status)) {
-                parent.innerText = '{s name="shipment/failed_no_error/label"}Previous attempt to create a draft failed.{/s}';
+                parent.innerText = "{s name="shipment/failed_no_error/label"}Previous attempt to create a draft failed.{/s}";
                 setTimeout(function () {
                     me.displayCreateDraftButton(parent, orderId)
                 }, 5000);

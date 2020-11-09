@@ -3,7 +3,7 @@
 namespace Packlink\Utilities;
 
 use Exception;
-use Logeecom\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\Logger\Logger;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 

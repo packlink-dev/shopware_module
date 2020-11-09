@@ -1,7 +1,7 @@
 <?php
 
-use Logeecom\Infrastructure\Exceptions\BaseException;
-use Logeecom\Infrastructure\TaskExecution\QueueItem;
+use Packlink\Infrastructure\Exceptions\BaseException;
+use Packlink\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\Controllers\DTO\ShippingMethodConfiguration;
 use Packlink\BusinessLogic\Controllers\ShippingMethodController;
 use Packlink\BusinessLogic\Controllers\UpdateShippingServicesTaskStatusController;

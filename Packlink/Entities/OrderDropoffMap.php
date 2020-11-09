@@ -2,9 +2,9 @@
 
 namespace Packlink\Entities;
 
-use Logeecom\Infrastructure\ORM\Configuration\EntityConfiguration;
-use Logeecom\Infrastructure\ORM\Configuration\IndexMap;
-use Logeecom\Infrastructure\ORM\Entity;
+use Packlink\Infrastructure\ORM\Configuration\EntityConfiguration;
+use Packlink\Infrastructure\ORM\Configuration\IndexMap;
+use Packlink\Infrastructure\ORM\Entity;
 
 class OrderDropoffMap extends Entity
 {

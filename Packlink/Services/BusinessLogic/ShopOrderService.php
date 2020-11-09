@@ -2,10 +2,10 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Logeecom\Infrastructure\ORM\QueryFilter\Operators;
-use Logeecom\Infrastructure\ORM\QueryFilter\QueryFilter;
-use Logeecom\Infrastructure\ORM\RepositoryRegistry;
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\ORM\QueryFilter\Operators;
+use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\Http\DTO\ParcelInfo;
 use Packlink\BusinessLogic\Http\DTO\Shipment;
@@ -21,15 +21,15 @@ use Shopware\Models\Article\Article;
 class ShopOrderService implements BaseShopOrderService
 {
     /**
-     * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $orderDetailsRepository;
     /**
-     * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $orderDropoffRepository;
     /**
-     * @var \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @var \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      */
     protected $shippingMethodMapRepository;
     /**
@@ -44,8 +44,8 @@ class ShopOrderService implements BaseShopOrderService
      *
      * @return Order Order object.
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Packlink\BusinessLogic\Order\Exceptions\OrderNotFound When order with provided id is not found.
      */
     public function getOrderAndShippingData($orderId)
@@ -255,8 +255,8 @@ class ShopOrderService implements BaseShopOrderService
      * @param \Packlink\BusinessLogic\Order\Objects\Order $order
      * @param int $orderId
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function setDropoffId(Order $order, $orderId)
     {
@@ -275,8 +275,8 @@ class ShopOrderService implements BaseShopOrderService
      * @param \Packlink\BusinessLogic\Order\Objects\Order $order
      * @param int $carrierId
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function setShippingMethodId(Order $order, $carrierId)
     {
@@ -294,8 +294,8 @@ class ShopOrderService implements BaseShopOrderService
     /**
      * Retrieves shipping method map repository.
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     private function getShippingMethodMapRepository()
     {
@@ -309,9 +309,9 @@ class ShopOrderService implements BaseShopOrderService
     /**
      * Retrieves order dropoff map repository.
      *
-     * @return \Logeecom\Infrastructure\ORM\Interfaces\RepositoryInterface
+     * @return \Packlink\Infrastructure\ORM\Interfaces\RepositoryInterface
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     private function getOrderDropoffRepository()
     {

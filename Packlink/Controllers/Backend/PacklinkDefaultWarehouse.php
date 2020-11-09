@@ -1,7 +1,7 @@
 <?php
 
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\BusinessLogic\Warehouse\WarehouseService;
 use Packlink\Controllers\Common\CanInstantiateServices;
@@ -30,7 +30,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
      * Updates default warehouse.
      *
      * @throws \Packlink\BusinessLogic\DTO\Exceptions\FrontDtoNotRegisteredException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      */
     public function updateAction()
     {

@@ -4,7 +4,7 @@ namespace Packlink\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
 use Packlink\Utilities\Cache;
@@ -29,8 +29,8 @@ class CarrierLogoHandler implements SubscriberInterface
     /**
      * @param \Enlight_Hook_HookArgs $args
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Exception
      */
     public function onAfterSGetPremiumDispatches(Enlight_Hook_HookArgs $args)

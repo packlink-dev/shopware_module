@@ -2,8 +2,6 @@
 
 namespace Packlink\Tests;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use Packlink\Tests\TestComponents\BaseQueueItemRepositoryTestAdapter;
 use PHPUnit\Framework\TestCase;
 
@@ -44,8 +42,8 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testRegisteredRepositories()
     {
@@ -55,8 +53,8 @@ class QueueItemRepositoryWrapperTest extends TestCase
     /**
      * @depends testRegisteredRepositories
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueueItemMassInsert()
     {
@@ -64,9 +62,9 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testUpdate()
     {
@@ -76,111 +74,95 @@ class QueueItemRepositoryWrapperTest extends TestCase
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryAllQueueItems()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryAllQueueItems();
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersString()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryWithFiltersString();
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersInt()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryWithFiltersInt();
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersAndSort()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryWithFiltersAndSort();
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testQueryWithFiltersAndLimit()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testQueryWithFiltersAndLimit();
     }
 
     /**
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testFindOldestQueuedItems()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testFindOldestQueuedItems();
     }
 
     /**
-     * @expectedException \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @expectedException \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      */
     public function testSaveWithCondition()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testSaveWithCondition();
     }
 
     /**
-     * @expectedException \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @expectedException \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException
      */
     public function testSaveWithConditionWithNull()
     {
-        $this->baseTest->testQueueItemMassInsert();
-
         $this->baseTest->testSaveWithConditionWithNull();
     }
 
     /**
-     * @expectedException \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @expectedException \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function testInvalidQueryFilter()
     {
@@ -190,10 +172,10 @@ class QueueItemRepositoryWrapperTest extends TestCase
     /**
      * @inheritDoc
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryClassException
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryClassException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
-    protected function setUp()
+    public function setUp()
     {
         $this->baseTest->setUp();
     }
@@ -201,7 +183,7 @@ class QueueItemRepositoryWrapperTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function tearDown()
+    public function tearDown()
     {
         $this->baseTest->tearDown();
     }

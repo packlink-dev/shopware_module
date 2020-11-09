@@ -5,8 +5,8 @@ namespace Packlink\Subscribers;
 use Enlight\Event\SubscriberInterface;
 use Enlight_Hook_HookArgs;
 use Exception;
-use Logeecom\Infrastructure\Logger\Logger;
-use Logeecom\Infrastructure\ServiceRegister;
+use Packlink\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\Services\BusinessLogic\CheckoutService;
 use Packlink\Utilities\Cache;
@@ -38,7 +38,7 @@ class ShippingCostCalculator implements SubscriberInterface
      *
      * @param \Enlight_Hook_HookArgs $args
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function onBeforeSGetPremiumShippingcosts(Enlight_Hook_HookArgs $args)
@@ -85,7 +85,7 @@ class ShippingCostCalculator implements SubscriberInterface
      * @param string | null $shippingId
      *
      * @return bool
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function shouldHandle($userId, $sessionId, $carrierId, $shippingId)
     {
@@ -103,7 +103,7 @@ class ShippingCostCalculator implements SubscriberInterface
      * @param int $carrierId
      *
      * @return bool
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     protected function isPacklinkCarrier($carrierId)
     {

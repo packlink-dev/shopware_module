@@ -2,11 +2,12 @@
 
 namespace Packlink;
 
-require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/CSRFWhitelistAware.php';
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 use Doctrine\ORM\EntityManager;
-use Logeecom\Infrastructure\Logger\Logger;
+use Packlink\Infrastructure\Logger\Logger;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Bootstrap\Database;
 use Packlink\Utilities\ObsoleteFilesRemover;
@@ -41,7 +42,7 @@ class Packlink extends Plugin
      *
      * @param InstallContext $context
      *
-     * @throws \Logeecom\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
+     * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      * @throws \Exception
      */
     public function install(InstallContext $context)
@@ -65,7 +66,7 @@ class Packlink extends Plugin
      *
      * @param \Shopware\Components\Plugin\Context\UninstallContext $context
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function uninstall(UninstallContext $context)
     {
@@ -86,7 +87,7 @@ class Packlink extends Plugin
      *
      * @param \Shopware\Components\Plugin\Context\ActivateContext $context
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function activate(ActivateContext $context)
     {
@@ -105,7 +106,7 @@ class Packlink extends Plugin
      *
      * @param \Shopware\Components\Plugin\Context\DeactivateContext $context
      *
-     * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
     public function deactivate(DeactivateContext $context)
     {
