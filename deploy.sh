@@ -26,7 +26,7 @@ rm -rf deploy/Packlink/Lib
 rm -rf deploy/Packlink/Tests
 rm -rf deploy/Packlink/phpunit.xml
 # Core is now part of the integration
-rm -rf build/Packlink/vendor/packlink
+rm -rf deploy/Packlink/vendor/packlink
 rm -rf deploy/Packlink/composer.json
 rm -rf deploy/Packlink/composer.lock
 rm -rf deploy/Packlink/integrate-core.sh
