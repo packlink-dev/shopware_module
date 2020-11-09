@@ -1,3 +1,5 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/bc8c1ba4e46b46379505afca891164fb)](https://www.codacy.com/gh/packlink-dev/shopware_module?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=packlink-dev/shopware_module&amp;utm_campaign=Badge_Grade)
+
 ![Packlink logo](https://pro.packlink.es/public-assets/common/images/icons/packlink.svg)
 
 # Packlink Shopware plugin
