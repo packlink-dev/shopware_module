@@ -25,11 +25,11 @@ jobs:
           name: Build Package
           command: sh packlink-build.sh ${CIRCLE_TAG}
       - run:
-          name: Publish package to cdn production
+          name: Publish package to production cdn
           command: |
-            gsutil cp artifact.zip gs://${PROD_CDN_URL}/modules/shopware/statics/latest.zip
+            gsutil cp Packlink.zip gs://${PROD_CDN_URL}/modules/shopware/statics/latest.zip
             gsutil acl ch -u AllUsers:R gs://${PROD_CDN_URL}/modules/shopware/statics/latest.zip
-            gsutil cp artifact.zip gs://${PROD_CDN_URL}/modules/shopware/statics/${CIRCLE_TAG}.zip
+            gsutil cp Packlink.zip gs://${PROD_CDN_URL}/modules/shopware/statics/${CIRCLE_TAG}.zip
             gsutil acl ch -u AllUsers:R gs://${PROD_CDN_URL}/modules/shopware/statics/${CIRCLE_TAG}.zip
       - slack/notify:
           color: "#00FF00"
