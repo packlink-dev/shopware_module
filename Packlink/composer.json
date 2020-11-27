@@ -7,13 +7,13 @@
     {
       "type": "vcs",
       "no-api": true,
-      "url": "git@github.com:packlink-dev/ecommerce_module_core.git"
+      "url": "git@github.com:logeecom/pl_module_core.git"
     }
   ],
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.6",
-    "packlink/integration-core": "2.1.3",
+    "packlink/integration-core": "dev-feature/crset-25-v2",
     "ext-json": "*",
     "ext-curl": "*",
     "ext-zip": "*",
