@@ -21,12 +21,7 @@ class Shopware_Controllers_Backend_PacklinkTax extends Enlight_Controller_Action
             ]
         );
 
-        $version = Shopware()->Config()->version;
-        if (version_compare($version, '5.7.0', '<')) {
-            $availableTaxes = $this->getTaxRepository()->queryAll()->execute();
-        } else {
-            $availableTaxes = $this->getTaxRepository()->getTaxQuery()->execute();
-        }
+        $availableTaxes = $this->getTaxRepository()->queryAll()->execute();
 
         /** @var Tax $tax */
         foreach ($availableTaxes as $tax) {
