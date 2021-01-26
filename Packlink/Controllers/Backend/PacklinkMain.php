@@ -48,12 +48,15 @@ class Shopware_Controllers_Backend_PacklinkMain extends Enlight_Controller_Actio
      */
     protected function backendRedirect($action)
     {
+        $version = Shopware()->Config()->version;
+        $backendSession = version_compare($version, '5.7.0', '<')? 'BackendSession' : 'backendsession';
+
         $this->redirect(
             [
                 'module' => 'backend',
                 'controller' => "Packlink{$action}",
                 'action' => 'index',
-                '__csrf_token' => $this->container->get('BackendSession')->offsetGet('X-CSRF-Token'),
+                '__csrf_token' => $this->container->get($backendSession)->offsetGet('X-CSRF-Token'),
             ]
         );
     }

@@ -48,12 +48,15 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             $urlKey = $userInfo->country;
         }
 
+        $version = Shopware()->Config()->version;
+        $backendSession = version_compare($version, '5.7.0', '<') ? 'BackendSession' : 'backendsession';
+
         $this->View()->assign(
             [
                 'helpUrl' => self::$helpUrls[$urlKey],
                 'termsUrl' => self::$termsAndConditionsUrls[$urlKey],
                 'pluginVersion' => $this->configService->getModuleVersion(),
-                'csrfToken' => $this->container->get('BackendSession')->offsetGet('X-CSRF-Token'),
+                'csrfToken' => $this->container->get($backendSession)->offsetGet('X-CSRF-Token'),
             ]
         );
     }
