@@ -11,7 +11,6 @@ use Packlink\Utilities\Url;
 class ConfigurationService extends Configuration
 {
     const INTEGRATION_NAME = 'Shopware';
-    const DEFAULT_VERSION = '1.0.0';
     const ECOMMERCE_NAME = 'Shopware';
     const DRAFT_SOURCE = 'module_shopware';
     const MAX_TASK_INACTIVITY_PERIOD = 60;

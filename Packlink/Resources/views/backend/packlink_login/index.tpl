@@ -35,7 +35,7 @@
                     <div class="pl-register-country-title-wrapper">
                         {s name="login/country"}Select country to start{/s}
                     </div>
-                    <input type="hidden" id="pl-countries-url" value="{url controller=PacklinkDefaultWarehouse action="getCountries" __csrf_token=$csrfToken}" />
+                    <input type="hidden" id="pl-countries-url" value="{url controller=PacklinkRegistration action="getCountries" __csrf_token=$csrfToken}" />
                     <input type="hidden" id="pl-logo-path" value="{link file="backend/_resources/images/flags/"}" />
                     <div class="pl-register-country-list-wrapper">
                     </div>
