@@ -1,8 +1,8 @@
 <?php
 
+use Packlink\BusinessLogic\Country\WarehouseCountryService;
 use Packlink\Infrastructure\Logger\Logger;
 use Packlink\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\BusinessLogic\Warehouse\WarehouseService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
@@ -75,12 +75,11 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
      */
     public function getCountriesAction()
     {
-        /** @var \Packlink\BusinessLogic\Country\CountryService $countryService */
-        $countryService = ServiceRegister::getService(CountryService::CLASS_NAME);
+        /** @var WarehouseCountryService $countryService */
+        $countryService = ServiceRegister::getService(WarehouseCountryService::CLASS_NAME);
         $supportedCountries = $countryService->getSupportedCountries();
 
         foreach ($supportedCountries as $country) {
-            $country->registrationLink = str_replace('shopware', 'pro', $country->registrationLink);
             $country->name = Translation::get("configuration/country/{$country->code}");
         }
 
