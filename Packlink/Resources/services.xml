@@ -10,64 +10,64 @@
 
     <services>
         <!-- Register ControllerPath subscriber -->
-        <service id="packlink.subscribers.controller_path" class="Packlink\Subscribers\ControllerPath" public="true">
+        <service id="packlink.subscribers.controller_path" class="Packlink\Subscribers\ControllerPath">
             <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register TemplateRegistration subscriber -->
-        <service id="packlink.subscribers.template_registration" class="Packlink\Subscribers\TemplateRegistration" public="true">
+        <service id="packlink.subscribers.template_registration" class="Packlink\Subscribers\TemplateRegistration">
             <argument>%packlink.plugin_dir%</argument>
             <argument type="service" id="template"/>
             <argument type="service" id="snippets"/>
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register BootstrapRegistration subscriber -->
-        <service id="packlink.subscribers.bootstrap_registration" class="Packlink\Subscribers\BootstrapRegistration" public="true">
+        <service id="packlink.subscribers.bootstrap_registration" class="Packlink\Subscribers\BootstrapRegistration">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register BackendIndex subscriber -->
-        <service id="packlink.subscribers.backend_index" class="Packlink\Subscribers\BackendIndex" public="true">
+        <service id="packlink.subscribers.backend_index" class="Packlink\Subscribers\BackendIndex">
             <argument>%packlink.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register ExtendOrderDetailsHandler subscriber -->
-        <service id="packlink.subscribers.extend_order_details_handler" class="Packlink\Subscribers\ExtendOrderDetailsHandler" public="true">
+        <service id="packlink.subscribers.extend_order_details_handler" class="Packlink\Subscribers\ExtendOrderDetailsHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register ShippingCostCalculator subscriber -->
-        <service id="packlink.subscribers.shipping_cost_calculator" class="Packlink\Subscribers\ShippingCostCalculator" public="true">
+        <service id="packlink.subscribers.shipping_cost_calculator" class="Packlink\Subscribers\ShippingCostCalculator">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register ShippingMethodListHandler subscriber -->
-        <service id="packlink.subscribers.shipping_method_list_handler" class="Packlink\Subscribers\ShippingMethodListHandler" public="true">
+        <service id="packlink.subscribers.shipping_method_list_handler" class="Packlink\Subscribers\ShippingMethodListHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register DropoffHandler subscriber -->
-        <service id="packlink.subscribers.dropoff_handler" class="Packlink\Subscribers\DropoffHandler" public="true">
+        <service id="packlink.subscribers.dropoff_handler" class="Packlink\Subscribers\DropoffHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register DropoffMailHandler subscriber -->
-        <service id="packlink.subscribers.dropoff_mail_handler" class="Packlink\Subscribers\DropoffMailHandler" public="true">
+        <service id="packlink.subscribers.dropoff_mail_handler" class="Packlink\Subscribers\DropoffMailHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register CarrierLogoHandler subscriber -->
-        <service id="packlink.subscribers.carrier_logo_handler" class="Packlink\Subscribers\CarrierLogoHandler" public="true">
+        <service id="packlink.subscribers.carrier_logo_handler" class="Packlink\Subscribers\CarrierLogoHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register OrderDropoffDisplayHandler subscriber -->
-        <service id="packlink.subscribers.order_dropoff_display_handler" class="Packlink\Subscribers\OrderDropoffDisplayHandler" public="true">
+        <service id="packlink.subscribers.order_dropoff_display_handler" class="Packlink\Subscribers\OrderDropoffDisplayHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register OrderListHandler subscriber -->
-        <service id="packlink.subscribers.order_list_handler" class="Packlink\Subscribers\OrderListHandler" public="true">
+        <service id="packlink.subscribers.order_list_handler" class="Packlink\Subscribers\OrderListHandler">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register FrontedCsrfProvider subscriber -->
-        <service id="packlink.subscribers.frontend_csrf_provider" class="Packlink\Subscribers\FrontendCsrfProvider" public="true">
+        <service id="packlink.subscribers.frontend_csrf_provider" class="Packlink\Subscribers\FrontendCsrfProvider">
             <tag name="shopware.event_subscriber"/>
         </service>
         <!-- Register OrderModelEventHandler subscriber -->
-        <service id="packlink.subscribers.order_model_event_handler" class="Packlink\Subscribers\OrderModelEventHandler" public="true">
+        <service id="packlink.subscribers.order_model_event_handler" class="Packlink\Subscribers\OrderModelEventHandler">
             <tag name="doctrine.event_subscriber"/>
         </service>
     </services>

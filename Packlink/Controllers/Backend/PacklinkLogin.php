@@ -31,9 +31,7 @@ class Shopware_Controllers_Backend_PacklinkLogin extends Enlight_Controller_Acti
                 $this->View()->assign(['isLoginFailure' => true]);
             }
         } else {
-            $backendSession = $this->getBackendSession();
-
-            $this->View()->assign(['csrfToken' => $this->container->get($backendSession)->offsetGet('X-CSRF-Token')]);
+            $this->View()->assign(['csrfToken' => $this->container->get('BackendSession')->offsetGet('X-CSRF-Token')]);
         }
     }
 
@@ -46,24 +44,13 @@ class Shopware_Controllers_Backend_PacklinkLogin extends Enlight_Controller_Acti
      */
     protected function backendRedirect($action)
     {
-        $backendSession = $this->getBackendSession();
-
         $this->redirect(
             [
                 'module' => 'backend',
                 'controller' => "Packlink{$action}",
                 'action' => 'index',
-                '__csrf_token' => $this->container->get($backendSession)->offsetGet('X-CSRF-Token'),
+                '__csrf_token' => $this->container->get('BackendSession')->offsetGet('X-CSRF-Token'),
             ]
         );
-    }
-
-    /**
-     * @return string
-     */
-    protected function getBackendSession()
-    {
-        $version = Shopware()->Config()->version;
-        return version_compare($version, '5.7.0', '<') ? 'BackendSession' : 'backendsession';
     }
 }

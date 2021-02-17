@@ -2,7 +2,7 @@
   "name": "packlink/shopware",
   "description": "Packlink Shipping Shopware plugin",
   "type": "library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repositories": [
     {
       "type": "vcs",
