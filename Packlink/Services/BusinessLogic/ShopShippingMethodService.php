@@ -3,14 +3,17 @@
 namespace Packlink\Services\BusinessLogic;
 
 use Doctrine\ORM\OptimisticLockException;
+use Exception;
+use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\Controllers\AnalyticsController;
+use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService as BaseService;
+use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\Entities\ShippingMethodMap;
+use Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
 use Packlink\Infrastructure\ORM\QueryFilter\Operators;
 use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Infrastructure\ORM\RepositoryRegistry;
 use Packlink\Infrastructure\ServiceRegister;
-use Packlink\BusinessLogic\Configuration;
-use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService as BaseService;
-use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
-use Packlink\Entities\ShippingMethodMap;
 use Packlink\Utilities\Shop;
 use Packlink\Utilities\Translation;
 use Shopware\Components\Model\ModelEntity;
@@ -42,7 +45,7 @@ class ShopShippingMethodService implements BaseService
      * @return bool TRUE if activation succeeded; otherwise, FALSE.
      *
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws RepositoryNotRegisteredException
      */
     public function add(ShippingMethod $shippingMethod)
     {
@@ -64,7 +67,7 @@ class ShopShippingMethodService implements BaseService
      *
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws RepositoryNotRegisteredException
      */
     public function update(ShippingMethod $shippingMethod)
     {
@@ -84,7 +87,7 @@ class ShopShippingMethodService implements BaseService
      * @return bool TRUE if deletion succeeded; otherwise, FALSE.
      *
      * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws RepositoryNotRegisteredException
      */
     public function delete(ShippingMethod $shippingMethod)
     {
@@ -124,7 +127,7 @@ class ShopShippingMethodService implements BaseService
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function getCarrierLogoFilePath($carrierName)
     {
@@ -159,6 +162,81 @@ class ShopShippingMethodService implements BaseService
         }
 
         return true;
+    }
+
+    /**
+     * Disables shop shipping services/carriers.
+     *
+     * @return boolean TRUE if operation succeeded; otherwise, false.
+     * @noinspection NullPointerExceptionInspection
+     */
+    public function disableShopServices()
+    {
+        try {
+            $active = $this->getNonPacklinkCarriers();
+            $manager = Shopware()->Models();
+
+            /** @var Dispatch $dispatch */
+            foreach ($active as $dispatch) {
+                $dispatch->setActive(false);
+                $manager->persist($dispatch);
+            }
+
+            $manager->flush();
+
+            AnalyticsController::sendOtherServicesDisabledEvent();
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets non-Packlink carriers.
+     *
+     * @return array
+     *
+     * @throws RepositoryNotRegisteredException
+     */
+    protected function getNonPacklinkCarriers()
+    {
+        $query = $this->getDispatchRepository()->createQueryBuilder('d')
+            ->select('d')
+            ->where('d.active=1');
+
+        if ($packlinkShippingMethods = $this->getPacklinkShippingMethods()) {
+            $query->andWhere('d.id not in (' . implode(',', $packlinkShippingMethods) . ')');
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Retrieves packlink shipping methods.
+     *
+     * @return array
+     *
+     * @throws RepositoryNotRegisteredException
+     */
+    protected function getPacklinkShippingMethods()
+    {
+        $repository = RepositoryRegistry::getRepository(ShippingMethodMap::getClassName());
+        $maps = $repository->select();
+        $methodIds = array_map(
+            function (ShippingMethodMap $item) {
+                return $item->shopwareCarrierId;
+            },
+            $maps
+        );
+
+        $backupId = $this->getConfigService()->getBackupCarrierId();
+
+        if ($backupId !== null) {
+            $methodIds[] = $backupId;
+        }
+
+        return $methodIds;
     }
 
     /**
@@ -324,7 +402,7 @@ class ShopShippingMethodService implements BaseService
      * @return \Packlink\Entities\ShippingMethodMap|null
      *
      * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws RepositoryNotRegisteredException
      */
     protected function getShippingMethodMap(ShippingMethod $shippingMethod)
     {
@@ -352,7 +430,7 @@ class ShopShippingMethodService implements BaseService
      *
      * @return \Packlink\Repositories\BaseRepository
      *
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws RepositoryNotRegisteredException
      */
     protected function getBaseRepository()
     {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35f060ce7fed43729392275eab2cee0b",
+    "content-hash": "5c91cb6fa9fa72fcfffe4dbde2cbaa65",
     "packages": [
         {
             "name": "iio/libmergepdf",
@@ -58,23 +58,25 @@
         },
         {
             "name": "packlink/integration-core",
-            "version": "2.1.3",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:packlink-dev/ecommerce_module_core.git",
-                "reference": "645d1641ba013b9cfaf3abb99b4ee828b41eb9c3"
+                "reference": "627ed381055381ceeb682bf9abdeff8cb4ed0e50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/packlink-dev/ecommerce_module_core/zipball/645d1641ba013b9cfaf3abb99b4ee828b41eb9c3",
-                "reference": "645d1641ba013b9cfaf3abb99b4ee828b41eb9c3",
+                "url": "https://api.github.com/repos/packlink-dev/ecommerce_module_core/zipball/627ed381055381ceeb682bf9abdeff8cb4ed0e50",
+                "reference": "627ed381055381ceeb682bf9abdeff8cb4ed0e50",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": ">=5.3.29"
             },
             "require-dev": {
                 "codacy/coverage": "dev-master",
+                "leafo/scssphp": "0.0.12",
                 "phpunit/phpunit": "^4.8"
             },
             "type": "library",
@@ -90,11 +92,19 @@
                     "Logeecom\\Tests\\BusinessLogic\\": "tests/BusinessLogic"
                 }
             },
+            "scripts": {
+                "post-update-cmd": [
+                    "php cssCompile.php"
+                ],
+                "post-install-cmd": [
+                    "php cssCompile.php"
+                ]
+            },
             "license": [
                 "proprietary"
             ],
             "description": "Packlink integrations core library",
-            "time": "2020-06-29T07:52:43+00:00"
+            "time": "2020-12-16T13:55:11+00:00"
         },
         {
             "name": "setasign/fpdf",
@@ -247,6 +257,5 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "5.6.39"
-    },
-    "plugin-api-version": "1.1.0"
+    }
 }
