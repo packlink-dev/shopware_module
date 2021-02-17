@@ -1192,7 +1192,7 @@
                     orderStatusMappingsGetUrl: "{url controller=PacklinkOrderStatusMap action="index" __csrf_token=$csrfToken}",
                     orderStatusMappingsSaveUrl: "{url controller=PacklinkOrderStatusMap action="update" __csrf_token=$csrfToken}",
                     shopShippingMethodCountGetUrl: "{url controller=PacklinkShopShippingMethod action="count" __csrf_token=$csrfToken}",
-                    shopShippingMethodsDisableUrl: "{url controller=PacklinkShopShippingMethod action="deactivate" __csrf_token=$csrfToken}",
+                    shopShippingMethodsDisableUrl: "{url controller=PacklinkShopShippingMethod action="deactivateShopShippingMethods" __csrf_token=$csrfToken}",
                     debugGetStatusUrl: "{url controller=PacklinkDebug action="getStatus" __csrf_token=$csrfToken}",
                     debugSetStatusUrl: "{url controller=PacklinkDebug action="updateStatus" __csrf_token=$csrfToken}",
                     shippingMethodsGetTaxClassesUrl: "{url controller=PacklinkTax action="list" __csrf_token=$csrfToken}",
