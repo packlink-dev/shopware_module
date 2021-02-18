@@ -3,37 +3,44 @@
 namespace Packlink\Services\BusinessLogic;
 
 use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Exception;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\Controllers\AnalyticsController;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService as BaseService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\Entities\ShippingMethodMap;
+use Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
 use Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
 use Packlink\Infrastructure\ORM\QueryFilter\Operators;
 use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Infrastructure\ORM\RepositoryRegistry;
 use Packlink\Infrastructure\ServiceRegister;
+use Packlink\Repositories\BaseRepository;
 use Packlink\Utilities\Shop;
 use Packlink\Utilities\Translation;
 use Shopware\Components\Model\ModelEntity;
 use Shopware\Models\Dispatch\Dispatch;
 use Shopware\Models\Dispatch\ShippingCost;
 
+/**
+ * Class ShopShippingMethodService
+ *
+ * @package Packlink\Services\BusinessLogic
+ */
 class ShopShippingMethodService implements BaseService
 {
-    const PRICE = 1;
-    const WEIGHT = 0;
+    const OWN_CALCULATION = 3;
     const STANDARD_SHIPPING = 0;
     const ALLWAYS_CHARGE = 0;
     const DEFAULT_CARRIER = 'carrier.jpg';
-    const IMG_DIR = '/Resources/views/backend/_resources/images/carriers/';
+    const IMG_DIR = '/Resources/views/backend/_resources/packlink/images/carriers/';
     /**
-     * @var \Packlink\Repositories\BaseRepository
+     * @var BaseRepository
      */
     protected $baseRepository;
     /**
-     * @var \Packlink\Services\BusinessLogic\ConfigurationService
+     * @var ConfigurationService
      */
     protected $configService;
 
@@ -44,8 +51,9 @@ class ShopShippingMethodService implements BaseService
      *
      * @return bool TRUE if activation succeeded; otherwise, FALSE.
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
      * @throws RepositoryNotRegisteredException
+     * @throws ORMException
      */
     public function add(ShippingMethod $shippingMethod)
     {
@@ -65,9 +73,9 @@ class ShopShippingMethodService implements BaseService
      *
      * @param ShippingMethod $shippingMethod Shipping method.
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
-     * @throws RepositoryNotRegisteredException
+     * @throws OptimisticLockException
+     * @throws QueryFilterInvalidParamException
+     * @throws RepositoryNotRegisteredException|ORMException
      */
     public function update(ShippingMethod $shippingMethod)
     {
@@ -86,7 +94,7 @@ class ShopShippingMethodService implements BaseService
      *
      * @return bool TRUE if deletion succeeded; otherwise, FALSE.
      *
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws QueryFilterInvalidParamException
      * @throws RepositoryNotRegisteredException
      */
     public function delete(ShippingMethod $shippingMethod)
@@ -96,7 +104,7 @@ class ShopShippingMethodService implements BaseService
         if ($map && $carrier = $this->getShopwareCarrier($map)) {
             try {
                 $this->deleteShopwareEntity($carrier);
-            } catch (OptimisticLockException $e) {
+            } catch (Exception $e) {
                 return false;
             }
         }
@@ -113,7 +121,8 @@ class ShopShippingMethodService implements BaseService
      *
      * @return bool TRUE if backup shipping method is added; otherwise, FALSE.
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
     public function addBackupShippingMethod(ShippingMethod $shippingMethod)
     {
@@ -150,7 +159,8 @@ class ShopShippingMethodService implements BaseService
      *
      * @return bool TRUE if backup shipping method is deleted; otherwise, FALSE.
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
     public function deleteBackupShippingMethod()
     {
@@ -242,10 +252,10 @@ class ShopShippingMethodService implements BaseService
     /**
      * Sets variable carrier parameters.
      *
-     * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param Dispatch $carrier
+     * @param ShippingMethod $shippingMethod
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException|ORMException
      */
     protected function setVariableCarrierParameters(Dispatch $carrier, ShippingMethod $shippingMethod)
     {
@@ -265,84 +275,33 @@ class ShopShippingMethodService implements BaseService
     /**
      * Sets carrier price.
      *
-     * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param Dispatch $carrier
+     * @param ShippingMethod $shippingMethod
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
     protected function setCarrierCost(Dispatch $carrier, ShippingMethod $shippingMethod)
     {
-        switch ($shippingMethod->getPricingPolicy()) {
-            case ShippingMethod::PRICING_POLICY_PACKLINK:
-            case ShippingMethod::PRICING_POLICY_PERCENT:
-                $this->setPacklinkPrice($carrier, $shippingMethod);
-                break;
-            case ShippingMethod::PRICING_POLICY_FIXED_PRICE_BY_WEIGHT:
-                $this->setWeightPrice($carrier, $shippingMethod);
-                break;
-            case ShippingMethod::PRICING_POLICY_FIXED_PRICE_BY_VALUE:
-                $this->setValuePrice($carrier, $shippingMethod);
-                break;
-        }
-    }
-
-    /**
-     * Creates cost based on packlink price.
-     *
-     * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
-     *
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    protected function setPacklinkPrice(Dispatch $carrier, ShippingMethod $shippingMethod)
-    {
-        $carrier->setCalculation(self::PRICE);
+        $carrier->setCalculation(self::OWN_CALCULATION);
+        $pricingPolicies = $shippingMethod->getPricingPolicies();
         $cost = $this->getCheapestServiceCost($shippingMethod);
+        $ranges = [];
 
-        if ($shippingMethod->getPricingPolicy() === ShippingMethod::PRICING_POLICY_PERCENT) {
-            $part = $cost * ($shippingMethod->getPercentPricePolicy()->amount / 100);
-            $cost += $shippingMethod->getPercentPricePolicy()->increase ? $part : (-1 * $part);
+        foreach ($pricingPolicies as $policy) {
+            $ranges[] = $policy->fromWeight;
+            $ranges[] = $policy->fromPrice;
         }
 
-        $this->createShopwareCost($carrier, $cost);
-    }
+        $ranges = array_diff($ranges, [null]);
 
-    /**
-     * Creates cost based on weight.
-     *
-     * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
-     *
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    protected function setWeightPrice(Dispatch $carrier, ShippingMethod $shippingMethod)
-    {
-        $carrier->setCalculation(self::WEIGHT);
-        foreach ($shippingMethod->getFixedPriceByWeightPolicy() as $policy) {
-            $this->createShopwareCost($carrier, $policy->amount, $policy->from);
-        }
-    }
-
-    /**
-     * Creates cost based on value
-     *
-     * @param \Shopware\Models\Dispatch\Dispatch $carrier
-     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
-     *
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    protected function setValuePrice(Dispatch $carrier, ShippingMethod $shippingMethod)
-    {
-        $carrier->setCalculation(self::PRICE);
-        foreach ($shippingMethod->getFixedPriceByValuePolicy() as $policy) {
-            $this->createShopwareCost($carrier, $policy->amount, $policy->from);
-        }
+        $this->createShopwareCost($carrier, $cost, !empty($ranges) ? min($ranges) : 0);
     }
 
     /**
      * Retrieves minimal cost for a shipping method.
      *
-     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param ShippingMethod $shippingMethod
      *
      * @return float
      */
@@ -362,11 +321,11 @@ class ShopShippingMethodService implements BaseService
     /**
      * Creates shopware cost.
      *
-     * @param \Shopware\Models\Dispatch\Dispatch $carrier
+     * @param Dispatch $carrier
      * @param float $cost
      * @param float $from
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException|ORMException
      */
     protected function createShopwareCost(Dispatch $carrier, $cost, $from = 0.0)
     {
@@ -382,9 +341,9 @@ class ShopShippingMethodService implements BaseService
     /**
      * Retrieves shopware carrier by shipping method.
      *
-     * @param \Packlink\Entities\ShippingMethodMap $map
+     * @param ShippingMethodMap $map
      *
-     * @return \Shopware\Models\Dispatch\Dispatch | null
+     * @return Dispatch | null
      */
     protected function getShopwareCarrier(ShippingMethodMap $map)
     {
@@ -397,11 +356,11 @@ class ShopShippingMethodService implements BaseService
     /**
      * Retrieves shipping method map.
      *
-     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param ShippingMethod $shippingMethod
      *
-     * @return \Packlink\Entities\ShippingMethodMap|null
+     * @return ShippingMethodMap|null
      *
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException
+     * @throws QueryFilterInvalidParamException
      * @throws RepositoryNotRegisteredException
      */
     protected function getShippingMethodMap(ShippingMethod $shippingMethod)
@@ -428,7 +387,7 @@ class ShopShippingMethodService implements BaseService
     /**
      * Retrieves base repository.
      *
-     * @return \Packlink\Repositories\BaseRepository
+     * @return BaseRepository
      *
      * @throws RepositoryNotRegisteredException
      */
@@ -446,7 +405,7 @@ class ShopShippingMethodService implements BaseService
      *
      * @param ModelEntity $entity
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException|ORMException
      */
     protected function persistShopwareEntity(ModelEntity $entity)
     {
@@ -457,9 +416,9 @@ class ShopShippingMethodService implements BaseService
     /**
      * Deletes shopware entity;
      *
-     * @param \Shopware\Components\Model\ModelEntity $entity
+     * @param ModelEntity $entity
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException|ORMException
      */
     protected function deleteShopwareEntity(ModelEntity $entity)
     {
@@ -470,17 +429,22 @@ class ShopShippingMethodService implements BaseService
     /**
      * Creates shipping method.
      *
-     * @param \Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod $shippingMethod
+     * @param ShippingMethod $shippingMethod
      *
-     * @return \Shopware\Models\Dispatch\Dispatch
+     * @return Dispatch
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException|ORMException
      */
     protected function createShippingMethod(ShippingMethod $shippingMethod)
     {
         $carrier = new Dispatch();
 
-        $countries = $this->getDispatchRepository()->getCountryQuery()->getResult();
+        if ($shippingMethod->isShipToAllCountries()) {
+            $countries = $this->getDispatchRepository()->getCountryQuery()->getResult();
+        } else {
+            $countries = $this->fetchSelectedCountries($shippingMethod);
+        }
+
         foreach ($countries as $country) {
             $carrier->getCountries()->add($country);
         }
@@ -511,9 +475,21 @@ class ShopShippingMethodService implements BaseService
     }
 
     /**
+     * @param ShippingMethod $shippingMethod
+     * @return int|mixed|string
+     */
+    protected function fetchSelectedCountries(ShippingMethod $shippingMethod)
+    {
+        $countries = implode(', ', $shippingMethod->getShippingCountries());
+
+        return $this->getDispatchRepository()->getCountryQueryBuilder()
+            ->where("countryname IN ($countries)")->getQuery()->getResult();
+    }
+
+    /**
      * Retrieves configuration service.
      *
-     * @return \Packlink\Services\BusinessLogic\ConfigurationService
+     * @return ConfigurationService
      */
     protected function getConfigService()
     {
