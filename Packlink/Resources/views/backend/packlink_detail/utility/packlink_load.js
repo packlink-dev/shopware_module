@@ -4,7 +4,9 @@
 
 
 let includedJs = [
-    '{link file="backend/_resources/js/AjaxService.js"}',
+    '{link file="backend/_resources/packlink/js/AjaxService.js"}',
+    '{link file="backend/_resources/packlink/js/StateUUIDService.js"}',
+    '{link file="backend/_resources/packlink/js/ResponseService.js"}'
 ];
 
 (function () {
