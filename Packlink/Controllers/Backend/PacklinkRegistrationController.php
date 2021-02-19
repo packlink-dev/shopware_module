@@ -15,13 +15,13 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
      */
     public function getRegisterDataAction()
     {
-        $data = Request::getPostData();
+        $country = $this->request->getQuery('country');
 
-        if (empty($data['country'])) {
+        if (empty($country)) {
             Response::json(['message' => 'Not found.'], 404);
         }
 
-        Response::json($this->getBaseController()->getRegisterData($data['country']));
+        Response::json($this->getBaseController()->getRegisterData($country));
     }
 
     /**
@@ -30,7 +30,7 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
     public function registerAction()
     {
         $data = Request::getPostData();
-        $data['ecommerces'] = 'Shopware';
+        $data['ecommerces'] = ['Shopware'];
 
         try {
             $status = $this->getBaseController()->register($data);

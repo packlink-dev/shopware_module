@@ -1,5 +1,6 @@
 <?php
 
+use Packlink\BusinessLogic\Controllers\OrderStatusMappingController;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
@@ -14,10 +15,15 @@ class Shopware_Controllers_Backend_PacklinkOrderStatusMap extends Enlight_Contro
      */
     public function indexAction()
     {
-        $mappings = $this->getConfigService()->getOrderStatusMappings();
-        $mappings = $mappings ?: [];
+        $baseController = new OrderStatusMappingController();
+        $response = [
+            'systemName' => $this->getConfigService()->getIntegrationName(),
+            'mappings' => $baseController->getMappings(),
+            'packlinkStatuses' => $baseController->getPacklinkStatuses(),
+            'orderStatuses' => $this->getAvailableStatuses()
+        ];
 
-        Response::json($mappings);
+        Response::json($response);
     }
 
     /**
@@ -36,18 +42,23 @@ class Shopware_Controllers_Backend_PacklinkOrderStatusMap extends Enlight_Contro
      */
     public function listAction()
     {
-        $result = [];
+        Response::json($this->getAvailableStatuses());
+    }
 
+    /**
+     * @return array
+     */
+    protected function getAvailableStatuses()
+    {
+        $result = [];
         $statuses = $this->getOrderStatuses();
         $snippets = Shopware()->Snippets()->getNamespace('backend/static/order_status');
+
         foreach ($statuses as $status) {
-            $result[] = [
-                'code' => $status->getId(),
-                'label' => $snippets->get($status->getName(), $status->getName()),
-            ];
+            $result[$status->getId()] = $snippets->get($status->getName(), $status->getName());
         }
 
-        Response::json($result);
+        return $result;
     }
 
     /**

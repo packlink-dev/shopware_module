@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="pl-auto-test-content" id="pl-spinner-box">
-                <div class="pl-spinner" id="pl-spinner">
+                <div class="pl-auto-spinner" id="pl-spinner">
                     <div></div>
                 </div>
             </div>

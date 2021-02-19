@@ -109,7 +109,9 @@ class ShopShippingMethodService implements BaseService
             }
         }
 
-        $this->getBaseRepository()->delete($map);
+        if ($map) {
+            $this->getBaseRepository()->delete($map);
+        }
 
         return true;
     }
