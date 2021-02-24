@@ -3,7 +3,6 @@
 use Doctrine\DBAL\Query\QueryBuilder;
 use Packlink\Utilities\Response;
 
-
 /**
  * Class Shopware_Controllers_Backend_PacklinkShippingCountriesController
  */

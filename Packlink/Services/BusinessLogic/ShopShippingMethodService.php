@@ -217,21 +217,21 @@ class ShopShippingMethodService implements BaseService
             ->select('d')
             ->where('d.active=1');
 
-        if ($packlinkShippingMethods = $this->getPacklinkShippingMethods()) {
-            $query->andWhere('d.id not in (' . implode(',', $packlinkShippingMethods) . ')');
+        if ($packlinkShippingMethodIds = $this->getPacklinkShippingMethodIds()) {
+            $query->andWhere('d.id not in (' . implode(',', $packlinkShippingMethodIds) . ')');
         }
 
         return $query->getQuery()->getResult();
     }
 
     /**
-     * Retrieves packlink shipping methods.
+     * Retrieves packlink shipping method ids.
      *
      * @return array
      *
      * @throws RepositoryNotRegisteredException
      */
-    protected function getPacklinkShippingMethods()
+    protected function getPacklinkShippingMethodIds()
     {
         $repository = RepositoryRegistry::getRepository(ShippingMethodMap::getClassName());
         $maps = $repository->select();
@@ -482,7 +482,7 @@ class ShopShippingMethodService implements BaseService
      */
     protected function fetchSelectedCountries(ShippingMethod $shippingMethod)
     {
-        $countries = implode(', ', $shippingMethod->getShippingCountries());
+        $countries = implode(',', $shippingMethod->getShippingCountries());
 
         return $this->getDispatchRepository()->getCountryQueryBuilder()
             ->where("countryname IN ($countries)")->getQuery()->getResult();

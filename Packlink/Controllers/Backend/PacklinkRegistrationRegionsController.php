@@ -3,7 +3,6 @@
 use Packlink\BusinessLogic\Controllers\RegistrationRegionsController;
 use Packlink\Utilities\Response;
 
-
 /**
  * Class Shopware_Controllers_Backend_PacklinkRegistrationRegionsController
  */

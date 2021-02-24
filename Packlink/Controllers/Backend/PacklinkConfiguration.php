@@ -8,7 +8,6 @@ use Packlink\Utilities\Shop;
 use Packlink\Utilities\Url;
 use Shopware\Components\CSRFWhitelistAware;
 
-
 /**
  * Class Shopware_Controllers_Backend_PacklinkConfiguration
  */
@@ -42,7 +41,11 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
 
         Response::json([
             'baseResourcesUrl' => '/custom/plugins/Packlink/Resources/views/backend/_resources/packlink',
-            'stateUrl' => Url::getBackendUrl('PacklinkModuleStateController', 'getCurrentState', ['__csrf_token' => $csrfToken]),
+            'stateUrl' => Url::getBackendUrl(
+                'PacklinkModuleStateController',
+                'getCurrentState',
+                ['__csrf_token' => $csrfToken]
+            ),
             'urls' => $this->getUrls(),
             'templates' => $this->getTemplates(),
             'lang' => $this->getTranslations(),
@@ -148,64 +151,69 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
      */
     protected function getUrls()
     {
-        $csrfToken = $this->container->get('BackendSession')->offsetGet('X-CSRF-Token');
         $shopUrl = $this->request->getServer()['REQUEST_SCHEME'] . '://' . Shop::getDefaultShop()->getHost();
 
         return [
             'login' => [
-                'submit' => Url::getBackendUrl('PacklinkConfiguration', 'login', ['__csrf_token' => $csrfToken]),
-                'listOfCountriesUrl' => Url::getBackendUrl('PacklinkRegistrationRegionsController', 'getRegions', ['__csrf_token' => $csrfToken]),
+                'submit' => Url::getBackendUrl('PacklinkConfiguration', 'login'),
+                'listOfCountriesUrl' => Url::getBackendUrl('PacklinkRegistrationRegionsController', 'getRegions'),
                 'logoPath' => '',
             ],
             'register' => [
-                'getRegistrationData' => $shopUrl . Url::getBackendUrl('PacklinkRegistrationController', 'getRegisterData', ['__csrf_token' => $csrfToken]),
-                'submit' => Url::getBackendUrl('PacklinkRegistrationController', 'register', ['__csrf_token' => $csrfToken]),
+                'getRegistrationData' => $shopUrl . Url::getBackendUrl(
+                    'PacklinkRegistrationController',
+                    'getRegisterData'
+                    ),
+                'submit' => Url::getBackendUrl('PacklinkRegistrationController', 'register'),
             ],
             'onboarding-state' => [
-                'getState' => Url::getBackendUrl('PacklinkOnboardingController', 'getCurrentState', ['__csrf_token' => $csrfToken]),
+                'getState' => Url::getBackendUrl('PacklinkOnboardingController', 'getCurrentState'),
             ],
             'onboarding-welcome' => [],
             'onboarding-overview' => [
-                'defaultParcelGet' => Url::getBackendUrl('PacklinkDefaultParcel', 'index', ['__csrf_token' => $csrfToken]),
-                'defaultWarehouseGet' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'index', ['__csrf_token' => $csrfToken]),
+                'defaultParcelGet' => Url::getBackendUrl('PacklinkDefaultParcel', 'index'),
+                'defaultWarehouseGet' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'index'),
             ],
             'default-parcel' => [
-                'getUrl' => Url::getBackendUrl('PacklinkDefaultParcel', 'index', ['__csrf_token' => $csrfToken]),
-                'submitUrl' => Url::getBackendUrl('PacklinkDefaultParcel', 'update', ['__csrf_token' => $csrfToken]),
+                'getUrl' => Url::getBackendUrl('PacklinkDefaultParcel', 'index'),
+                'submitUrl' => Url::getBackendUrl('PacklinkDefaultParcel', 'update'),
             ],
             'default-warehouse' => [
-                'getUrl' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'index', ['__csrf_token' => $csrfToken]),
-                'getSupportedCountriesUrl' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'getCountries', ['__csrf_token' => $csrfToken]),
-                'submitUrl' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'update', ['__csrf_token' => $csrfToken]),
-                'searchPostalCodesUrl' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'search', ['__csrf_token' => $csrfToken]),
+                'getUrl' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'index'),
+                'getSupportedCountriesUrl' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'getCountries'),
+                'submitUrl' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'update'),
+                'searchPostalCodesUrl' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'search'),
             ],
             'configuration' => [
-                'getDataUrl' => Url::getBackendUrl('PacklinkConfiguration', 'getHelpLink', ['__csrf_token' => $csrfToken]),
+                'getDataUrl' => Url::getBackendUrl('PacklinkConfiguration', 'getHelpLink'),
             ],
             'system-info' => [
-                'getStatusUrl' => Url::getBackendUrl('PacklinkDebug', 'getStatus', ['__csrf_token' => $csrfToken]),
-                'setStatusUrl' => Url::getBackendUrl('PacklinkDebug', 'updateStatus', ['__csrf_token' => $csrfToken]),
+                'getStatusUrl' => Url::getBackendUrl('PacklinkDebug', 'getStatus'),
+                'setStatusUrl' => Url::getBackendUrl('PacklinkDebug', 'updateStatus'),
             ],
             'order-status-mapping' => [
-                'getMappingAndStatusesUrl' => Url::getBackendUrl('PacklinkOrderStatusMap', 'index', ['__csrf_token' => $csrfToken]),
-                'setUrl' => Url::getBackendUrl('PacklinkOrderStatusMap', 'update', ['__csrf_token' => $csrfToken]),
+                'getMappingAndStatusesUrl' => Url::getBackendUrl('PacklinkOrderStatusMap', 'index'),
+                'setUrl' => Url::getBackendUrl('PacklinkOrderStatusMap', 'update'),
             ],
             'my-shipping-services' => [
-                'getServicesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getActive', ['__csrf_token' => $csrfToken]),
-                'deleteServiceUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'deactivate', ['__csrf_token' => $csrfToken]),
+                'getServicesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getActive'),
+                'deleteServiceUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'deactivate'),
             ],
             'pick-shipping-service' => [
-                'getActiveServicesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getActive', ['__csrf_token' => $csrfToken]),
-                'getServicesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getInactive', ['__csrf_token' => $csrfToken]),
-                'getTaskStatusUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getTaskStatus', ['__csrf_token' => $csrfToken]),
-                'startAutoConfigureUrl' => Url::getBackendUrl('PacklinkAutoConfigure', 'index', ['__csrf_token' => $csrfToken]),
-                'disableCarriersUrl' => Url::getBackendUrl('PacklinkShopShippingMethod', 'deactivateShopShippingMethods', ['__csrf_token' => $csrfToken]),
+                'getActiveServicesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getActive'),
+                'getServicesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getInactive'),
+                'getTaskStatusUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getTaskStatus'),
+                'startAutoConfigureUrl' => Url::getBackendUrl('PacklinkAutoConfigure', 'index'),
+                'disableCarriersUrl' => Url::getBackendUrl(
+                    'PacklinkShopShippingMethod',
+                    'deactivateShopShippingMethods'
+                 ),
             ],
             'edit-service' => [
-                'getServiceUrl' => $shopUrl . Url::getBackendUrl('PacklinkShippingMethod', 'getShippingMethod', ['__csrf_token' => $csrfToken]),
-                'saveServiceUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'save', ['__csrf_token' => $csrfToken]),
-                'getTaxClassesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getTaxClasses', ['__csrf_token' => $csrfToken]),
-                'getCountriesListUrl' => Url::getBackendUrl('PacklinkShippingCountriesController', 'getAll', ['__csrf_token' => $csrfToken]),
+                'getServiceUrl' => $shopUrl . Url::getBackendUrl('PacklinkShippingMethod', 'getShippingMethod'),
+                'saveServiceUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'save'),
+                'getTaxClassesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getTaxClasses'),
+                'getCountriesListUrl' => Url::getBackendUrl('PacklinkShippingCountriesController', 'getAll'),
                 'hasTaxConfiguration' => true,
                 'hasCountryConfiguration' => true,
                 'canDisplayCarrierLogos' => true,
@@ -222,7 +230,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     {
         return [
             'default' => $this->getDefaultTranslations(),
-            'current' => $this->getCurrentTranslations()
+            'current' => $this->getCurrentTranslations(),
         ];
     }
 

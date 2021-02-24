@@ -13,16 +13,31 @@ use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
 use Shopware\Models\Tax\Tax;
 
+/**
+ * Class Shopware_Controllers_Backend_PacklinkShippingMethod
+ */
 class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
+
+    /**
+     * @var ShippingMethodController
+     */
+    private $baseController;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->baseController = new ShippingMethodController();
+    }
 
     /**
      * Returns all available shipping methods.
      */
     public function getAllAction()
     {
-        $shippingMethods = $this->getBaseController()->getAll();
+        $shippingMethods = $this->baseController->getAll();
 
         Response::dtoEntitiesResponse($shippingMethods);
     }
@@ -32,7 +47,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
      */
     public function getActiveAction()
     {
-        $shippingMethods = $this->getBaseController()->getActive();
+        $shippingMethods = $this->baseController->getActive();
 
         Response::dtoEntitiesResponse($shippingMethods);
     }
@@ -42,7 +57,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
      */
     public function getInactiveAction()
     {
-        $shippingMethods = $this->getBaseController()->getInactive();
+        $shippingMethods = $this->baseController->getInactive();
 
         Response::dtoEntitiesResponse($shippingMethods);
     }
@@ -58,10 +73,10 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
             Response::json(['success' => false], 400);
         }
 
-        $shippingMethod = $this->getBaseController()->getShippingMethod($id);
+        $shippingMethod = $this->baseController->getShippingMethod($id);
 
         if ($shippingMethod === null) {
-            Response::json(['success' => false], 401);
+            Response::json(['success' => false], 404);
         }
 
         Response::json($shippingMethod->toArray());
@@ -89,7 +104,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
     {
         $data = Request::getPostData();
 
-        if (!$data['id'] || !$this->getBaseController()->activate((int)$data['id'])) {
+        if (!$data['id'] || !$this->baseController->activate((int)$data['id'])) {
             Response::json(['success' => false, 'message' => Translation::get('error/shippingmethodactivate')], 400);
         }
 
@@ -103,7 +118,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
     {
         $data = Request::getPostData();
 
-        if (!$data['id'] || !$this->getBaseController()->deactivate((int)$data['id'])) {
+        if (!$data['id'] || !$this->baseController->deactivate((int)$data['id'])) {
             Response::json(['success' => false, 'message' => Translation::get('error/shippingmethoddeactivate')], 400);
         }
 
@@ -121,13 +136,13 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
             Response::validationErrorsResponse($e->getValidationErrors());
         }
 
-        $model = $this->getBaseController()->save($configuration);
+        $model = $this->baseController->save($configuration);
 
         if ($model === null) {
             Response::json(['message' => Translation::get('error/shippingmethodsave')], 400);
         }
 
-        if (!$model->id || !$this->getBaseController()->activate((int)$model->id)) {
+        if (!$model->id || !$this->baseController->activate((int)$model->id)) {
             Response::json(['message' => Translation::get('error/shippingmethodactivate')], 400);
         }
 
@@ -163,14 +178,6 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
         } catch (FrontDtoValidationException $e) {
             Response::validationErrorsResponse($e->getValidationErrors());
         }
-    }
-
-    /**
-     * @return ShippingMethodController
-     */
-    public function getBaseController()
-    {
-        return new ShippingMethodController();
     }
 
     /**

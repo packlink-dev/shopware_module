@@ -21,6 +21,11 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
     use CanInstantiateServices;
 
     /**
+     * @var ShopShippingMethodService
+     */
+    private $shopShippingMethodService;
+
+    /**
      * Returns a list with actions which should not be validated for CSRF protection
      *
      * @return string[]
@@ -81,8 +86,11 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
      */
     protected function getShopShippingMethodService()
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return ServiceRegister::getService(ShopShippingMethodService::CLASS_NAME);
+        if ($this->shopShippingMethodService === null) {
+            $this->shopShippingMethodService = ServiceRegister::getService(ShopShippingMethodService::CLASS_NAME);
+        }
+
+        return $this->shopShippingMethodService;
     }
 
     /**

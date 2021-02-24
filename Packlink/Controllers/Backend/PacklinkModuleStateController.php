@@ -4,7 +4,6 @@ use Packlink\BusinessLogic\Controllers\ModuleStateController;
 use Packlink\Utilities\Response;
 use Shopware\Components\CSRFWhitelistAware;
 
-
 /**
  * Class Shopware_Controllers_Backend_PacklinkModuleStateController
  */
