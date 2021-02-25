@@ -32,10 +32,11 @@ class Url
      *
      * @param $controller
      * @param $action
+     * @param array $params
      *
      * @return mixed|string
      */
-    public static function getBackendUrl($controller, $action)
+    public static function getBackendUrl($controller, $action, array $params = [])
     {
         $csrfToken = Shopware()->Container()->get('BackendSession')->offsetGet('X-CSRF-Token');
 
@@ -44,7 +45,7 @@ class Url
            'controller' => $controller,
            'action' => $action,
         ],
-        ['__csrf_token' => $csrfToken]);
+        array_merge($params, ['__csrf_token' => $csrfToken]));
 
         return Shopware()->Front()->Router()->assemble($params);
     }

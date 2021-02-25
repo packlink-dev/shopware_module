@@ -37,14 +37,11 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
      */
     public function getDataAction()
     {
-        $csrfToken = $this->container->get('BackendSession')->offsetGet('X-CSRF-Token');
-
         Response::json([
             'baseResourcesUrl' => '/custom/plugins/Packlink/Resources/views/backend/_resources/packlink',
             'stateUrl' => Url::getBackendUrl(
                 'PacklinkModuleStateController',
-                'getCurrentState',
-                ['__csrf_token' => $csrfToken]
+                'getCurrentState'
             ),
             'urls' => $this->getUrls(),
             'templates' => $this->getTemplates(),
