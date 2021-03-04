@@ -1,5 +1,6 @@
 <?php
 
+use Logeecom\Infrastructure\Logger\Logger;
 use Packlink\BusinessLogic\Controllers\ConfigurationController;
 use Packlink\BusinessLogic\Controllers\LoginController;
 use Packlink\Utilities\Request;
@@ -251,7 +252,15 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     protected function getCurrentTranslations()
     {
         $baseDir = __DIR__ . '/../../Resources/views/backend/_resources/packlink/lang/';
-        $locale = $this->request->getLocale();
+        $locale = 'en';
+
+        try {
+            if ($auth = Shopware()->Container()->get('auth')) {
+                $locale = substr($auth->getIdentity()->locale->getLocale(), 0, 2);
+            }
+        } catch (Exception $e) {
+            Logger::logError('Failed to fetch admin locale because ' . $e->getMessage());
+        }
 
         return json_decode(file_get_contents($baseDir . $locale . '.json'), true);
     }
