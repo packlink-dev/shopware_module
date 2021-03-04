@@ -26,7 +26,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     {
         $data = Request::getPostData();
 
-        if ($data['method'] === 'Login') {
+        if (!empty($data['method']) && $data['method'] === 'Login') {
             $this->View()->assign($this->login());
         } else {
             $this->View()->assign($this->getHelpUrl());
@@ -159,8 +159,8 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             ],
             'register' => [
                 'getRegistrationData' => $shopUrl . Url::getBackendUrl(
-                    'PacklinkRegistrationController',
-                    'getRegisterData'
+                        'PacklinkRegistrationController',
+                        'getRegisterData'
                     ),
                 'submit' => Url::getBackendUrl('PacklinkRegistrationController', 'register'),
             ],
@@ -205,7 +205,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
                 'disableCarriersUrl' => Url::getBackendUrl(
                     'PacklinkShopShippingMethod',
                     'deactivateShopShippingMethods'
-                 ),
+                ),
             ],
             'edit-service' => [
                 'getServiceUrl' => $shopUrl . Url::getBackendUrl('PacklinkShippingMethod', 'getShippingMethod'),

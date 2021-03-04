@@ -11,6 +11,7 @@
 {block name="scripts"}
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/TemplateService.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/TranslationService.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/UtilityService.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/AjaxService.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/AutoTestController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/ConfigurationController.js"}"></script>
@@ -35,7 +36,6 @@
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/StateController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/StateUUIDService.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/SystemInfoController.js"}"></script>
-    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/UtilityService.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/ValidationService.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/GridResizerService.js"}"></script>
 {/block}

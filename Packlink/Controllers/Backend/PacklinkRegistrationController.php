@@ -14,14 +14,6 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
      */
     private $baseController;
 
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->baseController = new RegistrationController();
-    }
-
     /**
      * Returns registration data.
      */
@@ -33,7 +25,7 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
             Response::json(['message' => 'Not found.'], 404);
         }
 
-        Response::json($this->baseController->getRegisterData($country));
+        Response::json($this->getBaseController()->getRegisterData($country));
     }
 
     /**
@@ -45,10 +37,22 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
         $data['ecommerces'] = ['Shopware'];
 
         try {
-            $status = $this->baseController->register($data);
+            $status = $this->getBaseController()->register($data);
             Response::json(['success' => $status]);
         } catch (Exception $e) {
             Response::json(['success' => false, 'error' => $e->getMessage()]);
         }
+    }
+
+    /**
+     * @return RegistrationController
+     */
+    private function getBaseController()
+    {
+        if ($this->baseController === null) {
+            $this->baseController = new RegistrationController();
+        }
+
+        return $this->baseController;
     }
 }
