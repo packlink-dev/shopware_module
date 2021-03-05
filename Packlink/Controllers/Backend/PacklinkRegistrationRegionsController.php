@@ -1,5 +1,6 @@
 <?php
 
+use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\Controllers\RegistrationRegionsController;
 use Packlink\Utilities\Response;
 
@@ -13,8 +14,23 @@ class Shopware_Controllers_Backend_PacklinkRegistrationRegionsController extends
      */
     public function getRegionsAction()
     {
+        Configuration::setCurrentLanguage($this->getLocale());
         $controller = new RegistrationRegionsController();
 
         Response::dtoEntitiesResponse($controller->getRegions());
+    }
+
+    /**
+     * @return string
+     */
+    protected function getLocale()
+    {
+        $locale = 'en';
+
+        if ($auth = Shopware()->Container()->get('auth')) {
+            $locale = substr($auth->getIdentity()->locale->getLocale(), 0, 2);
+        }
+
+        return $locale;
     }
 }
