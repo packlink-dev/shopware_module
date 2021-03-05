@@ -3,6 +3,7 @@
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\Controllers\ConfigurationController;
 use Packlink\BusinessLogic\Controllers\LoginController;
+use Packlink\Utilities\Plugin;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Shop;
@@ -31,7 +32,10 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
         if (!empty($data['method']) && $data['method'] === 'Login') {
             $this->View()->assign($this->login());
         } else {
-            $this->View()->assign($this->getHelpUrl());
+            $this->View()->assign([
+                $this->getHelpUrl(),
+                'version' => Plugin::getVersion(),
+            ]);
         }
     }
 
@@ -57,7 +61,10 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
      */
     public function getHelpLinkAction()
     {
-        Response::json(['helpUrl' => $this->getHelpUrl()]);
+        Response::json([
+            'helpUrl' => $this->getHelpUrl(),
+            'version' => Plugin::getVersion(),
+        ]);
     }
 
     /**
