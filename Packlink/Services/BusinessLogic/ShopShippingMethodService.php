@@ -485,7 +485,7 @@ class ShopShippingMethodService implements BaseService
         $countries = implode(',', $shippingMethod->getShippingCountries());
 
         return $this->getDispatchRepository()->getCountryQueryBuilder()
-            ->where("countryname IN ($countries)")->getQuery()->getResult();
+            ->where("country.id IN ($countries)")->getQuery()->getResult();
     }
 
     /**
