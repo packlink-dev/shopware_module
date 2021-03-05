@@ -4,6 +4,7 @@ use Packlink\BusinessLogic\Controllers\DebugController;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
+use Packlink\Utilities\Url;
 
 class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Action
 {
@@ -25,7 +26,10 @@ class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Acti
      */
     public function getStatusAction()
     {
-        Response::json(['status' => $this->baseController->getStatus()]);
+        Response::json([
+            'status' => $this->baseController->getStatus(),
+            'downloadUrl' => Url::getBackendUrl('PacklinkDebug', 'download'),
+        ]);
     }
 
     /**
