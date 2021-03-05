@@ -40,7 +40,11 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
             $status = $this->getBaseController()->register($data);
             Response::json(['success' => $status]);
         } catch (Exception $e) {
-            Response::json(['success' => false, 'error' => $e->getMessage()]);
+            Response::json([
+                'success' => false,
+                'error' => $e->getMessage() === 'Registration failed. Error: ' ?
+                    'Registration failed. Error: Invalid phone number.' : $e->getMessage(),
+                ]);
         }
     }
 

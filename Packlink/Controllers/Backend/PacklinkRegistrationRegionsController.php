@@ -31,6 +31,6 @@ class Shopware_Controllers_Backend_PacklinkRegistrationRegionsController extends
             $locale = substr($auth->getIdentity()->locale->getLocale(), 0, 2);
         }
 
-        return $locale;
+        return in_array($locale, ['en', 'de', 'es', 'fr', 'it']) ? $locale : 'en';;
     }
 }

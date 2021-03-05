@@ -25,19 +25,12 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
      */
     private $baseController;
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->baseController = new ShippingMethodController();
-    }
-
     /**
      * Returns all available shipping methods.
      */
     public function getAllAction()
     {
-        $shippingMethods = $this->baseController->getAll();
+        $shippingMethods = $this->getBaseController()->getAll();
 
         Response::dtoEntitiesResponse($shippingMethods);
     }
@@ -47,7 +40,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
      */
     public function getActiveAction()
     {
-        $shippingMethods = $this->baseController->getActive();
+        $shippingMethods = $this->getBaseController()->getActive();
 
         Response::dtoEntitiesResponse($shippingMethods);
     }
@@ -57,7 +50,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
      */
     public function getInactiveAction()
     {
-        $shippingMethods = $this->baseController->getInactive();
+        $shippingMethods = $this->getBaseController()->getInactive();
 
         Response::dtoEntitiesResponse($shippingMethods);
     }
@@ -73,7 +66,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
             Response::json(['success' => false], 400);
         }
 
-        $shippingMethod = $this->baseController->getShippingMethod($id);
+        $shippingMethod = $this->getBaseController()->getShippingMethod($id);
 
         if ($shippingMethod === null) {
             Response::json(['success' => false], 404);
@@ -104,7 +97,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
     {
         $data = Request::getPostData();
 
-        if (!$data['id'] || !$this->baseController->activate((int)$data['id'])) {
+        if (!$data['id'] || !$this->getBaseController()->activate((int)$data['id'])) {
             Response::json(['success' => false, 'message' => Translation::get('error/shippingmethodactivate')], 400);
         }
 
@@ -118,7 +111,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
     {
         $data = Request::getPostData();
 
-        if (!$data['id'] || !$this->baseController->deactivate((int)$data['id'])) {
+        if (!$data['id'] || !$this->getBaseController()->deactivate((int)$data['id'])) {
             Response::json(['success' => false, 'message' => Translation::get('error/shippingmethoddeactivate')], 400);
         }
 
@@ -136,13 +129,13 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
             Response::validationErrorsResponse($e->getValidationErrors());
         }
 
-        $model = $this->baseController->save($configuration);
+        $model = $this->getBaseController()->save($configuration);
 
         if ($model === null) {
             Response::json(['message' => Translation::get('error/shippingmethodsave')], 400);
         }
 
-        if (!$model->id || !$this->baseController->activate((int)$model->id)) {
+        if (!$model->id || !$this->getBaseController()->activate((int)$model->id)) {
             Response::json(['message' => Translation::get('error/shippingmethodactivate')], 400);
         }
 
@@ -205,5 +198,17 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
         $data['taxClass'] = (int)$data['taxClass'];
 
         return ShippingMethodConfiguration::fromArray($data);
+    }
+
+    /**
+     * @return ShippingMethodController
+     */
+    protected function getBaseController()
+    {
+        if ($this->baseController === null) {
+            $this->baseController = new ShippingMethodController();
+        }
+
+        return $this->baseController;
     }
 }

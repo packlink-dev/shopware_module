@@ -34,9 +34,16 @@ class Shopware_Controllers_Backend_PacklinkShippingCountriesController extends E
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->get('dbal_connection')->createQueryBuilder();
 
+        if (version_compare(Shopware()->Config()->version, '5.6.2', '>')) {
+            return $queryBuilder->select('id', 'countryname')
+                ->from('s_core_countries')
+                ->where('allow_shipping = 1')
+                ->execute()
+                ->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         return $queryBuilder->select('id', 'countryname')
             ->from('s_core_countries')
-            ->where('allow_shipping = 1')
             ->execute()
             ->fetchAll(PDO::FETCH_ASSOC);
     }
