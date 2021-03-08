@@ -82,7 +82,7 @@ class ShopShippingMethodService implements BaseService
         $map = $this->getShippingMethodMap($shippingMethod);
 
         if ($map && $carrier = $this->getShopwareCarrier($map)) {
-            $this->getDispatchRepository()->getPurgeShippingCostsMatrixQuery($carrier)->execute();
+            $this->getDispatchRepository()->getPurgeShippingCostsMatrixQuery($carrier->getId())->execute();
             $this->setVariableCarrierParameters($carrier, $shippingMethod);
         }
     }
@@ -440,6 +440,13 @@ class ShopShippingMethodService implements BaseService
     protected function createShippingMethod(ShippingMethod $shippingMethod)
     {
         $carrier = new Dispatch();
+        $map = $this->getShippingMethodMap($shippingMethod);
+
+        if ($map  && $shippingMethod->getCarrierName() !== 'Shipping Cost' && $carrier = $this->getShopwareCarrier($map)) {
+            $this->getDispatchRepository()->getPurgeShippingCostsMatrixQuery($carrier->getId())->execute();
+            $carrier->getCountries()->clear();
+            $carrier->getPayments()->clear();
+        }
 
         if ($shippingMethod->isShipToAllCountries()) {
             $countries = $this->getDispatchRepository()->getCountryQuery()->getResult();
