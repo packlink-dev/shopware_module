@@ -38,6 +38,16 @@
       "Packlink\\Tests\\Core\\": "Tests/Core"
     }
   },
+  "scripts": {
+    "post-update-cmd": [
+      "Packlink\\Lib\\Composer::postUpdate",
+      "./integrate-core.sh"
+    ],
+    "post-install-cmd": [
+      "Packlink\\Lib\\Composer::postUpdate",
+      "./integrate-core.sh"
+    ]
+  },
   "config": {
     "platform": {
       "php": "5.6.39"

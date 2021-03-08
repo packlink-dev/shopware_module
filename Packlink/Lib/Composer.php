@@ -21,12 +21,13 @@ class Composer
             static::$fromBase . 'templates' => static::$toBase . 'packlink/templates',
             static::$fromBase . 'images' => static::$toBase . 'packlink/images',
             static::$fromBase . 'LocationPicker' => static::$toBase . 'packlink/location',
-            static::$fromBase . 'images/carriers' => static::$toBase . 'packlink/images/carriers'
         ];
 
         foreach ($map as $from => $to) {
             self::copyDirectory($from, $to);
         }
+
+        copy(static::$toBase . 'images/carriers/carrier.jpg', static::$toBase . 'packlink/images/carriers/carrier.jpg');
     }
 
     /**
