@@ -108,7 +108,7 @@ function getTransformedPricingPolicies(array $method)
  */
 function getLogoUrl(array $method)
 {
-    if (strpos($method['logoUrl'], '/images/carriers/') !== false) {
+    if (strpos($method['logoUrl'], '/images/carriers/') === false) {
         return  $method['logoUrl'];
     }
 
