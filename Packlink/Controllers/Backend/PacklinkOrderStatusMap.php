@@ -1,6 +1,7 @@
 <?php
 
 use Packlink\BusinessLogic\Controllers\OrderStatusMappingController;
+use Packlink\BusinessLogic\Language\Translator;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
@@ -50,7 +51,7 @@ class Shopware_Controllers_Backend_PacklinkOrderStatusMap extends Enlight_Contro
      */
     protected function getAvailableStatuses()
     {
-        $result = [];
+        $result = ['' => Translator::translate('orderStatusMapping.none')];
         $statuses = $this->getOrderStatuses();
         $snippets = Shopware()->Snippets()->getNamespace('backend/static/order_status');
 
