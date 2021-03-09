@@ -1,5 +1,6 @@
 <?php
 
+use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\Controllers\WarehouseController;
 use Packlink\BusinessLogic\DTO\Exceptions\FrontDtoNotRegisteredException;
 use Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException;
@@ -76,8 +77,23 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
      */
     public function getCountriesAction()
     {
+        Configuration::setCurrentLanguage($this->getLocale());
         $warehouseController = new WarehouseController();
 
         Response::dtoEntitiesResponse($warehouseController->getWarehouseCountries());
+    }
+
+    /**
+     * @return string
+     */
+    protected function getLocale()
+    {
+        $locale = 'en';
+
+        if ($auth = Shopware()->Container()->get('auth')) {
+            $locale = substr($auth->getIdentity()->locale->getLocale(), 0, 2);
+        }
+
+        return in_array($locale, ['en', 'de', 'es', 'fr', 'it']) ? $locale : 'en';
     }
 }
