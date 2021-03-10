@@ -108,6 +108,12 @@ function getTransformedPricingPolicies(array $method)
  */
 function getLogoUrl(array $method)
 {
+    if (!$method['logoUrl']) {
+        /** @var ShopShippingMethodService $shopShippingMethodService */
+        $shopShippingMethodService = ServiceRegister::getService(ShopShippingMethodService::CLASS_NAME);
+        return $shopShippingMethodService->getCarrierLogoFilePath($method['carrierName']);
+    }
+
     if (strpos($method['logoUrl'], '/images/carriers/') === false) {
         return  $method['logoUrl'];
     }
