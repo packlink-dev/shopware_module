@@ -14,3 +14,4 @@ build
 Packlink/Infrastructure
 Packlink/BusinessLogic
 Packlink/Tests/Core
+Packlink/Resources/views/backend/_resources
