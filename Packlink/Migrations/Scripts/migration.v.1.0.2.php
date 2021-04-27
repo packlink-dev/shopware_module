@@ -35,6 +35,10 @@ function updateShippingMethods()
         $data['pricingPolicies'] = getTransformedPricingPolicies($data);
         $data['logoUrl'] = getLogoUrl($data);
 
+        if ($data['id'] === null) {
+            $data['id'] = $entity['id'];
+        }
+
         $shippingMethod = ShippingMethod::fromArray($data);
         $repository->update($shippingMethod);
 
@@ -55,7 +59,7 @@ function getTransformedPricingPolicies(array $method)
 {
     $result = [];
 
-    switch($method['pricingPolicy']) {
+    switch ($method['pricingPolicy']) {
         case 1:
             // Packlink prices.
             break;
@@ -115,7 +119,7 @@ function getLogoUrl(array $method)
     }
 
     if (strpos($method['logoUrl'], '/images/carriers/') === false) {
-        return  $method['logoUrl'];
+        return $method['logoUrl'];
     }
 
     return str_replace('/images/carriers/', '/packlink/images/carriers/', $method['logoUrl']);
@@ -135,7 +139,7 @@ function convertParcelProperties()
 
     $entities = $connection->fetchAll($select);
 
-    foreach($entities as $entity) {
+    foreach ($entities as $entity) {
         if (empty($entity['data'])) {
             continue;
         }
