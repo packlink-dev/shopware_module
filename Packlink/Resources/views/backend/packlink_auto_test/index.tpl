@@ -6,9 +6,11 @@
 {/block}
 
 {block name="scripts"}
-    <script type="text/javascript" src="{link file="backend/_resources/js/UtilityService.js"}"></script>
-    <script type="text/javascript" src="{link file="backend/_resources/js/AjaxService.js"}"></script>
-    <script type="text/javascript" src="{link file="backend/_resources/js/AutoTestController.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/UtilityService.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/AjaxService.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/AutoTestController.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/StateUUIDService.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/ResponseService.js"}"></script>
 {/block}
 
 {block name="content/main"}
@@ -37,7 +39,7 @@
                 </div>
             </div>
             <div class="pl-auto-test-content" id="pl-spinner-box">
-                <div class="pl-spinner" id="pl-spinner">
+                <div class="pl-auto-spinner" id="pl-spinner">
                     <div></div>
                 </div>
             </div>

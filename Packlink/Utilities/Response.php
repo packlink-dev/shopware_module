@@ -2,12 +2,14 @@
 
 namespace Packlink\Utilities;
 
+use Packlink\Infrastructure\Data\DataTransferObject;
+
 class Response
 {
     /**
      * Converts DTOs to array and returns a JSON response.
      *
-     * @param \Packlink\BusinessLogic\DTO\BaseDto[] $entities
+     * @param DataTransferObject[] $entities
      */
     public static function dtoEntitiesResponse(array $entities)
     {

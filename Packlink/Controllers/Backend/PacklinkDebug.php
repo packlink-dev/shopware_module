@@ -1,20 +1,29 @@
 <?php
 
+use Packlink\BusinessLogic\Controllers\DebugController;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
+use Packlink\Utilities\Url;
 
 class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
     const SYSTEM_INFO_FILE_NAME = 'packlink-debug-data.zip';
+    /**
+     * @var DebugController
+     */
+    private $baseController;
 
     /**
      * Retrieves debug mode status.
      */
     public function getStatusAction()
     {
-        Response::json(['status' => $this->getConfigService()->isDebugModeEnabled()]);
+        Response::json([
+            'status' => $this->getBaseController()->getStatus(),
+            'downloadUrl' => Url::getBackendUrl('PacklinkDebug', 'download'),
+        ]);
     }
 
     /**
@@ -27,7 +36,7 @@ class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Acti
             Response::json(['success' => false], 400);
         }
 
-        $this->getConfigService()->setDebugModeEnabled($data['status']);
+        $this->getBaseController()->setStatus((bool)$data['status']);
 
         Response::json(['status' => $data['status']]);
     }
@@ -39,5 +48,17 @@ class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Acti
         $file = $service::getSystemInfo();
 
         Response::file($file, self::SYSTEM_INFO_FILE_NAME);
+    }
+
+    /**
+     * @return DebugController
+     */
+    protected function getBaseController()
+    {
+        if ($this->baseController === null) {
+            $this->baseController =  new DebugController();
+        }
+
+        return $this->baseController;
     }
 }

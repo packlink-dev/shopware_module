@@ -2,6 +2,17 @@
 
 namespace Packlink\Bootstrap;
 
+use Packlink\BusinessLogic\BootstrapComponent;
+use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
+use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
+use Packlink\BusinessLogic\Registration\RegistrationInfoService;
+use Packlink\BusinessLogic\Scheduler\Models\Schedule;
+use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
+use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
+use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\Contracts\Services\BusinessLogic\DebugService;
+use Packlink\Entities\OrderDropoffMap;
+use Packlink\Entities\ShippingMethodMap;
 use Packlink\Infrastructure\Configuration\ConfigEntity;
 use Packlink\Infrastructure\Configuration\Configuration;
 use Packlink\Infrastructure\Http\CurlHttpClient;
@@ -14,22 +25,12 @@ use Packlink\Infrastructure\Serializer\Serializer;
 use Packlink\Infrastructure\ServiceRegister;
 use Packlink\Infrastructure\TaskExecution\Process;
 use Packlink\Infrastructure\TaskExecution\QueueItem;
-use Packlink\BusinessLogic\BootstrapComponent;
-use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
-use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
-use Packlink\Services\BusinessLogic\ShopOrderService;
-use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
-use Packlink\BusinessLogic\Scheduler\Models\Schedule;
-use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
-use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
-use Packlink\Contracts\Services\BusinessLogic\DebugService;
-use Packlink\Entities\OrderDropoffMap;
-use Packlink\Entities\ShippingMethodMap;
 use Packlink\Repositories\BaseRepository;
 use Packlink\Repositories\QueueItemRepository;
 use Packlink\Services\BusinessLogic\ConfigurationService;
-use Packlink\Services\Infrastructure\LoggerService;
+use Packlink\Services\BusinessLogic\ShopOrderService;
 use Packlink\Services\BusinessLogic\ShopShippingMethodService as ConcreteShopShippingMethodService;
+use Packlink\Services\Infrastructure\LoggerService;
 
 class Bootstrap extends BootstrapComponent
 {
@@ -88,6 +89,12 @@ class Bootstrap extends BootstrapComponent
                 return new \Packlink\Services\BusinessLogic\DebugService();
             }
         );
+
+        ServiceRegister::registerService(
+            RegistrationInfoService::class,
+            function () {
+                return new \Packlink\Services\BusinessLogic\RegistrationInfoService();
+            });
     }
 
     /**

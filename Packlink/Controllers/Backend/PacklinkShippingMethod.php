@@ -1,5 +1,7 @@
 <?php
 
+use Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException;
+use Packlink\BusinessLogic\Tax\TaxClass;
 use Packlink\Infrastructure\Exceptions\BaseException;
 use Packlink\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\Controllers\DTO\ShippingMethodConfiguration;
@@ -9,103 +11,78 @@ use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
+use Shopware\Models\Tax\Tax;
 
+/**
+ * Class Shopware_Controllers_Backend_PacklinkShippingMethod
+ */
 class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
-    /** @var \Packlink\BusinessLogic\Controllers\ShippingMethodController */
-    protected $controller;
 
     /**
-     * Shopware_Controllers_Backend_PacklinkShippingMethod constructor.
-     *
-     * @param \Enlight_Controller_Request_Request $request
-     * @param \Enlight_Controller_Response_Response $response
-     *
-     * @throws \Enlight_Event_Exception
-     * @throws \Enlight_Exception
+     * @var ShippingMethodController
      */
-    public function __construct(
-        Enlight_Controller_Request_Request $request = null,
-        Enlight_Controller_Response_Response $response = null
-    ) {
-        if ($request && $response) {
-            parent::__construct($request, $response);
-        }
-
-        $this->controller = new ShippingMethodController();
-    }
+    private $baseController;
 
     /**
-     * Retrieves all shipping methods.
-     *
-     * @throws \Exception
+     * Returns all available shipping methods.
      */
-    public function listAction()
+    public function getAllAction()
     {
-        $shippingMethods = $this->controller->getAll();
+        $shippingMethods = $this->getBaseController()->getAll();
 
         Response::dtoEntitiesResponse($shippingMethods);
     }
 
     /**
-     * Handles shipping method activation.
+     * Returns active shipping methods.
      */
-    public function activateAction()
+    public function getActiveAction()
     {
-        $data = Request::getPostData();
+        $shippingMethods = $this->getBaseController()->getActive();
 
-        if ($this->activateShippingMethod(array_key_exists('id', $data) ? $data['id'] : 0)) {
-            Response::json(['message' => Translation::get('success/shippingmethodactivate')]);
-        } else {
-            Response::json(['message' => Translation::get('error/shippingmethodactivate')], 400);
-        }
+        Response::dtoEntitiesResponse($shippingMethods);
     }
 
     /**
-     * Handles shipping method deactivation.
+     * Returns inactive shipping methods.
      */
-    public function deactivateAction()
+    public function getInactiveAction()
     {
-        $data = Request::getPostData();
+        $shippingMethods = $this->getBaseController()->getInactive();
 
-        if ($this->deactivateShippingMethod(array_key_exists('id', $data) ? $data['id'] : 0)) {
-            Response::json(['message' => Translation::get('success/shippingmethoddeactivate')]);
-        } else {
-            Response::json(['message' => Translation::get('error/shippingmethoddeactivate')], 400);
-        }
+        Response::dtoEntitiesResponse($shippingMethods);
     }
 
     /**
-     * Updates shipping method.
-     *
-     * @throws \Exception
+     * Returns a single shipping method identified by the provided ID.
      */
-    public function updateAction()
+    public function getShippingMethodAction()
     {
-        $data = Request::getPostData();
+        $id = $this->request->getQuery('id');
 
-        $model = $this->controller->save($this->transformShippingMethodForSaving($data));
-        if (!$model) {
-            Response::json(['message' => Translation::get('error/shippingmethodsave')], 400);
+        if ($id === null) {
+            Response::json(['success' => false], 400);
         }
 
-        if (!$model->selected) {
-            $model->selected = $this->controller->activate($model->id);
+        $shippingMethod = $this->getBaseController()->getShippingMethod($id);
+
+        if ($shippingMethod === null) {
+            Response::json(['success' => false], 404);
         }
 
-        Response::json($model->toArray());
+        Response::json($shippingMethod->toArray());
     }
 
     /**
-     * Retrieves status of update shipping services task.
+     * Gets the status of the task for updating shipping services.
      */
-    public function getStatusAction()
+    public function getTaskStatusAction()
     {
         $status = QueueItem::FAILED;
-
-        $controller = new UpdateShippingServicesTaskStatusController();
         try {
+            $controller = new UpdateShippingServicesTaskStatusController();
             $status = $controller->getLastTaskStatus();
         } catch (BaseException $e) {
         }
@@ -115,51 +92,123 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 
     /**
      * Activates shipping method.
-     *
-     * @param int $id
-     *
-     * @return bool
      */
-    protected function activateShippingMethod($id)
+    public function activateAction()
     {
-        return $id && $this->controller->activate($id);
+        $data = Request::getPostData();
+
+        if (!$data['id'] || !$this->getBaseController()->activate((int)$data['id'])) {
+            Response::json(['success' => false, 'message' => Translation::get('error/shippingmethodactivate')], 400);
+        }
+
+        Response::json(['success' => true, 'message' => Translation::get('success/shippingmethodactivate')]);
     }
 
     /**
      * Deactivates shipping method.
-     *
-     * @param int $id
-     *
-     * @return bool
      */
-    protected function deactivateShippingMethod($id)
+    public function deactivateAction()
     {
-        return $id && $this->controller->deactivate($id);
+        $data = Request::getPostData();
+
+        if (!$data['id'] || !$this->getBaseController()->deactivate((int)$data['id'])) {
+            Response::json(['success' => false, 'message' => Translation::get('error/shippingmethoddeactivate')], 400);
+        }
+
+        Response::json(['success' => true, 'message' => Translation::get('success/shippingmethoddeactivate')]);
     }
 
     /**
-     * Transforms shipping method for saving.
-     *
-     * @param array $data
-     *
-     * @return \Packlink\BusinessLogic\Controllers\DTO\ShippingMethodConfiguration
+     * Saves shipping method.
      */
-    protected function transformShippingMethodForSaving(array $data)
+    public function saveAction()
     {
+        try {
+            $configuration = $this->getShippingMethodConfiguration();
+        } catch (FrontDtoValidationException $e) {
+            Response::validationErrorsResponse($e->getValidationErrors());
+        }
+
+        $model = $this->getBaseController()->save($configuration);
+
+        if ($model === null) {
+            Response::json(['message' => Translation::get('error/shippingmethodsave')], 400);
+        }
+
+        if (!$model->id || !$this->getBaseController()->activate((int)$model->id)) {
+            Response::json(['message' => Translation::get('error/shippingmethodactivate')], 400);
+        }
+
+        Response::json($model->toArray());
+    }
+
+    /**
+     * Retrieves available taxes.
+     */
+    public function getTaxClassesAction()
+    {
+        $result = [];
+
+        try {
+            $result[] = TaxClass::fromArray(
+                [
+                    'value' => 0,
+                    'label' => Translation::get('configuration/defaulttax'),
+                ]
+            );
+
+            $availableTaxes = $this->getTaxRepository()->queryAll()->execute();
+
+            /** @var Tax $tax */
+            foreach ($availableTaxes as $tax) {
+                $result[] = TaxClass::fromArray([
+                    'value' => $tax->getId(),
+                    'label' => $tax->getName(),
+                ]);
+            }
+
+            Response::dtoEntitiesResponse($result);
+        } catch (FrontDtoValidationException $e) {
+            Response::validationErrorsResponse($e->getValidationErrors());
+        }
+    }
+
+    /**
+     * Retrieves tax repository.
+     *
+     * @return \Shopware\Models\Tax\Repository
+     */
+    protected function getTaxRepository()
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return Shopware()->Models()->getRepository(Tax::class);
+    }
+
+    /**
+     * Returns shipping method configuration.
+     *
+     * @return ShippingMethodConfiguration
+     *
+     * @throws FrontDtoValidationException
+     */
+    protected function getShippingMethodConfiguration()
+    {
+        $data = Request::getPostData();
+
         $data['taxClass'] = (int)$data['taxClass'];
 
         return ShippingMethodConfiguration::fromArray($data);
     }
 
     /**
-     * Retrieves user country. Fallback is de.
-     *
-     * @return string
+     * @return ShippingMethodController
      */
-    protected function getUserCountry()
+    protected function getBaseController()
     {
-        $userAccount = $this->getConfigService()->getUserInfo();
+        if ($this->baseController === null) {
+            $this->baseController = new ShippingMethodController();
+        }
 
-        return strtolower($userAccount ? $userAccount->country : 'de');
+        return $this->baseController;
     }
 }

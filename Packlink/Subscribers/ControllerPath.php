@@ -28,7 +28,7 @@ class ControllerPath implements SubscriberInterface
     {
         return [
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkMain' => 'onGetControllerPromotion',
-            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkLogin' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkModuleStateController' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkConfiguration' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDefaultParcel' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkDefaultWarehouse' => 'onGetControllerPromotion',
@@ -44,6 +44,10 @@ class ControllerPath implements SubscriberInterface
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkPrintLabelsController' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkAutoTest' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkAutoConfigure' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkOnboardingController' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkRegistrationController' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkRegistrationRegionsController' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkShippingCountriesController' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkAsyncProcess' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkWebhooks' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkLocations' => 'onGetControllerPromotion',

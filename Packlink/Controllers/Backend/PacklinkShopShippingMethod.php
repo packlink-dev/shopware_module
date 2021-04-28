@@ -1,16 +1,29 @@
 <?php
 
-use Packlink\Infrastructure\ORM\RepositoryRegistry;
-use Packlink\BusinessLogic\Controllers\AnalyticsController;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Entities\ShippingMethodMap;
+use Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
+use Packlink\Infrastructure\ORM\RepositoryRegistry;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
 use Shopware\Models\Dispatch\Dispatch;
+use Shopware\Models\Dispatch\Repository;
 
+/**
+ * Class Shopware_Controllers_Backend_PacklinkShopShippingMethod
+ */
 class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Controller_Action
 {
     use CanInstantiateServices;
+
+    /**
+     * @var ShopShippingMethodService
+     */
+    private $shopShippingMethodService;
 
     /**
      * Returns a list with actions which should not be validated for CSRF protection
@@ -19,15 +32,18 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
      */
     public function getWhitelistedCSRFActions()
     {
-        return ['count', 'deactivate'];
+        return [
+            'count',
+            'deactivateShopShippingMethods'
+        ];
     }
 
     /**
      * Retrieves count of active shipping methods.
      *
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     * @throws RepositoryNotRegisteredException
      */
     public function countAction()
     {
@@ -46,32 +62,10 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
 
     /**
      * Deactivates shop shipping methods.
-     *
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      */
-    public function deactivateAction()
+    public function deactivateShopShippingMethodsAction()
     {
-        $query = $this->getDispatchRepository()->createQueryBuilder('d')
-            ->select('d')
-            ->where('d.active=1');
-
-        if ($packlinkShippingMethods = $this->getPacklinkShippingMethods()) {
-            $query->andWhere('d.id not in (' . implode(',', $packlinkShippingMethods) . ')');
-        }
-
-        $active = $query->getQuery()->getResult();
-
-        $manager = Shopware()->Models();
-
-        /** @var Dispatch $dispatch */
-        foreach ($active as $dispatch) {
-            $dispatch->setActive(false);
-            $manager->persist($dispatch);
-        }
-
-        $manager->flush();
-        AnalyticsController::sendOtherServicesDisabledEvent();
+        $this->getShopShippingMethodService()->disableShopServices();
 
         Response::json(['message' => Translation::get('success/disableshopshippingmethod')]);
     }
@@ -79,7 +73,7 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
     /**
      * Retrieves dispatch repository.
      *
-     * @return \Shopware\Models\Dispatch\Repository
+     * @return Repository
      */
     protected function getDispatchRepository()
     {
@@ -88,18 +82,30 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
     }
 
     /**
+     * @return ShopShippingMethodService
+     */
+    protected function getShopShippingMethodService()
+    {
+        if ($this->shopShippingMethodService === null) {
+            $this->shopShippingMethodService = ServiceRegister::getService(ShopShippingMethodService::CLASS_NAME);
+        }
+
+        return $this->shopShippingMethodService;
+    }
+
+    /**
      * Retrieves packlink shipping methods.
      *
      * @return array
      *
-     * @throws \Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
+     * @throws RepositoryNotRegisteredException
      */
     protected function getPacklinkShippingMethods()
     {
         $repository = RepositoryRegistry::getRepository(ShippingMethodMap::getClassName());
         $maps = $repository->select();
         $methodIds = array_map(
-            function (ShippingMethodMap $item) {
+            static function (ShippingMethodMap $item) {
                 return $item->shopwareCarrierId;
             },
             $maps

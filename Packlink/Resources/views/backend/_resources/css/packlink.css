@@ -6,49 +6,49 @@
 
 @font-face {
     font-family: proxima-nova;
-    src: url("/../fonts/ProximaNova-ExtrabldWeb.woff") format("woff");
+    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-ExtrabldWeb.woff") format("woff");
     font-weight: 800;
     font-style: normal
 }
 
 @font-face {
     font-family: proxima-nova;
-    src: url("/../fonts/ProximaNova-BoldWeb.woff") format("woff");
+    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-BoldWeb.woff") format("woff");
     font-weight: 700;
     font-style: normal
 }
 
 @font-face {
     font-family: proxima-nova;
-    src: url("/../fonts/ProximaNova-SemiboldWeb.woff") format("woff");
+    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-SemiboldWeb.woff") format("woff");
     font-weight: 600;
     font-style: normal
 }
 
 @font-face {
     font-family: proxima-nova;
-    src: url("/../fonts/ProximaNova-MediumWeb.woff") format("woff");
+    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-MediumWeb.woff") format("woff");
     font-weight: 500;
     font-style: normal
 }
 
 @font-face {
     font-family: proxima-nova;
-    src: url("/../fonts/ProximaNova-RegularWeb.woff") format("woff");
+    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-RegularWeb.woff") format("woff");
     font-weight: 400;
     font-style: normal
 }
 
 @font-face {
     font-family: proxima-nova;
-    src: url("/../fonts/ProximaNova-LightWeb.woff") format("woff");
+    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-LightWeb.woff") format("woff");
     font-weight: 200;
     font-style: normal
 }
 
 @font-face {
     font-family: proxima-nova;
-    src: url("/../fonts/ProximaNova-ThinWeb.woff") format("woff");
+    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-ThinWeb.woff") format("woff");
     font-weight: 100;
     font-style: normal
 }
@@ -1221,10 +1221,8 @@ input[type="checkbox"] {
 
 .pl-country {
     display: flex;
-    height: 35px;
     width: 30px;
     line-height: 35px;
-    border-radius: 50%;
     text-align: center;
     color: #2095f2;
     font-size: 14px;
@@ -1304,7 +1302,6 @@ input[type="checkbox"] {
 
 .pl-autocomplete-list {
     position: absolute;
-    top: 50px;
     z-index: 10;
     width: 100%;
     max-height: 250px;
@@ -1346,7 +1343,7 @@ input[type="checkbox"] {
     position: absolute;
 }
 
-.pl-spinner {
+.pl-auto-spinner {
     position: fixed;
     z-index: 500;
     background-color: rgba(255, 255, 255, 0.7);
@@ -1359,7 +1356,7 @@ input[type="checkbox"] {
     bottom: 0;
 }
 
-.pl-spinner div {
+.pl-auto-spinner div {
     width: 100px;
     height: 100px;
     border: 3px solid transparent;
@@ -1369,7 +1366,7 @@ input[type="checkbox"] {
     animation: pl-rotate 1s linear 0s infinite;
 }
 
-.pl-spinner.enabled {
+.pl-auto-spinner.enabled {
     display: flex;
 }
 
@@ -1387,14 +1384,6 @@ input[type="checkbox"] {
 
 .pl-table-row-method-type.pl-national .pl-international {
     display: none;
-}
-
-.pl-error {
-    border: 1px solid #C95C6B !important;
-}
-
-.pl-error:hover ~ .pl-error-msg {
-    display: flex;
 }
 
 .pl-error-msg #pl-error-text {
@@ -1581,11 +1570,6 @@ input[type="checkbox"] {
     outline: none;
 }
 
-.pl-switch * {
-    pointer-events: none !important;
-    height: 21px;
-}
-
 .pl-switch .pl-checked-checkbox {
     display: none;
 }
@@ -1649,7 +1633,7 @@ input[type="checkbox"] {
     font-size: 1.6rem;
 }
 
-.pl-shipping-services-message .pl-spinner {
+.pl-shipping-services-message .pl-auto-spinner {
     position: relative;
     display: flex;
 }
@@ -1887,6 +1871,11 @@ body {
 
 .pl-tax-spacer {
     margin-top: 5px !important;
+}
+
+#pl-carrier-logo {
+    max-width: 116px !important;
+    min-width: 85px !important;
 }
 
 @media screen and (max-width: 950px) {

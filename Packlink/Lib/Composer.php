@@ -12,16 +12,22 @@ class Composer
 
     public static function postUpdate()
     {
+        static::mkdir(static::$toBase . 'packlink');
+
         $map = [
-            static::$fromBase . 'js' => static::$toBase . 'js',
-            static::$fromBase . 'LocationPicker/js' => static::$toBase . 'js/location',
-            static::$fromBase . 'LocationPicker/css' => static::$toBase . 'css/location',
-            static::$fromBase . 'img/carriers' => static::$toBase . 'images/carriers',
+            static::$fromBase . 'js' => static::$toBase . 'packlink/js',
+            static::$fromBase . 'css' => static::$toBase . 'packlink/css',
+            static::$fromBase . 'lang' => static::$toBase . 'packlink/lang',
+            static::$fromBase . 'templates' => static::$toBase . 'packlink/templates',
+            static::$fromBase . 'images' => static::$toBase . 'packlink/images',
+            static::$fromBase . 'LocationPicker' => static::$toBase . 'packlink/location',
         ];
 
         foreach ($map as $from => $to) {
             self::copyDirectory($from, $to);
         }
+
+        copy(static::$toBase . 'images/carriers/carrier.jpg', static::$toBase . 'packlink/images/carriers/carrier.jpg');
     }
 
     /**

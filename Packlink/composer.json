@@ -2,7 +2,7 @@
   "name": "packlink/shopware",
   "description": "Packlink Shipping Shopware plugin",
   "type": "library",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "repositories": [
     {
       "type": "vcs",
@@ -13,7 +13,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.6",
-    "packlink/integration-core": "2.3.0",
+    "packlink/integration-core": "3.1.1",
     "ext-json": "*",
     "ext-curl": "*",
     "ext-zip": "*",
@@ -21,9 +21,21 @@
     "iio/libmergepdf": "3.0.0",
     "ext-simplexml": "*"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^5.0",
+    "codacy/coverage": "dev-master",
+    "leafo/scssphp": "0.0.12"
+  },
   "autoload": {
     "psr-4": {
       "Packlink\\Lib\\": "Lib"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Packlink\\Tests\\": "Tests",
+      "Packlink\\Tests\\TestComponents\\": "Tests/TestComponents",
+      "Packlink\\Tests\\Core\\": "Tests/Core"
     }
   },
   "scripts": {
