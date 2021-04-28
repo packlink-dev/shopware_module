@@ -164,17 +164,17 @@ function convertParcelProperties()
     }
 }
 
-Logger::logInfo('Started executing V1.0.2 update script.');
+Logger::logInfo('Started executing V1.1.1 update script.');
 
 try {
     updateShippingMethods();
     convertParcelProperties();
 } catch (RepositoryNotRegisteredException $e) {
-    Logger::logError("V1.0.2 update script failed because: {$e->getMessage()}");
+    Logger::logError("V1.1.0 update script failed because: {$e->getMessage()}");
 
     return false;
 }
 
-Logger::logInfo('Update script V1.0.2 has been successfully completed.');
+Logger::logInfo('Update script V1.1.0 has been successfully completed.');
 
 return true;
