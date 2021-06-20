@@ -104,7 +104,8 @@ class CheckoutService
             $shippingAddress['countryCode'],
             $shippingAddress['postalCode'],
             $parcelItems,
-            $amount
+            $amount,
+            (string)Shopware()->Shop()->getId()
         );
 
         return $costs;
