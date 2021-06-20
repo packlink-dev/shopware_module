@@ -77,7 +77,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
      */
     public function getCountriesAction()
     {
-        Configuration::setCurrentLanguage($this->getLocale());
+        Configuration::setUICountryCode($this->getLocale());
         $warehouseController = new WarehouseController();
 
         Response::dtoEntitiesResponse($warehouseController->getWarehouseCountries());

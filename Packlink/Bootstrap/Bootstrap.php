@@ -5,6 +5,7 @@ namespace Packlink\Bootstrap;
 use Packlink\Brands\Packlink\PacklinkConfigurationService;
 use Packlink\BusinessLogic\BootstrapComponent;
 use Packlink\BusinessLogic\Brand\BrandConfigurationService;
+use Packlink\BusinessLogic\FileResolver\FileResolverService;
 use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
 use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Registration\RegistrationInfoService;
@@ -111,6 +112,16 @@ class Bootstrap extends BootstrapComponent
             SystemInfoInterface::class,
             function () {
                 return new SystemInfoService();
+            }
+        );
+
+        ServiceRegister::registerService(
+            FileResolverService::CLASS_NAME,
+            function () {
+                return new FileResolverService([
+                    __DIR__ . '/../BusinessLogic/Resources/countries',
+                    __DIR__ . '/../Brands/Packlink/Resources/countries',
+                ]);
             }
         );
     }

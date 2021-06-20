@@ -32,11 +32,11 @@ class SystemInfoService implements SystemInfoInterface
         $systemDetails = array();
 
         foreach ($shops as $shop) {
-            $systemDetails[] = SystemInfo::fromArray(array(
+            $systemDetails[] = SystemInfo::fromArray([
                 'system_id' => (string)$shop->getId(),
                 'system_name' => $shop->getName(),
                 'currencies' => array($shop->getCurrency()->getCurrency())
-            ));
+            ]);
         }
 
         return $systemDetails;
@@ -56,11 +56,11 @@ class SystemInfoService implements SystemInfoInterface
             return null;
         }
 
-        return SystemInfo::fromArray(array(
+        return SystemInfo::fromArray([
             'system_id' => $systemId,
             'system_name' => $shop->getName(),
             'currencies' => array($shop->getCurrency()->getCurrency())
-        ));
+        ]);
     }
 
     /**

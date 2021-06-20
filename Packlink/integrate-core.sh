@@ -8,6 +8,7 @@ NOCOLOR='\033[0m'
 echo -e "${GREEN}Cleaning up...${NOCOLOR}"
 rm -rf Infrastructure
 rm -rf BusinessLogic
+rm -rf Brands
 rm -rf Tests/Core
 
 # Copy core source
@@ -15,10 +16,12 @@ echo -e "${GREEN}STEP 1:${NOCOLOR} Copying core source..."
 
 mkdir Infrastructure
 mkdir BusinessLogic
+mkdir Brands
 mkdir Tests/Core
 
 cp -R ./vendor/packlink/integration-core/src/BusinessLogic/* BusinessLogic
 cp -R ./vendor/packlink/integration-core/src/Infrastructure/* Infrastructure
+cp -R ./vendor/packlink/integration-core/src/Brands/* Brands
 cp -R ./vendor/packlink/integration-core/tests/* Tests/Core
 
 # Update namespaces
