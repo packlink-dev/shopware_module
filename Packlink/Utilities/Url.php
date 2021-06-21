@@ -26,4 +26,27 @@ class Url
 
         return str_replace('http:', 'https:', $url);
     }
+
+    /**
+     * Get backend controller url.
+     *
+     * @param $controller
+     * @param $action
+     * @param array $params
+     *
+     * @return mixed|string
+     */
+    public static function getBackendUrl($controller, $action, array $params = [])
+    {
+        $csrfToken = Shopware()->Container()->get('BackendSession')->offsetGet('X-CSRF-Token');
+
+        $params = array_merge([
+           'module' => 'backend',
+           'controller' => $controller,
+           'action' => $action,
+        ],
+        array_merge($params, ['__csrf_token' => $csrfToken]));
+
+        return Shopware()->Front()->Router()->assemble($params);
+    }
 }

@@ -1,13 +1,15 @@
 <?php
 
-use Packlink\BusinessLogic\Country\WarehouseCountryService;
+use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\Controllers\WarehouseController;
+use Packlink\BusinessLogic\DTO\Exceptions\FrontDtoNotRegisteredException;
+use Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException;
 use Packlink\Infrastructure\Logger\Logger;
 use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Warehouse\WarehouseService;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
 use Packlink\Utilities\Response;
-use Packlink\Utilities\Translation;
 
 class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Controller_Action
 {
@@ -29,7 +31,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
     /**
      * Updates default warehouse.
      *
-     * @throws \Packlink\BusinessLogic\DTO\Exceptions\FrontDtoNotRegisteredException
+     * @throws FrontDtoNotRegisteredException
      * @throws \Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      */
     public function updateAction()
@@ -44,7 +46,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
             $warehouse = $warehouseService->updateWarehouseData($data);
 
             Response::json($warehouse->toArray());
-        } catch (\Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException $e) {
+        } catch (FrontDtoValidationException $e) {
             Response::validationErrorsResponse($e->getValidationErrors());
         }
     }
@@ -75,14 +77,23 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
      */
     public function getCountriesAction()
     {
-        /** @var WarehouseCountryService $countryService */
-        $countryService = ServiceRegister::getService(WarehouseCountryService::CLASS_NAME);
-        $supportedCountries = $countryService->getSupportedCountries();
+        Configuration::setCurrentLanguage($this->getLocale());
+        $warehouseController = new WarehouseController();
 
-        foreach ($supportedCountries as $country) {
-            $country->name = Translation::get("configuration/country/{$country->code}");
+        Response::dtoEntitiesResponse($warehouseController->getWarehouseCountries());
+    }
+
+    /**
+     * @return string
+     */
+    protected function getLocale()
+    {
+        $locale = 'en';
+
+        if ($auth = Shopware()->Container()->get('auth')) {
+            $locale = substr($auth->getIdentity()->locale->getLocale(), 0, 2);
         }
 
-        Response::dtoEntitiesResponse($supportedCountries);
+        return in_array($locale, ['en', 'de', 'es', 'fr', 'it']) ? $locale : 'en';
     }
 }

@@ -12,7 +12,7 @@
 <body role="document" style="padding-top: 17px; margin: 0; overflow: hidden">
 
 
-<div class="container-fluid pl-main-wrapper" id="pl-main-page-holder">
+<div class="container-fluid pl-main-wrapper" id="pl-main-page-holder-layout">
     {block name="content/main"}{/block}
 </div>
 
