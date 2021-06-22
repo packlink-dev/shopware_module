@@ -44,13 +44,15 @@ function getSystemSpecificPricingPolicies($method, $systemDetails)
     $policies = [];
     $isMultistore = count($systemDetails) > 1;
 
-    foreach ($method['pricingPolicies'] as $policy) {
-        foreach ($systemDetails as $systemInfo) {
-            $newPolicy = ShippingPricePolicy::fromArray($policy);
-            $newPolicy->usesDefault = true;
-            $newPolicy->systemId = $isMultistore ? $systemInfo->systemId : null;
+    if (!empty($method['pricingPolicies'])) {
+        foreach ($method['pricingPolicies'] as $policy) {
+            foreach ($systemDetails as $systemInfo) {
+                $newPolicy = ShippingPricePolicy::fromArray($policy);
+                $newPolicy->usesDefault = true;
+                $newPolicy->systemId = $isMultistore ? $systemInfo->systemId : null;
 
-            $policies[] = $newPolicy->toArray();
+                $policies[] = $newPolicy->toArray();
+            }
         }
     }
 
