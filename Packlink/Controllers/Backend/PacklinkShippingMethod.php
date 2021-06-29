@@ -158,11 +158,9 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 			);
 
 			$version = Shopware()->Config()->version;
-			if (version_compare($version, '5.7.0', '<')) {
-				$availableTaxes = $this->getTaxRepository()->queryAll()->execute();
-			} else {
-				$availableTaxes = $this->getTaxRepository()->getTaxQuery()->execute();
-			}
+            $availableTaxes = version_compare($version, '5.7.0', '<')
+                ? $this->getTaxRepository()->queryAll()->execute()
+                : $availableTaxes = $this->getTaxRepository()->getTaxQuery()->execute();
 
 			/** @var Tax $tax */
 			foreach ($availableTaxes as $tax) {
