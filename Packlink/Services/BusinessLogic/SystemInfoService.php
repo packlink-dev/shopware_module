@@ -5,7 +5,7 @@ namespace Packlink\Services\BusinessLogic;
 use Packlink\Infrastructure\Logger\Logger;
 use Packlink\BusinessLogic\Http\DTO\SystemInfo;
 use Packlink\BusinessLogic\SystemInformation\SystemInfoService as SystemInfoInterface;
-use Shopware\Models\Shop\Repository;
+use Packlink\Utilities\Shop;
 
 /**
  * Class SystemInfoService
@@ -21,7 +21,7 @@ class SystemInfoService implements SystemInfoInterface
      */
     public function getSystemDetails()
     {
-        $shop = \Packlink\Utilities\Shop::getDefaultShop();
+        $shop = Shop::getDefaultShop();
         if ($shop === null) {
             return array();
         }
@@ -31,7 +31,7 @@ class SystemInfoService implements SystemInfoInterface
                 array(
                     'system_id' => (string)$shop->getId(),
                     'system_name' => $shop->getName(),
-                    'currencies' => array($shop->getCurrency()->getCurrency()),
+                    'currencies' => array(Shop::getDefaultCurrency()),
                 )
             ),
         );

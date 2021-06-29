@@ -16,4 +16,20 @@ class Shop
 
         return $repository->getDefault();
     }
+
+    /**
+     * Returns default system currency.
+     *
+     * @return string
+     */
+    public static function getDefaultCurrency()
+    {
+        $currency = Shopware()->Db()->fetchRow(
+            'SELECT currency
+            FROM s_core_currencies
+            WHERE standard = 1'
+        );
+
+        return !empty($currency) ? $currency['currency'] : '';
+    }
 }
