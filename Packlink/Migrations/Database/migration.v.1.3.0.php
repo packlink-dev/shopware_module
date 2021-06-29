@@ -3,7 +3,6 @@
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
-use Packlink\BusinessLogic\ShippingMethod\Models\ShippingPricePolicy;
 use Packlink\BusinessLogic\SystemInformation\SystemInfoService;
 use Packlink\BusinessLogic\Tasks\UpdateShippingServicesTask;
 use Packlink\Infrastructure\ORM\RepositoryRegistry;
@@ -17,14 +16,13 @@ use Packlink\Infrastructure\TaskExecution\QueueService;
  * @param \Packlink\BusinessLogic\Http\DTO\SystemInfo[] $systemDetails
  *
  * @return mixed
- * @throws \Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException
  */
-function updateShippingMethod($method, $systemDetails)
+function v130updateShippingMethod($method, $systemDetails)
 {
     $method['currency'] = 'EUR';
     $method['fixedPrices'] = null;
     $method['systemDefaults'] = null;
-    $method['pricingPolicies'] = getSystemSpecificPricingPolicies($method, $systemDetails);
+    $method['pricingPolicies'] = v130getSystemSpecificPricingPolicies($method, $systemDetails);
 
     return $method;
 }
@@ -36,21 +34,16 @@ function updateShippingMethod($method, $systemDetails)
  * @param \Packlink\BusinessLogic\Http\DTO\SystemInfo[] $systemDetails
  *
  * @return array
- *
- * @throws \Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException
  */
-function getSystemSpecificPricingPolicies($method, $systemDetails)
+function v130getSystemSpecificPricingPolicies($method, $systemDetails)
 {
-    $policies = [];
+    $policies = array();
 
-    if (!empty($method['pricingPolicies'])) {
+    if (!empty($method['pricingPolicies']) && !empty($systemDetails)) {
+        $systemInfo = $systemDetails[0];
         foreach ($method['pricingPolicies'] as $policy) {
-            foreach ($systemDetails as $systemInfo) {
-                $newPolicy = ShippingPricePolicy::fromArray($policy);
-                $newPolicy->systemId = $systemInfo->systemId;
-
-                $policies[] = $newPolicy->toArray();
-            }
+            $policy['system_id'] = $systemInfo->systemId;
+            $policies[] = $policy;
         }
     }
 
@@ -87,7 +80,7 @@ $methods = array_values(
 // ***********************************************************************************
 foreach ($methods as $index => $method) {
     /** @noinspection PhpUnhandledExceptionInspection */
-    $methods[$index] = updateShippingMethod($method, $systemDetails);
+    $methods[$index] = v130updateShippingMethod($method, $systemDetails);
 }
 
 // ***********************************************************************************
