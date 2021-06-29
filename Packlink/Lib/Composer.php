@@ -65,7 +65,7 @@ class Composer
      */
     private static function mkdir($destination)
     {
-        if (!file_exists($destination) && !mkdir($destination) && !is_dir($destination)) {
+        if (!file_exists($destination) && !mkdir($destination, 0777, true) && !is_dir($destination)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $destination));
         }
     }
