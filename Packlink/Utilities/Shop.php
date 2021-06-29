@@ -2,6 +2,8 @@
 
 namespace Packlink\Utilities;
 
+use Shopware\Models\Shop\Currency;
+
 class Shop
 {
     /**
@@ -24,12 +26,11 @@ class Shop
      */
     public static function getDefaultCurrency()
     {
-        $currency = Shopware()->Db()->fetchRow(
-            'SELECT currency
-            FROM s_core_currencies
-            WHERE standard = 1'
-        );
+        $repository = Shopware()->Models()->getRepository(Currency::class);
 
-        return !empty($currency) ? $currency['currency'] : '';
+        /** @var Currency $currency */
+        $currency = $repository->findOneBy(['default' => true]);
+
+        return $currency !== null ? $currency->getCurrency() : '';
     }
 }
