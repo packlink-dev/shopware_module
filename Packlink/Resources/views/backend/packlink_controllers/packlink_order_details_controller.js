@@ -335,9 +335,9 @@ Ext.define('Shopware.apps.Packlink.controller.OrderDetailsController', {
             function getLeftPanel(data) {
                 let text = [
                     data.carrier || '',
-                    "{s name="shipment/total/charges"}Total shipping charges (EUR):{/s} " + (data.orderCost || 'n/a'),
+                    "{s name="shipment/total/charges"}Total shipping charges {/s} " + data.orderCurrency + ':' + (data.orderCost || 'n/a'),
                     '{s name="shipment/reference/number"}Packlink reference number:{/s} ' + (data.reference || 'n/a'),
-                    '{s name="shipment/packlink/price"}Packlink shipping price (EUR):{/s} ' + (data.cost || 'n/a'),
+                    '{s name="shipment/packlink/price"}Packlink shipping price {/s} ' + data.currency + ':' + (data.cost || 'n/a'),
                 ];
 
                 let subpanel = Ext.create('Ext.panel.Panel', {
