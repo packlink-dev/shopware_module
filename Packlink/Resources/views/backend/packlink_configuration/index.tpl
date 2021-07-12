@@ -38,6 +38,8 @@
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/SystemInfoController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/ValidationService.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/GridResizerService.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/SingleStorePricePolicyController.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/SettingsButtonService.js"}"></script>
 {/block}
 
 {block name="content/main"}

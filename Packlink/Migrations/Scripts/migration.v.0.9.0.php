@@ -8,7 +8,6 @@ use Packlink\Infrastructure\ServiceRegister;
 use Packlink\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException;
 use Packlink\Infrastructure\TaskExecution\QueueItem;
 use Packlink\Infrastructure\TaskExecution\QueueService;
-use Packlink\BusinessLogic\Country\CountryService;
 use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Scheduler\Models\HourlySchedule;
 use Packlink\BusinessLogic\Scheduler\Models\Schedule;
@@ -53,12 +52,9 @@ try {
         $orderShipmentDetailsRepository = RepositoryRegistry::getRepository(OrderShipmentDetails::getClassName());
         $orderSendDraftRepository = RepositoryRegistry::getRepository(OrderSendDraftTaskMap::getClassName());
 
-        /** @var CountryService $countryService */
-        $countryService = ServiceRegister::getService(CountryService::CLASS_NAME);
-
         $userInfo = $configuration->getUserInfo();
         $userDomain = 'com';
-        if ($userInfo && $countryService->isBaseCountry($userInfo->country)) {
+        if ($userInfo && in_array($userInfo->country, array('ES', 'DE', 'FR', 'IT'))) {
             $userDomain = strtolower($userInfo->country);
         }
 

@@ -12,6 +12,7 @@ use Packlink\Exceptions\FailedToRetrieveCheckoutAddressException;
 use Packlink\Exceptions\FailedToRetrieveDefaultUserAddressException;
 use Packlink\Utilities\Cache;
 use Shopware\Models\Customer\Address;
+use Packlink\Utilities\Shop;
 
 class CheckoutService
 {
@@ -104,7 +105,8 @@ class CheckoutService
             $shippingAddress['countryCode'],
             $shippingAddress['postalCode'],
             $parcelItems,
-            $amount
+            $amount,
+            (string)Shop::getDefaultShop()->getId()
         );
 
         return $costs;

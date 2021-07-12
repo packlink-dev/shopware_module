@@ -34,7 +34,9 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
 
         $details = [
             'orderCost' => $order->getInvoiceShipping(),
+            'orderCurrency' => '(' . $order->getCurrency() . ')',
             'cost' => $orderDetails->getShippingCost(),
+            'currency' => '(' . $orderDetails->getCurrency() . ')',
             'status' => Translation::get('shipment/packlink/status/' . $orderDetails->getStatus()),
             'reference' => $orderDetails->getReference(),
             'isLabelsAvailable' => false,

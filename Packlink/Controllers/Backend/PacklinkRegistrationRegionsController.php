@@ -14,7 +14,7 @@ class Shopware_Controllers_Backend_PacklinkRegistrationRegionsController extends
      */
     public function getRegionsAction()
     {
-        Configuration::setCurrentLanguage($this->getLocale());
+        Configuration::setUICountryCode($this->getLocale());
         $controller = new RegistrationRegionsController();
 
         Response::dtoEntitiesResponse($controller->getRegions());

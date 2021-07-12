@@ -2,7 +2,10 @@
 
 namespace Packlink\Bootstrap;
 
+use Packlink\Brands\Packlink\PacklinkConfigurationService;
 use Packlink\BusinessLogic\BootstrapComponent;
+use Packlink\BusinessLogic\Brand\BrandConfigurationService;
+use Packlink\BusinessLogic\FileResolver\FileResolverService;
 use Packlink\BusinessLogic\Order\Interfaces\ShopOrderService as ShopOrderServiceInterface;
 use Packlink\BusinessLogic\OrderShipmentDetails\Models\OrderShipmentDetails;
 use Packlink\BusinessLogic\Registration\RegistrationInfoService;
@@ -30,6 +33,8 @@ use Packlink\Repositories\QueueItemRepository;
 use Packlink\Services\BusinessLogic\ConfigurationService;
 use Packlink\Services\BusinessLogic\ShopOrderService;
 use Packlink\Services\BusinessLogic\ShopShippingMethodService as ConcreteShopShippingMethodService;
+use Packlink\BusinessLogic\SystemInformation\SystemInfoService as SystemInfoInterface;
+use Packlink\Services\BusinessLogic\SystemInfoService;
 use Packlink\Services\Infrastructure\LoggerService;
 
 class Bootstrap extends BootstrapComponent
@@ -59,6 +64,13 @@ class Bootstrap extends BootstrapComponent
             Configuration::CLASS_NAME,
             function () {
                 return ConfigurationService::getInstance();
+            }
+        );
+
+        ServiceRegister::registerService(
+            BrandConfigurationService::CLASS_NAME,
+            static function () {
+                return new PacklinkConfigurationService();
             }
         );
 
@@ -95,6 +107,23 @@ class Bootstrap extends BootstrapComponent
             function () {
                 return new \Packlink\Services\BusinessLogic\RegistrationInfoService();
             });
+
+        ServiceRegister::registerService(
+            SystemInfoInterface::class,
+            function () {
+                return new SystemInfoService();
+            }
+        );
+
+        ServiceRegister::registerService(
+            FileResolverService::CLASS_NAME,
+            function () {
+                return new FileResolverService([
+                    __DIR__ . '/../BusinessLogic/Resources/countries',
+                    __DIR__ . '/../Brands/Packlink/Resources/countries',
+                ]);
+            }
+        );
     }
 
     /**

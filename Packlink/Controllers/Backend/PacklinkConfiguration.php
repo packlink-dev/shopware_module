@@ -9,6 +9,8 @@ use Packlink\Utilities\Response;
 use Packlink\Utilities\Shop;
 use Packlink\Utilities\Url;
 use Shopware\Components\CSRFWhitelistAware;
+use Packlink\BusinessLogic\CountryLabels\Interfaces\CountryService;
+use Packlink\Infrastructure\ServiceRegister;
 
 /**
  * Class Shopware_Controllers_Backend_PacklinkConfiguration
@@ -25,7 +27,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
 
     public function indexAction()
     {
-        Configuration::setCurrentLanguage($this->getLocale());
+        Configuration::setUICountryCode($this->getLocale());
 
         $data = Request::getPostData();
 
@@ -205,6 +207,8 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             'my-shipping-services' => [
                 'getServicesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getActive'),
                 'deleteServiceUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'deactivate'),
+                'getCurrencyDetailsUrl' => Url::getBackendUrl('PacklinkSystemInfoController', 'get'),
+                'systemId' => (string)Shop::getDefaultShop()->getId()
             ],
             'pick-shipping-service' => [
                 'getActiveServicesUrl' => Url::getBackendUrl('PacklinkShippingMethod', 'getActive'),
@@ -215,6 +219,8 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
                     'PacklinkShopShippingMethod',
                     'deactivateShopShippingMethods'
                 ),
+                'getCurrencyDetailsUrl' => Url::getBackendUrl('PacklinkSystemInfoController', 'get'),
+                'systemId' => (string)Shop::getDefaultShop()->getId()
             ],
             'edit-service' => [
                 'getServiceUrl' => $shopUrl . Url::getBackendUrl('PacklinkShippingMethod', 'getShippingMethod'),
@@ -224,6 +230,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
                 'hasTaxConfiguration' => true,
                 'hasCountryConfiguration' => true,
                 'canDisplayCarrierLogos' => true,
+                'getCurrencyDetailsUrl' => Url::getBackendUrl('PacklinkSystemInfoController', 'get')
             ],
         ];
     }
@@ -235,35 +242,17 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
      */
     protected function getTranslations()
     {
-        return [
-            'default' => $this->getDefaultTranslations(),
-            'current' => $this->getCurrentTranslations(),
-        ];
-    }
-
-    /**
-     * Returns JSON encoded module page translations in the default language and some module-specific translations.
-     *
-     * @return mixed
-     */
-    protected function getDefaultTranslations()
-    {
-        $baseDir = __DIR__ . '/../../Resources/views/backend/_resources/packlink/lang/';
-
-        return json_decode(file_get_contents($baseDir . 'en.json'), true);
-    }
-
-    /**
-     * Returns JSON encoded module page translations in the current language and some module-specific translations.
-     *
-     * @return mixed
-     */
-    protected function getCurrentTranslations()
-    {
-        $baseDir = __DIR__ . '/../../Resources/views/backend/_resources/packlink/lang/';
         $locale = $this->getLocale();
 
-        return json_decode(file_get_contents($baseDir . $locale . '.json'), true);
+        /** @var CountryService $countryService */
+        $countryService = ServiceRegister::getService(CountryService::class);
+        $default = $countryService->getAllLabels('en');
+        $current_lang = $countryService->getAllLabels($locale);
+
+        return [
+            'default' => $default['en'],
+            'current' => $current_lang[$locale],
+        ];
     }
 
     /**
