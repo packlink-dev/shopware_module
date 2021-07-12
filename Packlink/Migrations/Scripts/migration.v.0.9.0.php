@@ -58,7 +58,7 @@ try {
 
         $userInfo = $configuration->getUserInfo();
         $userDomain = 'com';
-        if ($userInfo && $countryService->isBaseCountry($userInfo->country)) {
+        if ($userInfo && in_array($userInfo->country, array('ES', 'DE', 'FR', 'IT'))) {
             $userDomain = strtolower($userInfo->country);
         }
 
