@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
-
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
+    <version>1.3.0</version>
     <label lang="de">Packlink</label>
     <label lang="en">Packlink</label>
-
-    <version>1.3.0</version>
+    <description lang="de">Packlink PRO ist Ihr bester Begleiter auf Ihrem Weg zum E-Commerce! Vom Importieren von Bestellungen und Drucken von Etiketten bis hin zum Kommissionieren und Verpacken von Bestellungen zentralisiert diese Plattform alle Versandschritte, um Ihnen zu helfen, Ihren gesamten Lieferprozess zu vereinfachen und zu optimieren. Bereits mehr als 20.000 Online-Shops nutzen Packlink PRO und sparen mit dem Packlink PRO Versandmodul bis zu 70 % bei jedem Versand.</description>
+    <description lang="en">Packlink PRO is your best ally through your e-commerce journey! From importing orders and printing labels, to picking and packing orders, this platform centralizes all shipping steps to help you streamline and optimize your whole delivery process. Over 20.000 online stores already use Packlink PRO, saving up to 70% on every sending with the Packlink PRO shipping module.</description>
     <copyright>(c) by Packlink Shipping S.L.</copyright>
     <license>proprietary</license>
     <link>https://pro.packlink.de/</link>
     <author>Packlink Shipping S.L.</author>
     <compatibility minVersion="5.2.0" />
-
-    <changelog version="0.0.1">
+    <changelog version="1.3.0">
         <changes lang="de">Erstveröffentlichung</changes>
         <changes lang="en">First release</changes>
     </changelog>
-
-    <changelog version="0.1.0">
-        <changes lang="en">Changed shipment data update frequency.</changes>
-    </changelog>
-
 </plugin>
