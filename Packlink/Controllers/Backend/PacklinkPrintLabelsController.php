@@ -48,7 +48,7 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
             }
 
             echo '<script>window.close()</script>';
-            exit;
+            die();
         }
     }
 
