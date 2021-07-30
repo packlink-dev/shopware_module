@@ -6,7 +6,6 @@ use Packlink\BusinessLogic\OrderShipmentDetails\Exceptions\OrderShipmentDetailsN
 use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
-use Packlink\Utilities\Response;
 
 class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends PacklinkOrderDetailsController
 {
@@ -20,19 +19,21 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends Pac
     public function indexAction()
     {
         if (!$this->isLoggedIn()) {
-            Response::json(['status' => static::NOT_LOGGED_IN_STATUS]);
+            $this->View()->assign('response', ['status' => static::NOT_LOGGED_IN_STATUS]);
         }
 
         $orderId = $this->Request()->get('orderId');
         if (empty($orderId)) {
-            Response::json([], 400);
+            $this->return400();
+
+            return;
         }
 
         /** @var ShipmentDraftService $shipmentDraftService */
         $shipmentDraftService = ServiceRegister::getService(ShipmentDraftService::CLASS_NAME);
         $draftStatus = $shipmentDraftService->getDraftStatus($orderId);
         if ($draftStatus->status === QueueItem::QUEUED) {
-            Response::json(['status' => QueueItem::IN_PROGRESS]);
+            $this->View()->assign('response', ['status' => QueueItem::IN_PROGRESS]);
         }
 
         $response = $draftStatus->toArray();
@@ -49,7 +50,7 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskStatusController extends Pac
             $response['shipmentUrl'] = $shipmentDetails->getShipmentUrl();
         }
 
-        Response::json($response);
+        $this->View()->assign('response', $response);
     }
 
     /**

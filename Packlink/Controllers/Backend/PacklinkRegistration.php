@@ -24,6 +24,6 @@ class Shopware_Controllers_Backend_PacklinkRegistration extends Enlight_Controll
             $country->name = Translation::get("configuration/country/{$country->code}");
         }
 
-        Response::dtoEntitiesResponse($supportedCountries);
+        $this->View()->assign('response', Response::dtoEntitiesResponse($supportedCountries));
     }
 }

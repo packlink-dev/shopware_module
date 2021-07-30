@@ -2,7 +2,6 @@
 
 use Packlink\BusinessLogic\Controllers\RegistrationController;
 use Packlink\Utilities\Request;
-use Packlink\Utilities\Response;
 
 /**
  * Class Shopware_Controllers_Backend_PacklinkRegistrationController
@@ -22,10 +21,13 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
         $country = $this->request->getQuery('country');
 
         if (empty($country)) {
-            Response::json(['message' => 'Not found.'], 404);
+            $this->Response()->setStatusCode(404);
+            $this->View()->assign(['message' => 'Not found.']);
+
+            return;
         }
 
-        Response::json($this->getBaseController()->getRegisterData($country));
+        $this->View()->assign($this->getBaseController()->getRegisterData($country));
     }
 
     /**
@@ -38,9 +40,9 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
 
         try {
             $status = $this->getBaseController()->register($data);
-            Response::json(['success' => $status]);
+            $this->View()->assign(['success' => $status]);
         } catch (Exception $e) {
-            Response::json([
+            $this->View()->assign([
                 'success' => false,
                 'error' => $e->getMessage() === 'Registration failed. Error: ' ?
                     'Registration failed. Error: Invalid phone number.' : $e->getMessage(),

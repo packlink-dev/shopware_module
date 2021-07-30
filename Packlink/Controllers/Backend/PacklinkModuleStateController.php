@@ -1,7 +1,6 @@
 <?php
 
 use Packlink\BusinessLogic\Controllers\ModuleStateController;
-use Packlink\Utilities\Response;
 use Shopware\Components\CSRFWhitelistAware;
 
 /**
@@ -24,6 +23,6 @@ class Shopware_Controllers_Backend_PacklinkModuleStateController extends Enlight
     {
         $controller = new ModuleStateController();
 
-        Response::json($controller->getCurrentState()->toArray());
+        $this->View()->assign(['response' => $controller->getCurrentState()->toArray()]);
     }
 }

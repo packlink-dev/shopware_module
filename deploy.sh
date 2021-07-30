@@ -27,6 +27,8 @@ rm -rf deploy/Packlink/Tests
 rm -rf deploy/Packlink/phpunit.xml
 rm -rf deploy/Packlink/Resources/views/backend/_resources/packlink/countries/fromCSV.php
 rm -rf deploy/Packlink/Resources/views/backend/_resources/packlink/countries/toCSV.php
+rm -rf deploy/Packlink/BusinessLogic/Resources/countries/fromCSV.php
+rm -rf deploy/Packlink/BusinessLogic/Resources/countries/toCSV.php
 # Core is now part of the integration
 rm -rf deploy/Packlink/vendor/packlink
 rm -rf deploy/Packlink/composer.json
@@ -49,7 +51,8 @@ fi
 
 # Create plugin archive
 echo -e "\e[32mSTEP 5:\e[0m Creating new archive..."
-php bin/sw.phar plugin:zip:dir $PWD/deploy/Packlink/ -q
+cd deploy/
+zip -r -q  Packlink.zip Packlink/
 
 if [ "$version" != "" ]; then
     if [ ! -d ./PluginInstallation/ ]; then

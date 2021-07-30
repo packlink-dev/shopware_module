@@ -41,6 +41,6 @@ class Shopware_Controllers_Frontend_PacklinkAsyncProcess extends Enlight_Control
             $asyncProcessService->runProcess($guid);
         }
 
-        Response::json(['success' => true]);
+        $this->View()->assign('response', ['success' => true]);
     }
 }

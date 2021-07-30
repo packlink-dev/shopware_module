@@ -1,7 +1,6 @@
 <?php
 
 use Packlink\BusinessLogic\Controllers\AutoConfigurationController;
-use Packlink\Utilities\Response;
 
 class Shopware_Controllers_Backend_PacklinkAutoConfigure extends Enlight_Controller_Action
 {
@@ -12,6 +11,6 @@ class Shopware_Controllers_Backend_PacklinkAutoConfigure extends Enlight_Control
     {
         $controller = new AutoConfigurationController();
 
-        Response::json(['success' => $controller->start(true)]);
+        $this->View()->assign('response', ['success' => $controller->start(true)]);
     }
 }

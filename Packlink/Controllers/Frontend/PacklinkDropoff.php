@@ -18,13 +18,19 @@ class Shopware_Controllers_Frontend_PacklinkDropoff extends Enlight_Controller_A
     public function updateAction() {
         $payload = Request::getPostData();
         if (empty($payload['carrierId']) || empty($payload['dropOff'])) {
-            Response::json([], 400);
+            $this->Response()->setStatusCode(400);
+            $this->View()->assign(['response' => '']);
+
+            return;
         }
 
         $currentCarrier = Shopware()->Session()->get('sDispatch');
         /** @noinspection TypeUnsafeComparisonInspection */
         if ($currentCarrier != $payload['carrierId']) {
-            Response::json([], 400);
+            $this->Response()->setStatusCode(400);
+            $this->View()->assign(['response' => '']);
+
+            return;
         }
 
         $userId = Shopware()->Session()->get('sUserId');
@@ -40,6 +46,6 @@ class Shopware_Controllers_Frontend_PacklinkDropoff extends Enlight_Controller_A
         Shopware()->Session()->offsetUnset('plIsDropoff');
         Shopware()->Session()->offsetUnset('plIsSelected');
 
-        Response::json();
+        $this->View()->assign(['response' => '']);
     }
 }

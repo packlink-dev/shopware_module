@@ -17,10 +17,12 @@ class Shopware_Controllers_Backend_PacklinkDefaultParcel extends Enlight_Control
         $parcel = $this->getConfigService()->getDefaultParcel();
 
         if (!$parcel) {
-            Response::json();
+            $this->View()->assign(['response' => '']);
+
+            return;
         }
 
-        Response::json($parcel->toArray());
+        $this->View()->assign(['response' => $parcel->toArray()]);
     }
 
     /**
@@ -34,9 +36,9 @@ class Shopware_Controllers_Backend_PacklinkDefaultParcel extends Enlight_Control
         try {
             $parcelInfo = ParcelInfo::fromArray($data);
             $this->getConfigService()->setDefaultParcel($parcelInfo);
-            Response::json($parcelInfo->toArray());
+            $this->View()->assign(['response' => $parcelInfo->toArray()]);
         } catch (\Packlink\BusinessLogic\DTO\Exceptions\FrontDtoValidationException $e) {
-            Response::validationErrorsResponse($e->getValidationErrors());
+            $this->View()->assign('response', Response::validationErrorsResponse($e->getValidationErrors()));
         }
     }
 }

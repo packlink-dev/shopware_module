@@ -1,7 +1,6 @@
 <?php
 
 use Packlink\BusinessLogic\WebHook\WebHookEventHandler;
-use Packlink\Utilities\Response;
 use Shopware\Components\CSRFWhitelistAware;
 
 class Shopware_Controllers_Frontend_PacklinkWebhooks extends Enlight_Controller_Action implements CSRFWhitelistAware
@@ -25,9 +24,12 @@ class Shopware_Controllers_Frontend_PacklinkWebhooks extends Enlight_Controller_
         $handler = WebHookEventHandler::getInstance();
 
         if (!$handler->handle($input)) {
-            Response::json(['message' => 'Invalid payload'], 400);
+            $this->Response()->setStatusCode(400);
+            $this->View()->assign('response', ['message' => 'Invalid payload']);
+
+            return;
         }
 
-        Response::json(['success' => true]);
+        $this->View()->assign('response', ['success' => true]);
     }
 }
