@@ -51,8 +51,7 @@ fi
 
 # Create plugin archive
 echo -e "\e[32mSTEP 5:\e[0m Creating new archive..."
-cd deploy/
-zip -r -q  Packlink.zip Packlink/
+php bin/sw.phar plugin:zip:dir $PWD/deploy/Packlink/ -q
 
 if [ "$version" != "" ]; then
     if [ ! -d ./PluginInstallation/ ]; then
