@@ -27,7 +27,7 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
             return;
         }
 
-        $this->View()->assign($this->getBaseController()->getRegisterData($country));
+        $this->View()->assign('response', $this->getBaseController()->getRegisterData($country));
     }
 
     /**
@@ -40,9 +40,9 @@ class Shopware_Controllers_Backend_PacklinkRegistrationController extends Enligh
 
         try {
             $status = $this->getBaseController()->register($data);
-            $this->View()->assign(['success' => $status]);
+            $this->View()->assign('response', ['success' => $status]);
         } catch (Exception $e) {
-            $this->View()->assign([
+            $this->View()->assign('response', [
                 'success' => false,
                 'error' => $e->getMessage() === 'Registration failed. Error: ' ?
                     'Registration failed. Error: Invalid phone number.' : $e->getMessage(),
