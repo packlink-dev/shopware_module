@@ -45,9 +45,13 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
      */
     public function getDataAction()
     {
+        $protocol = $_SERVER['REQUEST_SCHEME'];
+        $shop = Shop::getDefaultShop();
+
         $this->View()->assign([
             'response' => [
-                'baseResourcesUrl' => Shop::getDefaultShop()->getBasePath() . '/custom/plugins/Packlink/Resources/views/backend/_resources/packlink',
+                'baseResourcesUrl' => $protocol . '://' . $shop->getHost() . $shop->getBasePath() .
+                    '/custom/plugins/Packlink/Resources/views/backend/_resources/packlink',
                 'stateUrl' => Url::getBackendUrl(
                     'PacklinkModuleStateController',
                     'getCurrentState'
