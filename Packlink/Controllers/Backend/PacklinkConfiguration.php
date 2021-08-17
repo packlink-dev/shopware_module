@@ -47,7 +47,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     {
         $this->View()->assign([
             'response' => [
-                'baseResourcesUrl' => '/custom/plugins/Packlink/Resources/views/backend/_resources/packlink',
+                'baseResourcesUrl' => Shop::getDefaultShop()->getBasePath() . '/custom/plugins/Packlink/Resources/views/backend/_resources/packlink',
                 'stateUrl' => Url::getBackendUrl(
                     'PacklinkModuleStateController',
                     'getCurrentState'

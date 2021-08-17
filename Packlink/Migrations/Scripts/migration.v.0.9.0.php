@@ -16,7 +16,7 @@ use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
 use Packlink\BusinessLogic\Tasks\TaskCleanupTask;
 use Packlink\BusinessLogic\Tasks\UpdateShippingServicesTask;
 use Packlink\Models\BaseEntity;
-use Packlink\Models\PacklinkEntity;
+use Packlink\Models\SPluginPacklinkEntity;
 
 Logger::logInfo('Started executing V0.9.0 update script.');
 
@@ -44,7 +44,7 @@ try {
     $query = $entityManager->createQueryBuilder();
     $alias = 'p';
     $query->select($alias)
-        ->from(PacklinkEntity::class, $alias)
+        ->from(SPluginPacklinkEntity::class, $alias)
         ->where("$alias.type = 'OrderShipmentDetails'");
     $entities = $query->getQuery()->getResult();
 

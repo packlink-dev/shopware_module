@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping\Index;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="packlink_entity",
+ *     name="s_plugin_packlink_entity",
  *     indexes={
  *              @Index(name="type", columns={"type"})
  *          }
  *      )
  */
-class PacklinkEntity extends BaseEntity
+class SPluginPacklinkEntity extends BaseEntity
 {
 }
