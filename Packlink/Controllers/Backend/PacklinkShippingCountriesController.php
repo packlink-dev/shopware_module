@@ -15,7 +15,7 @@ class Shopware_Controllers_Backend_PacklinkShippingCountriesController extends E
         try {
             $countries = $this->getCountries();
 
-            $this->View()->assign($this->formatCountries($countries));
+            $this->View()->assign(['response' => $this->formatCountries($countries)]);
         } catch (Exception $e) {
             $this->Response()->setStatusCode(400);
             $this->View()->assign('response', ['success' => false, 'message' => $e->getMessage()]);
