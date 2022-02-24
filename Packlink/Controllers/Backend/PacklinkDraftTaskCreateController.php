@@ -5,7 +5,6 @@ use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
-use Packlink\Utilities\Response;
 
 class Shopware_Controllers_Backend_PacklinkDraftTaskCreateController extends PacklinkOrderDetailsController
 {
@@ -24,13 +23,15 @@ class Shopware_Controllers_Backend_PacklinkDraftTaskCreateController extends Pac
     {
         $payload = Request::getPostData();
         if (empty($payload['orderId'])) {
-            Response::json([], 400);
+            $this->return400();
+
+            return;
         }
 
         /** @var ShipmentDraftService $shipmentDraftService */
         $shipmentDraftService = ServiceRegister::getService(ShipmentDraftService::CLASS_NAME);
         $shipmentDraftService->enqueueCreateShipmentDraftTask((string)$payload['orderId']);
 
-        Response::json(['success' => true]);
+        $this->View()->assign('response', ['success' => true]);
     }
 }

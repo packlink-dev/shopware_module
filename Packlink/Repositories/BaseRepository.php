@@ -13,7 +13,7 @@ use Packlink\Infrastructure\ORM\QueryFilter\QueryCondition;
 use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Infrastructure\ORM\Utility\IndexHelper;
 use Packlink\Models\BaseEntity;
-use Packlink\Models\PacklinkEntity;
+use Packlink\Models\SPluginPacklinkEntity;
 use function count;
 
 class BaseRepository implements RepositoryInterface
@@ -25,7 +25,7 @@ class BaseRepository implements RepositoryInterface
     /**
      * @var string
      */
-    protected static $doctrineModel = PacklinkEntity::class;
+    protected static $doctrineModel = SPluginPacklinkEntity::class;
     /**
      * @var string
      */

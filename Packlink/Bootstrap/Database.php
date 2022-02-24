@@ -10,13 +10,14 @@ use Packlink\Infrastructure\ServiceRegister;
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\ShippingMethod\Utility\ShipmentStatus;
 use Packlink\Entities\ShippingMethodMap;
-use Packlink\Models\PacklinkEntity;
+use Packlink\Models\SPluginPacklinkEntity;
 use Packlink\Utilities\VersionedFileReader;
 use Shopware\Models\Dispatch\Dispatch;
 use Shopware\Models\Order\Status;
 
 class Database
 {
+    const TABLE_NAME = 's_plugin_packlink_entity';
     /**
      * @var EntityManager
      */
@@ -212,7 +213,7 @@ class Database
     protected function getClassesMetaData()
     {
         return [
-            $this->entityManager->getClassMetadata(PacklinkEntity::class)
+            $this->entityManager->getClassMetadata(SPluginPacklinkEntity::class)
         ];
     }
 

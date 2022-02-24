@@ -32,7 +32,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 	{
 		$shippingMethods = $this->getBaseController()->getAll();
 
-		Response::dtoEntitiesResponse($shippingMethods);
+        $this->View()->assign('response', Response::dtoEntitiesResponse($shippingMethods));
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 	{
 		$shippingMethods = $this->getBaseController()->getActive();
 
-		Response::dtoEntitiesResponse($shippingMethods);
+        $this->View()->assign('response', Response::dtoEntitiesResponse($shippingMethods));
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 	{
 		$shippingMethods = $this->getBaseController()->getInactive();
 
-		Response::dtoEntitiesResponse($shippingMethods);
+        $this->View()->assign('response', Response::dtoEntitiesResponse($shippingMethods));
 	}
 
 	/**
@@ -63,16 +63,21 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 		$id = $this->request->getQuery('id');
 
 		if ($id === null) {
-			Response::json(['success' => false], 400);
+		    $this->return400(['success' => false]);
+
+            return;
 		}
 
 		$shippingMethod = $this->getBaseController()->getShippingMethod($id);
 
 		if ($shippingMethod === null) {
-			Response::json(['success' => false], 404);
+		    $this->Response()->setStatusCode(404);
+            $this->View()->assign('response', ['success' => false]);
+
+            return;
 		}
 
-		Response::json($shippingMethod->toArray());
+		$this->View()->assign(['response' => $shippingMethod->toArray()]);
 	}
 
 	/**
@@ -87,7 +92,7 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 		} catch (BaseException $e) {
 		}
 
-		Response::json(['status' => $status]);
+        $this->View()->assign('response', ['status' => $status]);
 	}
 
 	/**
@@ -98,10 +103,12 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 		$data = Request::getPostData();
 
 		if (!$data['id'] || !$this->getBaseController()->activate((int)$data['id'])) {
-			Response::json(['success' => false, 'message' => Translation::get('error/shippingmethodactivate')], 400);
+		    $this->return400(['success' => false, 'message' => Translation::get('error/shippingmethodactivate')]);
+
+            return;
 		}
 
-		Response::json(['success' => true, 'message' => Translation::get('success/shippingmethodactivate')]);
+        $this->View()->assign('response', ['success' => true, 'message' => Translation::get('success/shippingmethodactivate')]);
 	}
 
 	/**
@@ -112,10 +119,12 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 		$data = Request::getPostData();
 
 		if (!$data['id'] || !$this->getBaseController()->deactivate((int)$data['id'])) {
-			Response::json(['success' => false, 'message' => Translation::get('error/shippingmethoddeactivate')], 400);
+		    $this->return400(['success' => false, 'message' => Translation::get('error/shippingmethoddeactivate')]);
+
+            return;
 		}
 
-		Response::json(['success' => true, 'message' => Translation::get('success/shippingmethoddeactivate')]);
+        $this->View()->assign('response', ['success' => true, 'message' => Translation::get('success/shippingmethoddeactivate')]);
 	}
 
 	/**
@@ -126,20 +135,24 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 		try {
 			$configuration = $this->getShippingMethodConfiguration();
 		} catch (FrontDtoValidationException $e) {
-			Response::validationErrorsResponse($e->getValidationErrors());
+            $this->View()->assign('response', Response::validationErrorsResponse($e->getValidationErrors()));
 		}
 
 		$model = $this->getBaseController()->save($configuration);
 
 		if ($model === null) {
-			Response::json(['message' => Translation::get('error/shippingmethodsave')], 400);
+		    $this->return400(['message' => Translation::get('error/shippingmethodsave')]);
+
+            return;
 		}
 
 		if (!$model->id || !$this->getBaseController()->activate((int)$model->id)) {
-			Response::json(['message' => Translation::get('error/shippingmethodactivate')], 400);
+		    $this->return400(['message' => Translation::get('error/shippingmethodactivate')]);
+
+            return;
 		}
 
-		Response::json($model->toArray());
+        $this->View()->assign('response', $model->toArray());
 	}
 
 	/**
@@ -170,11 +183,17 @@ class Shopware_Controllers_Backend_PacklinkShippingMethod extends Enlight_Contro
 				]);
 			}
 
-			Response::dtoEntitiesResponse($result);
+            $this->View()->assign('response', Response::dtoEntitiesResponse($result));
 		} catch (FrontDtoValidationException $e) {
-			Response::validationErrorsResponse($e->getValidationErrors());
+            $this->View()->assign('response', Response::validationErrorsResponse($e->getValidationErrors()));
 		}
 	}
+
+	protected function return400($data)
+    {
+        $this->Response()->setStatusCode(400);
+        $this->View()->assign('response', $data);
+    }
 
 	/**
 	 * Retrieves tax repository.

@@ -3,6 +3,7 @@
 namespace Packlink\Repositories;
 
 use Exception;
+use Packlink\Bootstrap\Database;
 use Packlink\Infrastructure\ORM\Interfaces\QueueItemRepository as BaseQueueItemRepository;
 use Packlink\Infrastructure\ORM\QueryFilter\Operators;
 use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
@@ -162,7 +163,7 @@ class QueueItemRepository extends BaseRepository implements BaseQueueItemReposit
      */
     protected function getDbName()
     {
-        return 'packlink_entity';
+        return Database::TABLE_NAME;
     }
 
     /**

@@ -30,7 +30,7 @@ class Shopware_Controllers_Backend_PacklinkSystemInfoController extends Enlight_
      */
     public function getAction()
     {
-        Response::dtoEntitiesResponse($this->getBaseController()->get());
+        $this->View()->assign('response', Response::dtoEntitiesResponse($this->getBaseController()->get()));
     }
 
     /**

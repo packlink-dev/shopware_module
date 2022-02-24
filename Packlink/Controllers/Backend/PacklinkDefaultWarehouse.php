@@ -25,7 +25,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
 
         $warehouse = $warehouseService->getWarehouse();
 
-        Response::json($warehouse->toArray());
+        $this->View()->assign('response', $warehouse->toArray());
     }
 
     /**
@@ -45,9 +45,9 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
         try {
             $warehouse = $warehouseService->updateWarehouseData($data);
 
-            Response::json($warehouse->toArray());
+            $this->View()->assign('response', $warehouse->toArray());
         } catch (FrontDtoValidationException $e) {
-            Response::validationErrorsResponse($e->getValidationErrors());
+            $this->View()->assign('response', Response::validationErrorsResponse($e->getValidationErrors()));
         }
     }
 
@@ -58,7 +58,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
     {
         $input = Request::getPostData();
         if (empty($input['query']) || empty($input['country'])) {
-            Response::json();
+            $this->View()->assign('response', []);
         }
 
         try {
@@ -69,7 +69,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
             Logger::logError("Location search failed because: [{$e->getMessage()}]");
         }
 
-        Response::dtoEntitiesResponse($result);
+        $this->View()->assign('response', Response::dtoEntitiesResponse($result));
     }
 
     /**
@@ -80,7 +80,7 @@ class Shopware_Controllers_Backend_PacklinkDefaultWarehouse extends Enlight_Cont
         Configuration::setUICountryCode($this->getLocale());
         $warehouseController = new WarehouseController();
 
-        Response::dtoEntitiesResponse($warehouseController->getWarehouseCountries());
+        $this->View()->assign('response', Response::dtoEntitiesResponse($warehouseController->getWarehouseCountries()));
     }
 
     /**

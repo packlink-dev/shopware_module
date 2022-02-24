@@ -1,7 +1,6 @@
 <?php
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use Packlink\Utilities\Response;
 
 /**
  * Class Shopware_Controllers_Backend_PacklinkShippingCountriesController
@@ -16,9 +15,10 @@ class Shopware_Controllers_Backend_PacklinkShippingCountriesController extends E
         try {
             $countries = $this->getCountries();
 
-            Response::json($this->formatCountries($countries));
+            $this->View()->assign(['response' => $this->formatCountries($countries)]);
         } catch (Exception $e) {
-            Response::json(['success' => false, 'message' => $e->getMessage()], 400);
+            $this->Response()->setStatusCode(400);
+            $this->View()->assign('response', ['success' => false, 'message' => $e->getMessage()]);
         }
     }
 

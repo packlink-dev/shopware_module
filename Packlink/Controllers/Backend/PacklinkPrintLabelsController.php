@@ -44,12 +44,25 @@ class Shopware_Controllers_Backend_PacklinkPrintLabelsController extends Packlin
             }
 
             if (!empty($pdfs) && $pdf = $this->merge($pdfs)) {
-                Response::inlineFile($pdf, 'application/pdf');
+                $this->printLabel($pdf);
             }
-
-            echo '<script>window.close()</script>';
-            exit;
         }
+    }
+
+    protected function printLabel($file)
+    {
+        $response = $this->Response();
+        $response->headers->set('content-description', 'File Transfer');
+        $response->headers->set('content-type', 'application/pdf');
+        $response->headers->set('content-disposition', 'attachment; filename=packlink_out_pdf');
+        $response->headers->set('cache-control', 'public', true);
+        $response->headers->set('content-length', (string) filesize($file));
+        $response->sendHeaders();
+
+        $out = fopen('php://output', 'wb');
+        $file = fopen($file, 'rb');
+
+        stream_copy_to_stream($file, $out);
     }
 
     /**

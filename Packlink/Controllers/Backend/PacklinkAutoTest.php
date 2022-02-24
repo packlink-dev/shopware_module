@@ -57,7 +57,8 @@ class Shopware_Controllers_Backend_PacklinkAutoTest extends Enlight_Controller_A
 			);
 		}
 
-		Response::json(
+        $this->View()->assign(
+            'response',
 			[
 				'finished' => $status->finished,
 				'error' => $status->error,
@@ -87,7 +88,7 @@ class Shopware_Controllers_Backend_PacklinkAutoTest extends Enlight_Controller_A
 			];
 		}
 
-		Response::json($result);
+        $this->View()->assign('response', $result);
 	}
 
 	/**
@@ -99,6 +100,19 @@ class Shopware_Controllers_Backend_PacklinkAutoTest extends Enlight_Controller_A
 	{
 		$data = json_encode(AutoTestLogger::getInstance()->getLogsArray(), JSON_PRETTY_PRINT);
 
-		Response::fileFromString($data, 'auto-test-logs.json');
+        $response = $this->Response();
+        $response->headers->set('content-description', 'File Transfer');
+        $response->headers->set('content-type', 'application/octet-stream');
+        $response->headers->set('content-disposition', 'attachment; filename=auto-test-logs.json');
+        $response->headers->set('cache-control', 'public', true);
+        $response->headers->set('content-length', (string) strlen($data));
+        $response->sendHeaders();
+
+        $this->Front()->Plugins()->ViewRenderer()->setNoRender();
+
+        $out = fopen('php://output', 'wb');
+
+        fwrite($out, $data);
+        fclose($out);
 	}
 }

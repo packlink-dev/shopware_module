@@ -4,7 +4,6 @@ use Packlink\BusinessLogic\Controllers\OrderStatusMappingController;
 use Packlink\BusinessLogic\Language\Translator;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
-use Packlink\Utilities\Response;
 use Shopware\Models\Order\Status;
 
 class Shopware_Controllers_Backend_PacklinkOrderStatusMap extends Enlight_Controller_Action
@@ -24,7 +23,7 @@ class Shopware_Controllers_Backend_PacklinkOrderStatusMap extends Enlight_Contro
             'orderStatuses' => $this->getAvailableStatuses()
         ];
 
-        Response::json($response);
+        $this->View()->assign('response', $response);
     }
 
     /**
@@ -35,7 +34,7 @@ class Shopware_Controllers_Backend_PacklinkOrderStatusMap extends Enlight_Contro
         $data = Request::getPostData();
         $this->getConfigService()->setOrderStatusMappings($data);
 
-        Response::json();
+        $this->View()->assign('response', []);
     }
 
     /**
@@ -43,7 +42,7 @@ class Shopware_Controllers_Backend_PacklinkOrderStatusMap extends Enlight_Contro
      */
     public function listAction()
     {
-        Response::json($this->getAvailableStatuses());
+        $this->View()->assign($this->getAvailableStatuses());
     }
 
     /**

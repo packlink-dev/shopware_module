@@ -1,6 +1,7 @@
 <?php
 
 use Doctrine\DBAL\Connection;
+use Packlink\Bootstrap\Database;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingPricePolicy;
@@ -25,7 +26,7 @@ function updateShippingMethods()
     $queryBuilder = $connection->createQueryBuilder();
 
     $select = $queryBuilder->select('*')
-        ->from('packlink_entity')
+        ->from(Database::TABLE_NAME)
         ->where("type = 'ShippingService'");
 
     $entities = $connection->fetchAll($select);
@@ -134,7 +135,7 @@ function convertParcelProperties()
     $connection = Shopware()->Container()->get('dbal_connection');
     $queryBuilder = $connection->createQueryBuilder();
     $select = $queryBuilder->select('*')
-        ->from('packlink_entity')
+        ->from(Database::TABLE_NAME)
         ->where("index_1 = 'defaultParcel'");
 
     $entities = $connection->fetchAll($select);
@@ -159,7 +160,7 @@ function convertParcelProperties()
         }
 
         if (!empty($entity['id'])) {
-            $connection->update('packlink_entity', ['data' => json_encode($parcel)], ['id' => $entity['id']]);
+            $connection->update(Database::TABLE_NAME, ['data' => json_encode($parcel)], ['id' => $entity['id']]);
         }
     }
 }

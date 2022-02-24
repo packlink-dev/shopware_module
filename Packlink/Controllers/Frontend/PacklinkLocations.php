@@ -1,7 +1,6 @@
 <?php
 
 use Packlink\Controllers\Common\CanInstantiateServices;
-use Packlink\Utilities\Response;
 
 class Shopware_Controllers_Frontend_PacklinkLocations extends Enlight_Controller_Action
 {
@@ -15,7 +14,9 @@ class Shopware_Controllers_Frontend_PacklinkLocations extends Enlight_Controller
         $methodId = $this->Request()->get('methodId');
         $userId = Shopware()->Session()->get('sUserId');
         if (empty($methodId) || empty($userId)) {
-            Response::json();
+            $this->View()->assign([]);
+
+            return;
         }
 
         $shippingId = Shopware()->Session()->get('checkoutShippingAddressId');
@@ -23,7 +24,9 @@ class Shopware_Controllers_Frontend_PacklinkLocations extends Enlight_Controller
         try {
             $address = $this->getCheckoutService()->getShippingAddress((int)$userId, $shippingId);
         } catch (Exception $e) {
-            Response::json();
+            $this->View()->assign([]);
+
+            return;
         }
 
         $locations = $this->getLocationService()->getLocations(
@@ -32,6 +35,6 @@ class Shopware_Controllers_Frontend_PacklinkLocations extends Enlight_Controller
             $address['postalCode']
         );
 
-        Response::json($locations);
+        $this->View()->assign('response', $locations);
     }
 }

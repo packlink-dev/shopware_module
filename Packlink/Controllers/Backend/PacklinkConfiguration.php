@@ -3,14 +3,13 @@
 use Packlink\BusinessLogic\Configuration;
 use Packlink\BusinessLogic\Controllers\ConfigurationController;
 use Packlink\BusinessLogic\Controllers\LoginController;
+use Packlink\BusinessLogic\CountryLabels\Interfaces\CountryService;
+use Packlink\Infrastructure\ServiceRegister;
 use Packlink\Utilities\Plugin;
 use Packlink\Utilities\Request;
-use Packlink\Utilities\Response;
 use Packlink\Utilities\Shop;
 use Packlink\Utilities\Url;
 use Shopware\Components\CSRFWhitelistAware;
-use Packlink\BusinessLogic\CountryLabels\Interfaces\CountryService;
-use Packlink\Infrastructure\ServiceRegister;
 
 /**
  * Class Shopware_Controllers_Backend_PacklinkConfiguration
@@ -46,15 +45,21 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
      */
     public function getDataAction()
     {
-        Response::json([
-            'baseResourcesUrl' => '/custom/plugins/Packlink/Resources/views/backend/_resources/packlink',
-            'stateUrl' => Url::getBackendUrl(
-                'PacklinkModuleStateController',
-                'getCurrentState'
-            ),
-            'urls' => $this->getUrls(),
-            'templates' => $this->getTemplates(),
-            'lang' => $this->getTranslations(),
+        $protocol = $_SERVER['REQUEST_SCHEME'];
+        $shop = Shop::getDefaultShop();
+
+        $this->View()->assign([
+            'response' => [
+                'baseResourcesUrl' => $protocol . '://' . $shop->getHost() . $shop->getBasePath() .
+                    '/custom/plugins/Packlink/Resources/views/backend/_resources/packlink',
+                'stateUrl' => Url::getBackendUrl(
+                    'PacklinkModuleStateController',
+                    'getCurrentState'
+                ),
+                'urls' => $this->getUrls(),
+                'templates' => $this->getTemplates(),
+                'lang' => $this->getTranslations(),
+            ]
         ]);
     }
 
@@ -63,9 +68,11 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
      */
     public function getHelpLinkAction()
     {
-        Response::json([
-            'helpUrl' => $this->getHelpUrl(),
-            'version' => Plugin::getVersion(),
+        $this->View()->assign([
+            'response' => [
+                'helpUrl' => $this->getHelpUrl(),
+                'version' => Plugin::getVersion(),
+            ]
         ]);
     }
 
@@ -74,7 +81,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
      */
     public function loginAction()
     {
-        Response::json(['success' => $this->login()]);
+        $this->View()->assign(['response' => ['success' => $this->login()]]);
     }
 
     /**

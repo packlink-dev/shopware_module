@@ -8,7 +8,6 @@ use Packlink\Entities\ShippingMethodMap;
 use Packlink\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException;
 use Packlink\Infrastructure\ORM\RepositoryRegistry;
 use Packlink\Infrastructure\ServiceRegister;
-use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
 use Shopware\Models\Dispatch\Dispatch;
 use Shopware\Models\Dispatch\Repository;
@@ -57,7 +56,7 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
 
         $count = (int)$query->getQuery()->getSingleScalarResult();
 
-        Response::json(['count' => $count]);
+        $this->View()->assign('response', ['count' => $count]);
     }
 
     /**
@@ -67,7 +66,7 @@ class Shopware_Controllers_Backend_PacklinkShopShippingMethod extends Enlight_Co
     {
         $this->getShopShippingMethodService()->disableShopServices();
 
-        Response::json(['message' => Translation::get('success/disableshopshippingmethod')]);
+        $this->View()->assign('response', ['message' => Translation::get('success/disableshopshippingmethod')]);
     }
 
     /**

@@ -34,7 +34,7 @@ class Shopware_Controllers_Backend_PacklinkTax extends Enlight_Controller_Action
 			]);
 		}
 
-		Response::dtoEntitiesResponse($result);
+        $this->View()->assign('response', Response::dtoEntitiesResponse($result));
 	}
 
 	/**

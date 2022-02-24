@@ -10,6 +10,12 @@ class PacklinkOrderDetailsController extends \Enlight_Controller_Action
 {
     use CanInstantiateServices;
 
+    protected function return400()
+    {
+        $this->Response()->setStatusCode(400);
+        $this->View()->assign('response', []);
+    }
+
     /**
      * Retrieves order details.
      *

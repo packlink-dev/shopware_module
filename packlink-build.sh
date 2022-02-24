@@ -25,6 +25,10 @@ echo -e "${GREEN}STEP 3:${NOCOLOR} Removing unnecessary files from final release
 rm -rf build/Packlink/Lib
 rm -rf build/Packlink/Tests
 rm -rf build/Packlink/phpunit.xml
+rm -rf build/Packlink/Resources/views/backend/_resources/packlink/countries/fromCSV.php
+rm -rf build/Packlink/Resources/views/backend/_resources/packlink/countries/toCSV.php
+rm -rf build/Packlink/BusinessLogic/Resources/countries/fromCSV.php
+rm -rf build/Packlink/BusinessLogic/Resources/countries/toCSV.php
 # Core is now part of the integration
 rm -rf build/Packlink/vendor/packlink
 rm -rf build/Packlink/composer.json

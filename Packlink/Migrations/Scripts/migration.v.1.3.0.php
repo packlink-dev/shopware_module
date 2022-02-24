@@ -61,8 +61,8 @@ $systemDetails = $systemInfoService->getSystemDetails();
 // Read the current shipping methods.                                                *
 // ***********************************************************************************
 $records = Shopware()->Db()->fetchAll(
-    "SELECT * FROM packlink_entity
-     WHERE packlink_entity.type = 'ShippingService'"
+    "SELECT * FROM s_plugin_packlink_entity
+     WHERE s_plugin_packlink_entity.type = 'ShippingService'"
 );
 
 $methods = array_values(

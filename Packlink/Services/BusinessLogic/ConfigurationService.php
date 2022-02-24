@@ -2,8 +2,8 @@
 
 namespace Packlink\Services\BusinessLogic;
 
-use Packlink\Infrastructure\Logger\Logger;
 use Packlink\BusinessLogic\Configuration;
+use Packlink\Infrastructure\Logger\Logger;
 use Packlink\Utilities\Plugin;
 use Packlink\Utilities\Shop;
 use Packlink\Utilities\Url;
@@ -25,6 +25,18 @@ class ConfigurationService extends Configuration
      * @var string
      */
     protected $systemId;
+
+    /**
+     * Creates instance of this class.
+     *
+     * @return static
+     *
+     * @noinspection PhpDocSignatureInspection
+     */
+    public static function create()
+    {
+        return new self();
+    }
 
     /**
      * Retrieves integration name.

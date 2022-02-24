@@ -79,7 +79,9 @@ class Packlink extends Plugin
             $db->uninstall();
         }
 
-        $context->scheduleClearCache(InstallContext::CACHE_LIST_DEFAULT);
+        if ($context->getPlugin()->getActive()) {
+            $context->scheduleClearCache(InstallContext::CACHE_LIST_DEFAULT);
+        }
     }
 
     /**

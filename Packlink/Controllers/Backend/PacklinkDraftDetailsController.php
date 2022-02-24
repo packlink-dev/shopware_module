@@ -4,8 +4,6 @@ use Packlink\Infrastructure\Logger\Logger;
 use Packlink\Infrastructure\ORM\QueryFilter\Operators;
 use Packlink\Infrastructure\ORM\QueryFilter\QueryFilter;
 use Packlink\Controllers\Backend\PacklinkOrderDetailsController;
-use Packlink\Utilities\Reference;
-use Packlink\Utilities\Response;
 use Packlink\Utilities\Translation;
 
 class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends PacklinkOrderDetailsController
@@ -22,14 +20,18 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
         $orderId = $this->Request()->get('orderId');
 
         if (empty($orderId)) {
-            Response::json([], 400);
+            $this->Response()->setHttpResponseCode(400);
+            $this->View()->assign([]);
+            return;
         }
 
         /** @var \Shopware\Models\Order\Order $order */
         $order = $this->getShopwareOrderRepository()->find((int)$orderId);
         $orderDetails = $this->getOrderDetails($orderId);
         if ($order === null || $orderDetails === null) {
-            Response::json([], 400);
+            $this->Response()->setHttpResponseCode(400);
+            $this->View()->assign([]);
+            return;
         }
 
         $details = [
@@ -74,7 +76,7 @@ class Shopware_Controllers_Backend_PacklinkDraftDetailsController extends Packli
             Logger::logWarning("Failed to retrieve dispatch because: {$e->getMessage()}");
         }
 
-        Response::json($details);
+        $this->View()->assign('response', $details);
     }
 
     /**

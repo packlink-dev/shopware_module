@@ -3,7 +3,6 @@
 use Packlink\BusinessLogic\Controllers\DebugController;
 use Packlink\Controllers\Common\CanInstantiateServices;
 use Packlink\Utilities\Request;
-use Packlink\Utilities\Response;
 use Packlink\Utilities\Url;
 
 class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Action
@@ -16,14 +15,29 @@ class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Acti
     private $baseController;
 
     /**
+     * Disable template engine for download action.
+     *
+     * @throws Exception
+     */
+    public function preDispatch()
+    {
+        if($this->Request()->getActionName() === 'download') {
+            $this->Front()->Plugins()->ViewRenderer()->setNoRender();
+        }
+    }
+
+    /**
      * Retrieves debug mode status.
      */
     public function getStatusAction()
     {
-        Response::json([
-            'status' => $this->getBaseController()->getStatus(),
-            'downloadUrl' => Url::getBackendUrl('PacklinkDebug', 'download'),
-        ]);
+        $this->View()->assign(
+            'response',
+            [
+                'status' => $this->getBaseController()->getStatus(),
+                'downloadUrl' => Url::getBackendUrl('PacklinkDebug', 'download'),
+            ]
+        );
     }
 
     /**
@@ -33,12 +47,15 @@ class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Acti
     {
         $data = Request::getPostData();
         if (!isset($data['status']) || !is_bool($data['status'])) {
-            Response::json(['success' => false], 400);
+            $this->Response()->setStatusCode(400);
+            $this->View()->assign('response', ['success' => false]);
+
+            return;
         }
 
         $this->getBaseController()->setStatus((bool)$data['status']);
 
-        Response::json(['status' => $data['status']]);
+        $this->View()->assign('response', ['status' => $data['status']]);
     }
 
 
@@ -47,7 +64,20 @@ class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Acti
         $service = $this->getDebugService();
         $file = $service::getSystemInfo();
 
-        Response::file($file, self::SYSTEM_INFO_FILE_NAME);
+        $response = $this->Response();
+        $response->headers->set('content-description', 'File Transfer');
+        $response->headers->set('content-type', 'application/octet-stream');
+        $response->headers->set('content-disposition', 'attachment; filename=' . static::SYSTEM_INFO_FILE_NAME);
+        $response->headers->set('cache-control', 'public', true);
+        $response->headers->set('content-length', (string) filesize($file));
+        $response->sendHeaders();
+
+        $this->Front()->Plugins()->ViewRenderer()->setNoRender();
+
+        $out = fopen('php://output', 'wb');
+        $file = fopen($file, 'rb');
+
+        stream_copy_to_stream($file, $out);
     }
 
     /**
@@ -56,7 +86,7 @@ class Shopware_Controllers_Backend_PacklinkDebug extends Enlight_Controller_Acti
     protected function getBaseController()
     {
         if ($this->baseController === null) {
-            $this->baseController =  new DebugController();
+            $this->baseController = new DebugController();
         }
 
         return $this->baseController;
