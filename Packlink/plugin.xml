@@ -14,9 +14,12 @@
         <changes>First release</changes>
         <changes lang="de">Erstveröffentlichung</changes>
     </changelog>
-    <changelog version="1.3.2">
+    <changelog version="1.3.1">
         <changes>Fixed marketplace code review issues</changes>
         <changes lang="de">Probleme bei der Überprüfung des Marktplatz-Codes behoben</changes>
     </changelog>
-
+    <changelog version="1.3.2">
+        <changes>Updated to the latest Core changes regarding changing the value of the marketing calls flag</changes>
+        <changes lang="de">Aktualisiert auf die neuesten Core-Änderungen in Bezug auf die Änderung des Werts des Flags für Marketinganrufe</changes>
+    </changelog>
 </plugin>
