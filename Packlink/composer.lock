@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7891d5972107dcde18397bb69ba5ded8",
+    "content-hash": "31f93156da2a759f0827acbe6d67aaea",
     "packages": [
         {
             "name": "iio/libmergepdf",
@@ -58,16 +58,16 @@
         },
         {
             "name": "packlink/integration-core",
-            "version": "3.3.6",
+            "version": "3.3.8",
             "source": {
                 "type": "git",
                 "url": "git@github.com:packlink-dev/ecommerce_module_core.git",
-                "reference": "f09134b77dd8e2263f25b9ce2995c2d5c7def1ba"
+                "reference": "2762650a01458b862a8af55c83dcbe02b6410ac5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/packlink-dev/ecommerce_module_core/zipball/f09134b77dd8e2263f25b9ce2995c2d5c7def1ba",
-                "reference": "f09134b77dd8e2263f25b9ce2995c2d5c7def1ba",
+                "url": "https://api.github.com/repos/packlink-dev/ecommerce_module_core/zipball/2762650a01458b862a8af55c83dcbe02b6410ac5",
+                "reference": "2762650a01458b862a8af55c83dcbe02b6410ac5",
                 "shasum": ""
             },
             "require": {
@@ -106,7 +106,7 @@
                 "proprietary"
             ],
             "description": "Packlink integrations core library",
-            "time": "2022-02-09T12:03:02+00:00"
+            "time": "2022-05-09T14:40:09+00:00"
         },
         {
             "name": "setasign/fpdf",
@@ -381,7 +381,6 @@
                 "ext-fileinfo": "Required to determine the mimetype of a blob",
                 "psr/log": "Required to use loggers for reporting of execution"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1188,7 +1187,6 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2297,5 +2295,5 @@
     "platform-overrides": {
         "php": "5.6.39"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "1.1.0"
 }
