@@ -2,7 +2,7 @@
   "name": "packlink/shopware",
   "description": "Packlink Shipping Shopware plugin",
   "type": "library",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "repositories": [
     {
       "type": "vcs",
@@ -13,7 +13,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.6",
-    "packlink/integration-core": "3.3.15",
+    "packlink/integration-core": "3.3.18",
     "ext-json": "*",
     "ext-curl": "*",
     "ext-zip": "*",
