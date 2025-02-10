@@ -35,6 +35,7 @@ use Packlink\Services\BusinessLogic\ShopOrderService;
 use Packlink\Services\BusinessLogic\ShopShippingMethodService as ConcreteShopShippingMethodService;
 use Packlink\BusinessLogic\SystemInformation\SystemInfoService as SystemInfoInterface;
 use Packlink\Services\BusinessLogic\SystemInfoService;
+use Packlink\Services\BusinessLogic\WarehouseCountryService;
 use Packlink\Services\Infrastructure\LoggerService;
 
 class Bootstrap extends BootstrapComponent
@@ -122,6 +123,13 @@ class Bootstrap extends BootstrapComponent
                     __DIR__ . '/../BusinessLogic/Resources/countries',
                     __DIR__ . '/../Brands/Packlink/Resources/countries',
                 ]);
+            }
+        );
+
+        ServiceRegister::registerService(
+            \Packlink\BusinessLogic\Country\WarehouseCountryService::CLASS_NAME,
+            function () {
+                return WarehouseCountryService::getInstance();
             }
         );
     }

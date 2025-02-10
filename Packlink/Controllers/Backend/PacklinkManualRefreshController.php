@@ -14,13 +14,13 @@ class Shopware_Controllers_Backend_PacklinkManualRefreshController extends Enlig
     {
         $controller = new ManualRefreshServiceController();
 
-        $this->View()->assign(['response' => json_decode($controller->enqueueUpdateTask(), true)]);
+        $this->View()->assign(['response' => $controller->enqueueUpdateTask()]);
     }
 
     public function getTaskStatusAction()
     {
         $controller = new ManualRefreshServiceController();
 
-        $this->View()->assign(['response' => json_decode($controller->getTaskStatus(), true)]);
+        $this->View()->assign(['response' => $controller->getTaskStatus()]);
     }
 }
