@@ -1,6 +1,6 @@
 <?php
 
-use Packlink\BusinessLogic\Controllers\ManualRefreshServiceController;
+use Packlink\BusinessLogic\Controllers\ManualRefreshController;
 
 class Shopware_Controllers_Backend_PacklinkManualRefreshController extends Enlight_Controller_Action
 {
@@ -12,14 +12,14 @@ class Shopware_Controllers_Backend_PacklinkManualRefreshController extends Enlig
 
     public function refreshAction()
     {
-        $controller = new ManualRefreshServiceController();
+        $controller = new ManualRefreshController();
 
         $this->View()->assign(['response' => $controller->enqueueUpdateTask()]);
     }
 
     public function getTaskStatusAction()
     {
-        $controller = new ManualRefreshServiceController();
+        $controller = new ManualRefreshController();
 
         $this->View()->assign(['response' => $controller->getTaskStatus()]);
     }
