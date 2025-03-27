@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
-    <version>1.3.7</version>
+    <version>1.4.0</version>
     <label>Packlink</label>
     <label lang="de">Packlink</label>
     <description>Packlink PRO is your best ally through your e-commerce journey! From importing orders and printing labels, to picking and packing orders, this platform centralizes all shipping steps to help you streamline and optimize your whole delivery process. Over 20.000 online stores already use Packlink PRO, saving up to 70% on every sending with the Packlink PRO shipping module.</description>
@@ -41,5 +41,9 @@
     <changelog version="1.3.7">
         <changes>Update Core to the latest version.</changes>
         <changes lang="de">Aktualisieren Sie Core auf die neueste Version.</changes>
+    </changelog>
+    <changelog version="1.4.0">
+        <changes>Added support for the special services and manual refresh for shipping services.</changes>
+        <changes lang="de">Unterstützung für die Sonderleistungen und manuelle Aktualisierung der Versanddienstleistungen hinzugefügt.</changes>
     </changelog>
 </plugin>
