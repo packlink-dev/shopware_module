@@ -42,4 +42,8 @@
         <changes>Update Core to the latest version.</changes>
         <changes lang="de">Aktualisieren Sie Core auf die neueste Version.</changes>
     </changelog>
+    <changelog version="1.4.1">
+        <changes>Update Core to the latest version. Add security improvements.</changes>
+        <changes lang="de">Aktualisieren Sie Core auf die neueste Version. Sicherheitsverbesserungen hinzufügen.</changes>
+    </changelog>
 </plugin>
