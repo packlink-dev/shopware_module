@@ -227,7 +227,9 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
                     'deactivateShopShippingMethods'
                 ),
                 'getCurrencyDetailsUrl' => Url::getBackendUrl('PacklinkSystemInfoController', 'get'),
-                'systemId' => (string)Shop::getDefaultShop()->getId()
+                'systemId' => (string)Shop::getDefaultShop()->getId(),
+                'enqueue' => Url::getBackendUrl('PacklinkManualRefreshController', 'refresh'),
+                'getTaskStatus' => Url::getBackendUrl('PacklinkManualRefreshController', 'getTaskStatus')
             ],
             'edit-service' => [
                 'getServiceUrl' => $shopUrl . Url::getBackendUrl('PacklinkShippingMethod', 'getShippingMethod'),

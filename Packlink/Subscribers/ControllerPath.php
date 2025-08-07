@@ -53,6 +53,7 @@ class ControllerPath implements SubscriberInterface
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkLocations' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_PacklinkDropoff' => 'onGetControllerPromotion',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkSystemInfoController' => 'onGetControllerPromotion',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_PacklinkManualRefreshController' => 'onGetControllerPromotion',
         ];
     }
 
