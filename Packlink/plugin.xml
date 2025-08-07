@@ -50,4 +50,8 @@
         <changes>Update Core to the latest version. Add security improvements.</changes>
         <changes lang="de">Aktualisieren Sie Core auf die neueste Version. Sicherheitsverbesserungen hinzufügen.</changes>
     </changelog>
+    <changelog version="1.4.2">
+        <changes>Update Core to the latest version. Modify fetching services at checkout.</changes>
+        <changes lang="de">Aktualisieren Sie Core auf die neueste Version. Abrufen von Services beim Checkout ändern.</changes>
+    </changelog>
 </plugin>
