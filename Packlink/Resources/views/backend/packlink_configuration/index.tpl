@@ -16,6 +16,7 @@
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/AutoTestController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/ConfigurationController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/DefaultParcelController.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/packlink/js/CashOnDeliveryController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/DefaultWarehouseController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/EditServiceController.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/packlink/js/LoginController.js"}"></script>

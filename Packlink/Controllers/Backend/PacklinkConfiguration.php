@@ -1,9 +1,11 @@
 <?php
 
 use Packlink\BusinessLogic\Configuration;
+use Packlink\BusinessLogic\Controllers\CashOnDeliveryController;
 use Packlink\BusinessLogic\Controllers\ConfigurationController;
 use Packlink\BusinessLogic\Controllers\LoginController;
 use Packlink\BusinessLogic\CountryLabels\Interfaces\CountryService;
+use Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
 use Packlink\Infrastructure\ServiceRegister;
 use Packlink\Utilities\Plugin;
 use Packlink\Utilities\Request;
@@ -28,6 +30,14 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     {
         Configuration::setUICountryCode($this->getLocale());
 
+        $cashOnDelivery = new CashOnDeliveryController();
+
+        try {
+            $hasSubscription = $cashOnDelivery->getAndUpdateSubscription();
+        } catch (QueryFilterInvalidParamException $e) {
+            $hasSubscription = false;
+        }
+
         $data = Request::getPostData();
 
         if (!empty($data['method']) && $data['method'] === 'Login') {
@@ -36,6 +46,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             $this->View()->assign([
                 $this->getHelpUrl(),
                 'version' => Plugin::getVersion(),
+                'hasSubscription' => $hasSubscription
             ]);
         }
     }
@@ -72,6 +83,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             'response' => [
                 'helpUrl' => $this->getHelpUrl(),
                 'version' => Plugin::getVersion(),
+                'hasSubscription' => true
             ]
         ]);
     }
@@ -119,6 +131,9 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             'pl-countries-selection-modal' => file_get_contents($baseDir . 'countries-selection-modal.html'),
             'pl-default-parcel-page' => [
                 'pl-main-page-holder' => file_get_contents($baseDir . 'default-parcel.html'),
+            ],
+            'pl-cod-page' => [
+                'pl-main-page-holder' => file_get_contents($baseDir . 'cash-on-delivery.html'),
             ],
             'pl-default-warehouse-page' => [
                 'pl-main-page-holder' => file_get_contents($baseDir . 'default-warehouse.html'),
@@ -193,6 +208,10 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             'default-parcel' => [
                 'getUrl' => Url::getBackendUrl('PacklinkDefaultParcel', 'index'),
                 'submitUrl' => Url::getBackendUrl('PacklinkDefaultParcel', 'update'),
+            ],
+            'cash-on-delivery' => [
+                'getDataUrl' => Url::getBackendUrl('PacklinkCashOnDelivery', 'index'),
+                'submitDataUrl' => Url::getBackendUrl('PacklinkCashOnDelivery', 'update'),
             ],
             'default-warehouse' => [
                 'getUrl' => Url::getBackendUrl('PacklinkDefaultWarehouse', 'index'),
