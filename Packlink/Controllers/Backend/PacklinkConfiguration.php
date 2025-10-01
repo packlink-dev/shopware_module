@@ -30,19 +30,19 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     {
         Configuration::setUICountryCode($this->getLocale());
 
-        $cashOnDelivery = new CashOnDeliveryController();
-
-        try {
-            $hasSubscription = $cashOnDelivery->getAndUpdateSubscription();
-        } catch (QueryFilterInvalidParamException $e) {
-            $hasSubscription = false;
-        }
-
         $data = Request::getPostData();
 
         if (!empty($data['method']) && $data['method'] === 'Login') {
             $this->View()->assign($this->login());
         } else {
+            $cashOnDelivery = new CashOnDeliveryController();
+
+            try {
+                $hasSubscription = $cashOnDelivery->getAndUpdateSubscription();
+            } catch (QueryFilterInvalidParamException $e) {
+                $hasSubscription = false;
+            }
+
             $this->View()->assign([
                 $this->getHelpUrl(),
                 'version' => Plugin::getVersion(),

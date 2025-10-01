@@ -15,6 +15,7 @@ use Packlink\BusinessLogic\Scheduler\Models\Schedule;
 use Packlink\BusinessLogic\ShipmentDraft\Models\OrderSendDraftTaskMap;
 use Packlink\BusinessLogic\ShippingMethod\Interfaces\ShopShippingMethodService;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingMethod;
+use Packlink\BusinessLogic\ShippingMethod\ShippingMethodService;
 use Packlink\Contracts\Services\BusinessLogic\DebugService;
 use Packlink\Entities\OrderDropoffMap;
 use Packlink\Entities\ShippingMethodMap;
@@ -139,7 +140,10 @@ class Bootstrap extends BootstrapComponent
         ServiceRegister::registerService(
             OfflinePaymentsServices::CLASS_NAME,
             function () {
-                return new OfflinePaymentServices();
+                /** @var ShippingMethodService $shippingService */
+                $shippingService = ServiceRegister::getService(ShippingMethodService::CLASS_NAME);
+
+                return new OfflinePaymentServices($shippingService);
             }
         );
     }
