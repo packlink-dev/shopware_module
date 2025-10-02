@@ -72,6 +72,11 @@ class ShopOrderService implements BaseShopOrderService
             $this->setShippingMethodId($order, $dispatch->getId());
         }
 
+        $payment = $sourceOrder->getPayment();
+        if ($payment) {
+            $order->setPaymentId($payment->getName());
+        }
+
         $order->setShippingAddress($this->getOrderAddress($sourceOrder));
 
         $order->setItems($this->getOrderItems($sourceOrder));

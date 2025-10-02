@@ -39,7 +39,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
 
             try {
                 $hasSubscription = $cashOnDelivery->getAndUpdateSubscription();
-            } catch (QueryFilterInvalidParamException $e) {
+            } catch (Exception $e) {
                 $hasSubscription = false;
             }
 

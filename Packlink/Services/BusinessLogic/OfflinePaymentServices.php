@@ -3,6 +3,8 @@
 namespace Packlink\Services\BusinessLogic;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Packlink\BusinessLogic\CashOnDelivery\Interfaces\CashOnDeliveryServiceInterface;
+use Packlink\BusinessLogic\CashOnDelivery\Services\CashOnDeliveryService;
 use Packlink\BusinessLogic\CashOnDelivery\Services\OfflinePaymentsServices;
 use Packlink\BusinessLogic\Controllers\CashOnDeliveryController;
 use Packlink\BusinessLogic\ShippingMethod\Models\ShippingService;
@@ -34,13 +36,20 @@ class OfflinePaymentServices extends OfflinePaymentsServices
     protected $shippingMethodService;
 
     /**
+     * @var CashOnDeliveryServiceInterface $cashOnDeliveryService
+     */
+    protected $cashOnDeliveryService;
+
+    /**
      * Constructor.
      *
      * @param ShippingMethodService $shippingMethodService
+     * @param CashOnDeliveryServiceInterface $cashOnDeliveryService
      */
-    public function __construct(ShippingMethodService $shippingMethodService)
+    public function __construct(ShippingMethodService $shippingMethodService, CashOnDeliveryServiceInterface $cashOnDeliveryService)
     {
         $this->shippingMethodService = $shippingMethodService;
+        $this->cashOnDeliveryService = $cashOnDeliveryService;
     }
 
     /**
@@ -109,6 +118,58 @@ class OfflinePaymentServices extends OfflinePaymentsServices
             $paymentsToHide = array($acc->account->getOfflinePaymentMethod());
         }
         return $paymentsToHide;
+    }
+
+    /**
+     * Calculate COD surcharge fee based on Packlink rules.
+     *
+     * @param $shippingId
+     * @param $paymentMethodId
+     * @param $shippingCountry
+     * @param $orderTotal
+     *
+     * @return float COD surcharge
+     *
+     * @throws QueryFilterInvalidParamException
+     */
+    public function calculateFee($shippingId, $paymentMethodId, $shippingCountry, $orderTotal)
+    {
+        $controller = $this->getAccountConfigurationController();
+        if ($controller === null) {
+            return 0;
+        }
+
+        $cod = $controller->getCashOnDeliveryConfiguration();
+
+        if (!$cod || !$cod->account || $cod->account->getOfflinePaymentMethod() !== $paymentMethodId) {
+            return 0;
+        }
+
+        if($cod->account->getCashOnDeliveryFee() !== null)
+        {
+            return $cod->account->getCashOnDeliveryFee();
+        }
+
+        $services = $this->getShippingServicesForMethod($shippingId);
+
+        $shippingService = null;
+
+        foreach ($services as $service) {
+            if ($service->destinationCountry === $shippingCountry) {
+                $shippingService = $service;
+                break;
+            }
+        }
+
+        if ($shippingService && $shippingService->cashOnDeliveryConfig) {
+            return $this->cashOnDeliveryService->calculateFee(
+                $orderTotal,
+                $shippingService->cashOnDeliveryConfig->applyPercentageCashOnDelivery,
+                $shippingService->cashOnDeliveryConfig->maxCashOnDelivery
+            );
+        }
+
+        return 0;
     }
 
     /**

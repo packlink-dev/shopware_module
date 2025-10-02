@@ -5,6 +5,7 @@ namespace Packlink\Bootstrap;
 use Packlink\Brands\Packlink\PacklinkConfigurationService;
 use Packlink\BusinessLogic\BootstrapComponent;
 use Packlink\BusinessLogic\Brand\BrandConfigurationService;
+use Packlink\BusinessLogic\CashOnDelivery\Interfaces\CashOnDeliveryServiceInterface;
 use Packlink\BusinessLogic\CashOnDelivery\Model\CashOnDelivery;
 use Packlink\BusinessLogic\CashOnDelivery\Services\OfflinePaymentsServices;
 use Packlink\BusinessLogic\FileResolver\FileResolverService;
@@ -143,7 +144,12 @@ class Bootstrap extends BootstrapComponent
                 /** @var ShippingMethodService $shippingService */
                 $shippingService = ServiceRegister::getService(ShippingMethodService::CLASS_NAME);
 
-                return new OfflinePaymentServices($shippingService);
+                /**
+                 ** @var CashOnDeliveryServiceInterface $cashOnDeliveryService
+                 */
+                $cashOnDeliveryService = ServiceRegister::getService(CashOnDeliveryServiceInterface::CLASS_NAME);
+
+                return new OfflinePaymentServices($shippingService, $cashOnDeliveryService);
             }
         );
     }
