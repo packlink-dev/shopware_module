@@ -54,4 +54,8 @@
         <changes>Update Core to the latest version. Modify fetching services at checkout.</changes>
         <changes lang="de">Aktualisieren Sie Core auf die neueste Version. Abrufen von Services beim Checkout ändern.</changes>
     </changelog>
+    <changelog version="1.5.0">
+        <changes>Implement support for cash on delivery.</changes>
+        <changes lang="de">Unterstützung für Nachnahme implementiert.</changes>
+    </changelog>
 </plugin>
