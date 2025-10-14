@@ -1,11 +1,9 @@
 <?php
 
 use Packlink\BusinessLogic\Configuration;
-use Packlink\BusinessLogic\Controllers\CashOnDeliveryController;
 use Packlink\BusinessLogic\Controllers\ConfigurationController;
 use Packlink\BusinessLogic\Controllers\LoginController;
 use Packlink\BusinessLogic\CountryLabels\Interfaces\CountryService;
-use Packlink\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
 use Packlink\Infrastructure\ServiceRegister;
 use Packlink\Utilities\Plugin;
 use Packlink\Utilities\Request;
@@ -35,18 +33,9 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
         if (!empty($data['method']) && $data['method'] === 'Login') {
             $this->View()->assign($this->login());
         } else {
-            $cashOnDelivery = new CashOnDeliveryController();
-
-            try {
-                $hasSubscription = $cashOnDelivery->getAndUpdateSubscription();
-            } catch (Exception $e) {
-                $hasSubscription = false;
-            }
-
             $this->View()->assign([
                 $this->getHelpUrl(),
                 'version' => Plugin::getVersion(),
-                'hasSubscription' => $hasSubscription
             ]);
         }
     }
@@ -83,7 +72,6 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             'response' => [
                 'helpUrl' => $this->getHelpUrl(),
                 'version' => Plugin::getVersion(),
-                'hasSubscription' => true
             ]
         ]);
     }
