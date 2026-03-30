@@ -58,4 +58,8 @@
         <changes>Implement support for cash on delivery.</changes>
         <changes lang="de">Unterstützung für Nachnahme implementiert.</changes>
     </changelog>
+    <changelog version="1.5.1">
+        <changes> Update core to latest version. Fix fetching services and add default zip code for AE.</changes>
+        <changes lang="de">ktualisierung des Cores auf die neueste Version. Fehler beim Abrufen der Services behoben und Standard-Postleitzahl für AE hinzugefügt.</changes>
+    </changelog>
 </plugin>
