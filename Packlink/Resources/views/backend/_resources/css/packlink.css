@@ -5,58 +5,95 @@
  */
 
 @font-face {
-    font-family: proxima-nova;
-    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-ExtrabldWeb.woff") format("woff");
+    font-family: pl-figtree;
+    src: url("../fonts/Figtree-ExtraBold.woff2") format("woff2");
     font-weight: 800;
-    font-style: normal
+    font-style: normal;
+    font-display: swap
 }
 
 @font-face {
-    font-family: proxima-nova;
-    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-BoldWeb.woff") format("woff");
+    font-family: pl-figtree;
+    src: url("../fonts/Figtree-Bold.woff2") format("woff2");
     font-weight: 700;
-    font-style: normal
+    font-style: normal;
+    font-display: swap
 }
 
 @font-face {
-    font-family: proxima-nova;
-    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-SemiboldWeb.woff") format("woff");
+    font-family: pl-figtree;
+    src: url("../fonts/Figtree-SemiBold.woff2") format("woff2");
     font-weight: 600;
-    font-style: normal
+    font-style: normal;
+    font-display: swap
 }
 
 @font-face {
-    font-family: proxima-nova;
-    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-MediumWeb.woff") format("woff");
+    font-family: pl-figtree;
+    src: url("../fonts/Figtree-Medium.woff2") format("woff2");
     font-weight: 500;
-    font-style: normal
+    font-style: normal;
+    font-display: swap
 }
 
 @font-face {
-    font-family: proxima-nova;
-    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-RegularWeb.woff") format("woff");
+    font-family: pl-figtree;
+    src: url("../fonts/Figtree-Regular.woff2") format("woff2");
     font-weight: 400;
-    font-style: normal
+    font-style: normal;
+    font-display: swap
 }
 
 @font-face {
-    font-family: proxima-nova;
-    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-LightWeb.woff") format("woff");
+    font-family: pl-figtree;
+    src: url("../fonts/Figtree-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap
+}
+
+@font-face {
+    font-family: pl-figtree;
+    src: url("../fonts/Figtree-Light.woff2") format("woff2");
     font-weight: 200;
-    font-style: normal
+    font-style: normal;
+    font-display: swap
 }
 
 @font-face {
-    font-family: proxima-nova;
-    src: url("/../custom/plugins/Packlink/Resources/views/backend/_resources/fonts/ProximaNova-ThinWeb.woff") format("woff");
+    font-family: pl-figtree;
+    src: url("../fonts/Figtree-Light.woff2") format("woff2");
     font-weight: 100;
-    font-style: normal
+    font-style: normal;
+    font-display: swap
 }
 
 body {
-    font-family: proxima-nova, sans-serif;
+    font-family: pl-figtree, sans-serif;
     height: calc(100% - 35px)!important;
 }
+
+/*
+ * Shopware stays on integration core 3.7.6, whose app.css still sets ProximaNova from the Packlink
+ * CDN. These rules carry the rebranded core font instead; "body" outranks the core's "#pl-page *"
+ * while "#pl-page .material-icons" still outranks these, so icon fonts are untouched.
+ */
+body #pl-page * {
+    font-family: pl-figtree, sans-serif;
+}
+
+body #pl-page input[type=checkbox]:checked:before {
+    font: bold 20px/24px pl-figtree;
+}
+
+body #pl-page #pl-origin-collection svg,
+body #pl-page #pl-origin-dropoff svg,
+body #pl-page #pl-destination-pickup svg,
+body #pl-page #pl-destination-delivery svg {
+    width: 24px;
+    height: 24px;
+}
+
 
 body *:focus {
     outline: none;

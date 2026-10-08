@@ -111,6 +111,11 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
     protected function getTemplates()
     {
         $baseDir = __DIR__ . '/../../Resources/views/backend/_resources/packlink/templates/';
+        // Shopware stays on integration core 3.7.6, so the module carries its own copy of the services
+        // table with the rebranded (black) delivery icons instead of the core's old ones.
+        $servicesTable = file_get_contents(
+            __DIR__ . '/../../Resources/views/backend/_resources/templates/shipping-services-table.html'
+        );
 
         return [
             'pl-configuration-page' => [
@@ -138,7 +143,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             'pl-my-shipping-services-page' => [
                 'pl-main-page-holder' => file_get_contents($baseDir . 'my-shipping-services.html'),
                 'pl-header-section' => file_get_contents($baseDir . 'shipping-services-header.html'),
-                'pl-shipping-services-table' => file_get_contents($baseDir . 'shipping-services-table.html'),
+                'pl-shipping-services-table' => $servicesTable,
                 'pl-shipping-services-list' => file_get_contents($baseDir . 'shipping-services-list.html'),
             ],
             'pl-onboarding-overview-page' => [
@@ -153,7 +158,7 @@ class Shopware_Controllers_Backend_PacklinkConfiguration extends Enlight_Control
             'pl-pick-service-page' => [
                 'pl-header-section' => '',
                 'pl-main-page-holder' => file_get_contents($baseDir . 'pick-shipping-services.html'),
-                'pl-shipping-services-table' => file_get_contents($baseDir . 'shipping-services-table.html'),
+                'pl-shipping-services-table' => $servicesTable,
                 'pl-shipping-services-list' => file_get_contents($baseDir . 'shipping-services-list.html'),
             ],
             'pl-pricing-policy-modal' => file_get_contents($baseDir . 'pricing-policy-modal.html'),
