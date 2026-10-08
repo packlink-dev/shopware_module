@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
-    <version>1.5.1</version>
+    <version>1.5.2</version>
     <label>Packlink</label>
     <label lang="de">Packlink</label>
     <description>Packlink PRO is your best ally through your e-commerce journey! From importing orders and printing labels, to picking and packing orders, this platform centralizes all shipping steps to help you streamline and optimize your whole delivery process. Over 20.000 online stores already use Packlink PRO, saving up to 70% on every sending with the Packlink PRO shipping module.</description>
@@ -61,5 +61,9 @@
     <changelog version="1.5.1">
         <changes> Update core to latest version. Fix fetching services and add default zip code for AE.</changes>
         <changes lang="de">ktualisierung des Cores auf die neueste Version. Fehler beim Abrufen der Services behoben und Standard-Postleitzahl für AE hinzugefügt.</changes>
+    </changelog>
+    <changelog version="1.5.2">
+        <changes>Orders get a unique Packlink reference, shown in the order list and order details and sent to Packlink PRO instead of the order number, so shipments are never matched to an older order with the same number.</changes>
+        <changes lang="de">Bestellungen erhalten eine eindeutige Packlink-Referenz, die in der Bestellliste und den Bestelldetails angezeigt und anstelle der Bestellnummer an Packlink PRO gesendet wird, damit Sendungen nie einer älteren Bestellung mit derselben Nummer zugeordnet werden.</changes>
     </changelog>
 </plugin>

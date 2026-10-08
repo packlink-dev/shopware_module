@@ -43,5 +43,11 @@
     'string'
 }
 ,
+{
+    name: 'plReference', type
+:
+    'string'
+}
+,
 
 //{/block}

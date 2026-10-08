@@ -16,6 +16,7 @@ use Packlink\BusinessLogic\Order\Objects\Item;
 use Packlink\BusinessLogic\Order\Objects\Order;
 use Packlink\Entities\OrderDropoffMap;
 use Packlink\Entities\ShippingMethodMap;
+use Packlink\Utilities\OrderReference;
 use Shopware\Models\Article\Article;
 
 class ShopOrderService implements BaseShopOrderService
@@ -59,8 +60,12 @@ class ShopOrderService implements BaseShopOrderService
 
         $order = new Order();
 
-        $order->setId($sourceOrder->getId());
-        $order->setOrderNumber($sourceOrder->getNumber());
+        // As in PrestaShop, the reference is both the order ID and the order number sent to Packlink:
+        // Packlink matches drafts by additional_data.order_id and source, and Shopware's own order ID and
+        // number restart on every installation, so an old shipment of another shop would be returned.
+        $reference = OrderReference::getOrCreate($sourceOrder->getId());
+        $order->setId($reference !== '' ? $reference : $sourceOrder->getId());
+        $order->setOrderNumber($reference !== '' ? $reference : $sourceOrder->getNumber());
         $order->setCustomerId($sourceOrder->getCustomer()->getId());
         $order->setCurrency($sourceOrder->getCurrency());
         $order->setTotalPrice($sourceOrder->getInvoiceAmount());

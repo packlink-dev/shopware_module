@@ -55,6 +55,13 @@ Ext.define('Shopware.apps.Packlink.view.Order.List', {
         }
 
         columns.splice(++i, 0, {
+            header: '{s name="order/packlink/reference"}Reference{/s}',
+            dataIndex: 'plReference',
+            flex: 2,
+            sortable: false
+        });
+
+        columns.splice(++i, 0, {
             header: '{s name="order/packlink/pro"}Packlink PRO{/s}',
             dataIndex: 'plReferenceUrl',
             flex: 4,

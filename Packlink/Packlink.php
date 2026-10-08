@@ -11,6 +11,7 @@ use Packlink\Infrastructure\Logger\Logger;
 use Packlink\Bootstrap\Bootstrap;
 use Packlink\Bootstrap\Database;
 use Packlink\Utilities\ObsoleteFilesRemover;
+use Packlink\Utilities\OrderReference;
 use Packlink\Utilities\UpdateScriptsRunner;
 use Packlink\Utilities\VersionedFileReader;
 use Shopware\Components\Plugin;
@@ -57,6 +58,7 @@ class Packlink extends Plugin
         $entityManager = $this->container->get('models');
         $db = new Database($entityManager);
         $db->install();
+        OrderReference::createAttribute();
         Logger::logInfo("Database for version [{$context->getCurrentVersion()}] created...", 'Integration');
         Logger::logInfo('Installation completed...', 'Integration');
     }
@@ -77,6 +79,7 @@ class Packlink extends Plugin
             $entityManager = $this->container->get('models');
             $db = new Database($entityManager);
             $db->uninstall();
+            OrderReference::deleteAttribute();
         }
 
         if ($context->getPlugin()->getActive()) {

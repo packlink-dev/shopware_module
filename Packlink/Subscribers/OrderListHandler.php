@@ -10,6 +10,7 @@ use Packlink\Infrastructure\TaskExecution\QueueItem;
 use Packlink\BusinessLogic\Order\OrderService;
 use Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService;
 use Packlink\BusinessLogic\ShipmentDraft\ShipmentDraftService;
+use Packlink\Utilities\OrderReference;
 
 class OrderListHandler implements SubscriberInterface
 {
@@ -42,11 +43,18 @@ class OrderListHandler implements SubscriberInterface
      */
     public function extendOrderList(Enlight_Hook_HookArgs $args)
     {
-        if (!$this->isLoggedIn()) {
-            return;
+        $return = $args->getReturn();
+
+        // The reference belongs to the order (like PrestaShop's), so it is listed even when not connected.
+        foreach ($return['data'] as $index => $order) {
+            $return['data'][$index]['plReference'] = OrderReference::get($order['id']);
         }
 
-        $return = $args->getReturn();
+        if (!$this->isLoggedIn()) {
+            $args->setReturn($return);
+
+            return;
+        }
 
         /** @var \Packlink\BusinessLogic\OrderShipmentDetails\OrderShipmentDetailsService $orderShipmentDetailsService */
         $orderShipmentDetailsService = ServiceRegister::getService(OrderShipmentDetailsService::CLASS_NAME);

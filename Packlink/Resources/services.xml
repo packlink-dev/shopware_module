@@ -70,6 +70,10 @@
         <service id="packlink.subscribers.order_model_event_handler" class="Packlink\Subscribers\OrderModelEventHandler" public="true">
             <tag name="doctrine.event_subscriber"/>
         </service>
+        <!-- Register OrderReferenceHandler subscriber -->
+        <service id="packlink.subscribers.order_reference_handler" class="Packlink\Subscribers\OrderReferenceHandler" public="true">
+            <tag name="shopware.event_subscriber"/>
+        </service>
         <!-- Register PaymentSubscriber -->
         <service id="packlink.subscribers.payment" class="Packlink\Subscribers\PaymentSubscriber" public="true">
             <tag name="shopware.event_subscriber"/>
