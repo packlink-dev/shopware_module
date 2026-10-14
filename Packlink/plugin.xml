@@ -63,7 +63,7 @@
         <changes lang="de">ktualisierung des Cores auf die neueste Version. Fehler beim Abrufen der Services behoben und Standard-Postleitzahl für AE hinzugefügt.</changes>
     </changelog>
     <changelog version="1.5.2">
-        <changes>Orders get a unique Packlink reference, shown in the order list and order details and sent to Packlink PRO instead of the order number, so shipments are never matched to an older order with the same number.</changes>
-        <changes lang="de">Bestellungen erhalten eine eindeutige Packlink-Referenz, die in der Bestellliste und den Bestelldetails angezeigt und anstelle der Bestellnummer an Packlink PRO gesendet wird, damit Sendungen nie einer älteren Bestellung mit derselben Nummer zugeordnet werden.</changes>
+        <changes>Orders get a unique Packlink reference, shown in the order list and order details and sent to Packlink PRO instead of the order number, so shipments are never matched to an older order with the same number. Rebranded to the new Packlink PRO logo and Figtree font, with black delivery type icons and a black drop-off map pin at checkout.</changes>
+        <changes lang="de">Bestellungen erhalten eine eindeutige Packlink-Referenz, die in der Bestellliste und den Bestelldetails angezeigt und anstelle der Bestellnummer an Packlink PRO gesendet wird, damit Sendungen nie einer älteren Bestellung mit derselben Nummer zugeordnet werden. Neues Packlink PRO Logo und Schriftart Figtree, mit schwarzen Symbolen für die Versandarten und einer schwarzen Kartenmarkierung für Abgabestellen im Checkout.</changes>
     </changelog>
 </plugin>

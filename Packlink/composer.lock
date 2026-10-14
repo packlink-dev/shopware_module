@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59b445c90b1ae0795230290fbba945ea",
+    "content-hash": "e27699de60d0bc6a42432b777fadbfc6",
     "packages": [
         {
             "name": "iio/libmergepdf",
